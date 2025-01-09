@@ -32,7 +32,7 @@ $total = $subtotal; // Discount temporarily set to 0
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
-    <script src="/js/apiHandler.js"></script>
+    <!--<script src="{{ asset('js/apiHandler.js') }}"></script> -->
     <script>
         let token = null; // Global variable to store the Bearer token
 
@@ -136,9 +136,50 @@ $total = $subtotal; // Discount temporarily set to 0
             }
         }
 
+        async function getLoyaltyCard() {
+            const loyaltyCardId = document.getElementById('loyalty-card-id').value;
+            if (!loyaltyCardId) {
+                displayError('Please enter a Loyalty Card ID.');
+                return;
+            }
+
+            try {
+                // Pass the dynamically entered Loyalty Card ID to the apiHandler function
+                const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
+                renderLoyaltyCard(loyaltyCard);
+            } catch (error) {
+                displayError(error);
+            }
+        }
+
+        // Function to render loyalty card data
+        function renderLoyaltyCard(loyaltyCard) {
+            const loyaltyCardDetails = document.getElementById('loyalty-card-details');
+            loyaltyCardDetails.innerHTML = ''; // Clear previous content
+
+            if (!loyaltyCard || !loyaltyCard.LoyaltyCardID) {
+                loyaltyCardDetails.innerHTML = '<p>No loyalty card found with that ID.</p>';
+                return;
+            }
+
+            loyaltyCardDetails.innerHTML = `
+                <strong>Loyalty Card ID:</strong> ${loyaltyCard.LoyaltyCardID} <br>
+                <strong>Name:</strong> ${loyaltyCard.FirstName} ${loyaltyCard.MiddleInitial ? loyaltyCard.MiddleInitial + '.' : ''} ${loyaltyCard.LastName} ${loyaltyCard.Suffix ? loyaltyCard.Suffix : ''} <br>
+                <strong>Contact Number:</strong> ${loyaltyCard.ContactNo} <br>
+                <strong>Points:</strong> ${loyaltyCard.Points} <br>
+                <strong>Created At:</strong> ${loyaltyCard.created_at} <br>
+                <strong>Updated At:</strong> ${loyaltyCard.updated_at}
+            `;
+        }
+
+        // Function to handle displaying error messages
+        function displayError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerHTML = `<p>Error: ${message}</p>`;
+        }
     </script>
 
-    
+
 </head>
 <body>
     
