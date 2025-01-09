@@ -23,7 +23,7 @@
         let token = null; // Global variable to store the Bearer token
 
         async function apiHandler(action, id, data = null) {
-            const baseUrl = 'http://127.0.0.1:8001/api';
+            const baseUrl = 'https://loyalty-production.up.railway.app/api';
 
             let url = '';
             let method = '';
