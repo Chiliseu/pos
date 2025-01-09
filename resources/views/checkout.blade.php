@@ -326,7 +326,7 @@ $total = $subtotal; // Discount temporarily set to 0
                 <div class="use-points">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="usePointsSwitch"  disable>
-                        <label class="form-check-label" id="usePointsLabel" for="usePointsSwitch">Use Loyalty Points for Discounts?</label>
+                        <label class="form-check-label" id="usePointsLabel" for="usePointsSwitch">Points Available: </label>
                     </div>
                 </div>
 
@@ -547,6 +547,10 @@ function verifiedExisting (points = 0) {
     if (points != 0){
         document.getElementById('usePointsLabel').innerText = `Points Available: ${points}`;
         document.getElementById('usePointsSwitch').disabled = false;
+    }else
+    {
+        document.getElementById('usePointsLabel').innerText = `No Points Available`;
+        document.getElementById('usePointsSwitch').disabled = true;
     }
 
     //update profile
