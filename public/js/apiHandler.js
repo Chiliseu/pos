@@ -1,7 +1,7 @@
 let token = null; // Global variable to store the Bearer token
 
 async function apiHandler(action, id, data = null) {
-    const baseUrl = 'http://127.0.0.1:8001/api';
+    const baseUrl = 'https://loyalty-production.up.railway.app/api';
 
     let url = '';
     let method = '';
@@ -99,33 +99,3 @@ async function apiHandler(action, id, data = null) {
         return Promise.reject(error.message);
     }
 }
-
-// Arguments:
-
-// action(string value) = either['fetchCustomer', 'fetchLoyaltyCard', 'updateLoyaltyCard']
-// id(int value) = id para maget ng loyalty-card or update ng loyaltycard
-// data(JSON format) = Points: no of points
-
-// Example Calls:
-// For Getting LoyaltyCard
-// const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
-
-// For Updating Points
-// const updatedLoyaltyCard = await apiHandler('updateLoyaltyCard', loyaltyCardId, { Points: points });
-
-// Return Values:
-// JSON Format ang Return Value nito. nandon na lahat ng values na nakuha
-
-// para sa checking kung existing, check for empty or null. nag rereturn siya ng null kung walang nakuha.
-// kung meron, makukuha mo na don yung id, points, at yung iba pang kailangan 
-
-// Para makuha yung value
-
-// const loyaltycard = await apiHandler('fetchLoyaltyCard', LoyaltyCardID);
-
-// loyaltycard.LoyaltyCardID = Yung Loyalty Card ID
-// loyaltycard.Firstname = Yung Firstname
-
-// etc...
-
-// Sa Update, walang nang gagalawin sa JSON na Return Value.
