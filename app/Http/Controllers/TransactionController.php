@@ -15,6 +15,13 @@ class TransactionController extends Controller
         return Transaction::all();
     }
 
+    public function getByLoyaltyCardID($loyaltyCardID)
+    {
+        $transactions = Transaction::where('LoyaltyCardID', $loyaltyCardID)->get();
+
+        return response()->json($transactions);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
