@@ -7,7 +7,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 use App\Http\Controllers\TokenController;
 
 Route::post('/generate-token', [TokenController::class, 'generateToken']);
@@ -17,6 +16,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 
 // Protect these routes using Sanctum
 Route::middleware('auth:sanctum')->group(function () {
@@ -31,4 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('order-products/{orderID}/{productID}', [OrderProductController::class, 'update']);
     Route::delete('order-products/{orderID}/{productID}', [OrderProductController::class, 'destroy']);
 
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('user-roles', UserRoleController::class);
 });

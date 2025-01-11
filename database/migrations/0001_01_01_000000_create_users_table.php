@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Existing 'users' table structure
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -21,6 +22,19 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Modify 'users' table to add new columns and foreign key
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('UserRoleID')->nullable();
+            $table->string('Firstname', 50);
+            $table->string('Lastname', 50);
+            $table->string('MiddleInitial', 1)->nullable();
+            $table->string('Suffix')->nullable();
+            $table->string('ContactNo')->nullable();
+
+            $table->foreign('UserRoleID')->references('UserRoleID')->on('roles')->onDelete('cascade'); // Replace 'roles' with the actual roles table name
+        });
+
+        // Existing tables
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
@@ -42,6 +56,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['UserRoleID']);
+            $table->dropColumn(['UserRoleID', 'Firstname', 'Lastname', 'MiddleInitial', 'Suffix', 'ContactNo']);
+        });
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
