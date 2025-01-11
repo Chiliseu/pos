@@ -11,6 +11,7 @@ class TransactionSeeder extends Seeder
     {
         Transaction::create([
             'OrderID' => 1,
+            'UserID' => 1,
             'LoyaltyCardID' => 1,
             'TotalPointsUsed' => 100,
             'PointsEarned' => 50,
@@ -19,6 +20,7 @@ class TransactionSeeder extends Seeder
 
         Transaction::create([
             'OrderID' => 2,
+            'UserID' => 2,
             'LoyaltyCardID' => 2,
             'TotalPointsUsed' => 200,
             'PointsEarned' => 100,

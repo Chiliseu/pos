@@ -13,6 +13,7 @@ class Transaction extends Model
     protected $fillable = [
         'OrderID',
         'LoyaltyCardID',
+        'UserID',
         'TotalPointsUsed',
         'PointsEarned',
         'TransactionDate',
@@ -22,6 +23,11 @@ class Transaction extends Model
     public function order()
     {
         return $this->belongsTo(Order::class, 'OrderID');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 
 }

@@ -11,6 +11,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id('TransactionID'); // Primary Key
             $table->unsignedBigInteger('OrderID'); // Foreign Key for Order
+            $table->unsignedBigInteger('UserID'); // Foreign Key for User
             $table->unsignedBigInteger('LoyaltyCardID'); // Foreign Key for Loyalty Card
             $table->integer('TotalPointsUsed'); // Points used
             $table->integer('PointsEarned'); // Points earned
@@ -19,6 +20,7 @@ class CreateTransactionsTable extends Migration
 
             // Define foreign key relationships
             $table->foreign('OrderID')->references('OrderID')->on('orders')->onDelete('cascade');
+            $table->foreign('UserID')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
