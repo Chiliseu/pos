@@ -16,24 +16,38 @@ class CategorySeeder extends Seeder
     {
         // Inserting categories into the 'category' table
         DB::table('category')->insert([
-            [
-                'Name' => 'Electronics',
-                'Description' => 'Devices and gadgets like phones, laptops, etc.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Name' => 'Clothing',
-                'Description' => 'Apparel and fashion items.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Name' => 'Home Appliances',
-                'Description' => 'Machines and tools for household use.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+
+                [
+                    'Name' => 'Fruits & Vegetables',
+                    'Description' => 'Fresh fruits and vegetables for daily consumption.',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Name' => 'Dairy & Eggs',
+                    'Description' => 'Milk, cheese, eggs, and other dairy products.',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Name' => 'Bakery & Bread',
+                    'Description' => 'Fresh bread, rolls, and other baked goods.',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Name' => 'Meat & Seafood',
+                    'Description' => 'Fresh and frozen meat, poultry, and seafood items.',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Name' => 'Pantry Essentials',
+                    'Description' => 'Staples like rice, pasta, canned goods, and spices.',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+
             // Add more categories as needed
         ]);
     }

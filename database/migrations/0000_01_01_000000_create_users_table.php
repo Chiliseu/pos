@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('Suffix')->nullable();
             $table->string('ContactNo')->nullable();
 
-            $table->foreign('UserRoleID')->references('UserRoleID')->on('roles')->onDelete('cascade'); // Replace 'roles' with the actual roles table name
+            $table->foreign('UserRoleID')->references('UserRoleID')->on('user_roles')->onDelete('cascade'); // Replace 'roles' with the actual roles table name
         });
 
         // Existing tables
