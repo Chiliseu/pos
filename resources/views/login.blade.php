@@ -11,18 +11,21 @@
 <body>
 
     <div class="login-container">
+        <!-- Logo -->
+        <img src="/Picture/StoreLogo.png" alt="Store Logo" class="logo">
+
         <h2>Login Form</h2>
 
         <!-- Login Form -->
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div>
-                <label for="email"><b>Email</b></label>
+                <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter Email" required>
             </div>
 
             <div>
-                <label for="password"><b>Password</b></label>
+                <label for="password">Password</label>
                 <input type="password" name="password" id="password" placeholder="Enter Password" required>
             </div>
 

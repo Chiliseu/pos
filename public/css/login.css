@@ -13,15 +13,23 @@ body {
 
 /* Login Container */
 .login-container {
-  width: 30%; /* Adjusted for a smaller container */
+  width: 30%;
   max-width: 400px;
   min-width: 300px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1); /* Translucent effect */
-  backdrop-filter: blur(10px); /* Blur effect */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
+  position: relative;
+}
+
+/* Logo Styling */
+.logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 15px;
 }
 
 /* Form Inputs */
@@ -40,6 +48,15 @@ input[type=email], input[type=password] {
 
 input::placeholder {
   color: rgba(255, 255, 255, 0.8);
+}
+
+/* Labels */
+label {
+  display: block;
+  text-align: left; /* Align labels to the left */
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: white;
 }
 
 /* Buttons */
@@ -80,21 +97,10 @@ p {
   color: white;
 }
 
-label {
-  text-align: left;
-  color: white;
-}
-
-/* Error and Success Messages */
-div[style*="color: red"] ul, p[style*="color: green"] {
-  font-size: 14px;
-  margin: 10px 0;
-}
-
 /* Responsive Design */
 @media screen and (max-width: 600px) {
   .login-container {
-    width: 90%; /* Adjusted for smaller screens */
+    width: 90%;
   }
 
   button {
