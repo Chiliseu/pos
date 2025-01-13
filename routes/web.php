@@ -10,8 +10,13 @@ use App\Http\Controllers\AuthController;
 // Route for the checkout page (GET)
 Route::get('/', function () {
     return view('checkout');
-})->name('checkout')->middleware('auth');
+})->name('checkout');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('checkout');
+    });
+});
 
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -40,7 +45,6 @@ Route::get('/loyalty-cards', function () {
 Route::get('/update-loyalty-cards', function () {
     return view('update-loyalty-cards');
 });
-
 Route::get('/register', [AuthController::class, 'register']) -> name('register');
 
 Route::post('/register', [AuthController::class, 'checkout']);
