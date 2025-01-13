@@ -80,6 +80,11 @@ p {
   color: white;
 }
 
+label {
+  text-align: left;
+  color: white;
+}
+
 /* Error and Success Messages */
 div[style*="color: red"] ul, p[style*="color: green"] {
   font-size: 14px;
