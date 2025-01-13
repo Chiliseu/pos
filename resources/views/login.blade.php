@@ -13,6 +13,7 @@
     <div class="login-container">
         <!-- Logo -->
         <img src="/Picture/StoreLogo.png" alt="Store Logo" class="logo">
+        <h1>Dipensa Teknolohiya Grocery</h1>
 
         <h2>Login Form</h2>
 
