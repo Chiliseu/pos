@@ -7,16 +7,21 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AuthController;
 
-// Route for the checkout page (GET)
+// Route for the login page (GET)
 Route::get('/', function () {
-    return view('login');
+    return view('login'); // Show the login page by default
 })->name('login');
 
+// Route for authentication (POST)
+Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+
+// Protected routes that require authentication
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('checkout');
-    });
+    Route::get('/checkout', function () {
+        return view('checkout'); // Show the checkout page
+    })->name('checkout');
 });
+
 
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
