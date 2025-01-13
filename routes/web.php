@@ -5,11 +5,13 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoyaltyCardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AuthController;
 
 // Route for the checkout page (GET)
 Route::get('/', function () {
     return view('checkout');
-})->name('checkout');
+})->name('checkout')->middleware('auth');
+
 
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -38,3 +40,11 @@ Route::get('/loyalty-cards', function () {
 Route::get('/update-loyalty-cards', function () {
     return view('update-loyalty-cards');
 });
+
+Route::get('/register', [AuthController::class, 'register']) -> name('register');
+
+Route::post('/register', [AuthController::class, 'checkout']);
+
+Route::get('/login',[ AuthController::class, 'login']) -> name('login');
+
+Route::post('/login', [AuthController::class, 'authenticate']);

@@ -1,43 +1,57 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Dipensa Teknolohiya Grocery</title>
+    <title>Dipensa Teknolohiya Grocery - Login</title>
     <link rel="stylesheet" href="/css/login.css">
     <link rel="icon" type="image/png" href="/Picture/StoreLogo.png">
 </head>
 <body>
 
-<h2>Login Form</h2>
+    <h2>Login Form</h2>
 
-<form action="/action_page.php" method="post">
+    <!-- Login Form -->
+    <form action="{{ route('login') }}" method="POST">
+        @csrf
+        <div>
+            <label for="email"><b>Email</b></label>
+            <input type="email" name="email" id="email" placeholder="Enter Email" required>
+        </div>
 
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+        <div>
+            <label for="password"><b>Password</b></label>
+            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+        </div>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-        
-    <button type="submit">Login</button>
-  </div>
+        <button type="submit">Login</button>
+        <button type="reset" class="clearbtn">Clear</button> <!-- Clear Button -->
+    </form>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="clearbtn">Clear</button>
-  </div>
-</form>
+    <!-- Display Success Message -->
+    @if (session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
+
+    <!-- Display Validation Errors -->
+    @if ($errors->any())
+        <div style="color: red;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <script>
+        // Clear Form Functionality
+        document.querySelector('.clearbtn').addEventListener('click', function() {
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        });
+    </script>
 
 </body>
-
-
-<!--Functions-->
-<script>
-    function clear (){
-        document.getElementById("uname").value = "";
-        document.getElementById("psw").value = "";
-    }
-</script>
-
-
 </html>
