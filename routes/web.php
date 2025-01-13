@@ -9,8 +9,8 @@ use App\Http\Controllers\AuthController;
 
 // Route for the checkout page (GET)
 Route::get('/', function () {
-    return view('checkout');
-})->name('checkout');
+    return view('login');
+})->name('login');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
