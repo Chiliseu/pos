@@ -29,7 +29,7 @@ body {
 .logo {
   width: 100px;
   height: auto;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 /* Form Inputs */
@@ -88,7 +88,7 @@ button.clearbtn {
 /* Headings and Text */
 h1 {
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   float: center;
   text-align: center;
