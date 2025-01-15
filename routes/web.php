@@ -6,6 +6,7 @@ use App\Http\Controllers\LoyaltyCardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 // Route for the login page (GET)
 Route::get('/', function () {
@@ -21,12 +22,6 @@ Route::middleware(['auth'])->group(function () {
         return view('checkout'); // Show the checkout page
     })->name('checkout');
 });
-
-
-// Route for the menu page (GET)
-Route::get('/menu', function () {
-    return view('menu'); // Show the login page by default
-})->name('menu');
 
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -60,10 +55,25 @@ Route::get('/menu', function () {
     return view('menu');
 });
 
-Route::get('/register', [AuthController::class, 'register']) -> name('register');
+Route::get('/admin-menu', function () {
+    return view('admin-menu');
+});
 
-Route::post('/register', [AuthController::class, 'checkout']);
+Route::get('/userManage', function () {
+    return view('userManage');
+})->name('userManage');
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+
+Route::post('/register', [AuthController::class, 'registerUser']);
 
 Route::get('/login',[ AuthController::class, 'login']) -> name('login');
 
 Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+
+Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+
+Route::get('/userManage', [UserController::class, 'index'])->name('userManage');
+
