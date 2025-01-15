@@ -20,11 +20,12 @@ body {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(6px);
   border-radius: 15px;
-  box-shadow: 20px solid white;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5); /* Proper shadow syntax */
   text-align: center;
   position: relative;
-  border:rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Proper border declaration */
 }
+
 
 /* Logo Styling */
 .logo {
