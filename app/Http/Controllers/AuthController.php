@@ -39,6 +39,8 @@ class AuthController extends Controller
         return view('login'); // Return your login view
     }
 
+
+    //checks if the user is authenticated
     public function authenticate(Request $request)
     {
         // Validate input
@@ -52,7 +54,7 @@ class AuthController extends Controller
             // Regenerate session to prevent session fixation attacks
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard'); // Redirect to the intended page or dashboard
+            return redirect()->intended('menu'); // Redirect to the intended page or dashboard
         }
 
         // Redirect back with an error
@@ -60,6 +62,8 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
+
 
     public function logout(Request $request)
     {
@@ -70,11 +74,6 @@ class AuthController extends Controller
 
         return redirect('/login'); // Redirect to login page
     }
-
-
-
-
-
 
 
 }
