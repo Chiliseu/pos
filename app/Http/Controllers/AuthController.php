@@ -54,7 +54,7 @@ class AuthController extends Controller
             // Regenerate session to prevent session fixation attacks
             $request->session()->regenerate();
 
-            return redirect()->intended('menu'); // Redirect to the intended page or dashboard
+            return redirect()->intended('/menu'); // Redirect to the intended page or dashboard
         }
 
         // Redirect back with an error

@@ -23,6 +23,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+// Route for the menu page (GET)
+Route::get('/menu', function () {
+    return view('menu'); // Show the login page by default
+})->name('menu');
+
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
     // Retrieve the products and loyalty points data from the form submission
