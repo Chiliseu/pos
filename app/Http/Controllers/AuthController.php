@@ -58,7 +58,7 @@ class AuthController extends Controller
                 return redirect()->intended('/admin-menu'); // Redirect to admin dashboard
             }
     
-            return redirect()->intended('/menu'); // Redirect to the intended page or dashboard
+            return redirect()->intended('/staff-menu'); // Redirect to the intended page or dashboard
         }
     
         // Redirect back with an error
