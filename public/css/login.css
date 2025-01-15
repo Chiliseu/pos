@@ -17,10 +17,10 @@ body {
   max-width: 400px;
   min-width: 300px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(6px);
+  background: rgba(4, 39, 10, 0.521);
+  backdrop-filter: blur(3px);
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5); /* Proper shadow syntax */
+  box-shadow: 0 4px 50px rgba(255, 255, 255, 0.7); /* Proper shadow syntax */
   text-align: center;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.5); /* Proper border declaration */
@@ -40,7 +40,7 @@ input[type=email], input[type=password] {
   padding: 15px;
   margin: 10px 0;
   border: 1px solid white;
-  border-radius: 25px;
+  border-radius: 15px;
   background: transparent;
   color: white;
   font-size: 16px;
@@ -52,6 +52,7 @@ input[type=email], input[type=password] {
 input[type=email]:focus, input[type=password]:focus {
   background: white;
   color: black; /* Ensure text is visible on white background */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -74,7 +75,7 @@ button {
   padding: 12px 0;
   margin: 10px 0;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -101,6 +102,7 @@ h1 {
   font-weight: bold;
   float: center;
   text-align: center;
+
 }
 
 h2 {
