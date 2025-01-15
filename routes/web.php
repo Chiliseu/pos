@@ -50,6 +50,11 @@ Route::get('/loyalty-cards', function () {
 Route::get('/update-loyalty-cards', function () {
     return view('update-loyalty-cards');
 });
+
+Route::get('/menu', function () {
+    return view('menu');
+});
+
 Route::get('/register', [AuthController::class, 'register']) -> name('register');
 
 Route::post('/register', [AuthController::class, 'checkout']);
