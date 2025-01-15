@@ -46,7 +46,14 @@ input[type=email], input[type=password] {
   font-size: 16px;
   outline: none;
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
 }
+
+input[type=email]:focus, input[type=password]:focus {
+  background: white;
+  color: black; /* Ensure text is visible on white background */
+}
+
 
 input::placeholder {
   color: rgba(255, 255, 255, 0.8);
