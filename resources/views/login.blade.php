@@ -15,8 +15,6 @@
         <img src="/Picture/StoreLogo.png" alt="Store Logo" class="logo">
         <h1>Dipensa Teknolohiya Grocery</h1>
 
-        <h2>Login Form</h2>
-
         <!-- Login Form -->
         <form action="{{ route('login') }}" method="POST">
             @csrf
