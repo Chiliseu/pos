@@ -26,5 +26,43 @@ class TransactionSeeder extends Seeder
             'PointsEarned' => 100,
             'TransactionDate' => now(),
         ]);
+
+        Transaction::create([
+            'OrderID' => 3,
+            'UserID' => 1,
+            'LoyaltyCardID' => 1,
+            'TotalPointsUsed' => 150,
+            'PointsEarned' => 75,
+            'TransactionDate' => now(),
+        ]);
+
+        Transaction::create([
+            'OrderID' => 4,
+            'UserID' => 1,
+            'LoyaltyCardID' => 1,
+            'TotalPointsUsed' => 120,
+            'PointsEarned' => 60,
+            'TransactionDate' => now(),
+        ]);
+
+        Transaction::create([
+            'OrderID' => 5,
+            'UserID' => 2,
+            'LoyaltyCardID' => 2,
+            'TotalPointsUsed' => 250,
+            'PointsEarned' => 125,
+            'TransactionDate' => now(),
+        ]);
+
+        Transaction::create([
+            'OrderID' => 6,
+            'UserID' => 2,
+            'LoyaltyCardID' => 2,
+            'TotalPointsUsed' => 180,
+            'PointsEarned' => 90,
+            'TransactionDate' => now(),
+        ]);
+
+        
     }
 }
