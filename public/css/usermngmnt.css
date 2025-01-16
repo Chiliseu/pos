@@ -112,7 +112,7 @@ table.table td a {
     outline: none !important;
 }
 table.table td a:hover {
-    color: #2196F3;
+    color: #2b4b2f;
 }
 table.table td a.edit {
     color: #FFC107;
@@ -143,10 +143,10 @@ table.table td i {
     color: #666;
 }	
 .pagination li.active a, .pagination li.active a.page-link {
-    background: #03A9F4;
+    background: #2b4b2f;
 }
 .pagination li.active a:hover {        
-    background: #0397d6;
+    background: #2b4b2f;
 }
 .pagination li.disabled i {
     color: #ccc;
