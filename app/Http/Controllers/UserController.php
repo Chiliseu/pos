@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -36,28 +37,29 @@ class UserController extends Controller
         return User::findOrFail($id);
     }
 
-    public function update(Request $request, $id) {
-        $user = User::findOrFail($id);
-
-        $validatedData = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $id,
-            'password' => 'sometimes|string|min:8',
-            'UserRoleID' => 'sometimes|integer',
-            'Firstname' => 'sometimes|string|max:50',
-            'Lastname' => 'sometimes|string|max:50',
+    public function update(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'UserRoleID' => 'required|integer',
+            'Firstname' => 'required|string|max:255',
+            'Lastname' => 'required|string|max:255',
             'MiddleInitial' => 'nullable|string|max:1',
-            'Suffix' => 'nullable|string|max:50',
-            'ContactNo' => 'nullable|string|max:15',
+            'Suffix' => 'nullable|string|max:255',
+            'ContactNo' => 'nullable|string|max:255',
         ]);
 
-        if (isset($validatedData['password'])) {
-            $validatedData['password'] = bcrypt($validatedData['password']);
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            unset($data['password']);
         }
 
-        $user->update($validatedData);
+        $user->update($data);
 
-        return response()->json($user);
+        return response()->json(['success' => true]);
     }
 
     public function destroy($id) {
@@ -65,5 +67,13 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function destroyMultiple(Request $request)
+    {
+        $userIds = $request->input('user_ids');
+        User::whereIn('id', $userIds)->delete();
+
+        return response()->json(['success' => true, 'ids' => $userIds]);
     }
 }

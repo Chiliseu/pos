@@ -77,3 +77,10 @@ Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 
 Route::get('/userManage', [UserController::class, 'index'])->name('userManage');
 
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');

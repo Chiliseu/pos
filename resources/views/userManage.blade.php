@@ -14,31 +14,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function(){
-    // Activate tooltip
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    // Select/Deselect checkboxes
-    var checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function(){
-        if(this.checked){
-            checkbox.each(function(){
-                this.checked = true;                      
-            });
-        } else{
-            checkbox.each(function(){
-                this.checked = false;                        
-            });
-        } 
-    });
-    checkbox.click(function(){
-        if(!this.checked){
-            $("#selectAll").prop("checked", false);
-        }
-    });
-});
-</script>
+<script src="js/userManage.js"></script>
 </head>
 <body>
     <div class="container">
@@ -50,7 +26,7 @@ $(document).ready(function(){
                     </div>
                     <div class="col-sm-6">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal" id="MultipleDelete"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                     </div>
                 </div>
             </div>
@@ -82,8 +58,8 @@ $(document).ready(function(){
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -95,23 +71,53 @@ $(document).ready(function(){
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form id="addUserForm" action="{{ route('users.store') }}" method="POST">
+                    @csrf
                     <div class="modal-header">						
                         <h4 class="modal-title">Add User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <div class="modal-body">					
+                    <div class="modal-body">
+                        <div id="addUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" required>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                            <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password"></span>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" required>
+                            <label>Role</label>
+                            <select name="UserRoleID" class="form-control" required>
+                                <option value="1">Staff</option>
+                                <option value="2">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="Firstname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="Lastname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Middle Initial</label>
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Suffix</label>
+                            <input type="text" name="Suffix" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact No</label>
+                            <input type="text" name="ContactNo" class="form-control">
                         </div>					
                     </div>
                     <div class="modal-footer">
@@ -126,23 +132,54 @@ $(document).ready(function(){
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form id="editUserForm" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-header">						
                         <h4 class="modal-title">Edit User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <div class="modal-body">					
+                    <div class="modal-body">
+                        <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" required>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control">
+                            <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password"></span>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" required>
+                            <label>Role</label>
+                            <select name="UserRoleID" class="form-control" required>
+                                <option value="1">Staff</option>
+                                <option value="2">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="Firstname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="Lastname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Middle Initial</label>
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Suffix</label>
+                            <input type="text" name="Suffix" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact No</label>
+                            <input type="text" name="ContactNo" class="form-control">
                         </div>					
                     </div>
                     <div class="modal-footer">
@@ -157,14 +194,14 @@ $(document).ready(function(){
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
-                    <div class="modal-header">						
+                <form id="deleteUserForm" method="POST">
+                    <div class="modal-header">
                         <h4 class="modal-title">Delete User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <div class="modal-body">					
-                        <p>Are you sure you want to delete these Records?</p>
-                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this user?</p>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

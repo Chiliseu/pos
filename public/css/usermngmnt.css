@@ -246,3 +246,24 @@ table.table td i {
 .modal form label {
     font-weight: normal;
 }
+
+
+.password-container {
+    position: relative;
+}
+.password-container input[type="password"],
+.password-container input[type="text"] {
+    width: 100%;
+    padding-right: 30px;
+}
+.password-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 70%; 
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.password-container .toggle-password img {
+    width: 20px;
+    height: 20px;
+}

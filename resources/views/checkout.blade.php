@@ -4,13 +4,6 @@ $subtotal = 0;
 $discount_points = 0;
 $total = 0;
 
-// Sample product list for demonstration, CAN BE DELETED
-// $products = [
-//     ['name' => 'Grapes', 'code' => '424240', 'qty' => 1, 'price' => 5000],
-//     ['name' => 'Apple', 'code' => '042424', 'qty' => 1, 'price' => 10],
-//     ['name' => 'Orange', 'code' => '4237433', 'qty' => 1, 'price' => 10],
-// ];
-
 $products = [];
 
 // Calculate subtotal
