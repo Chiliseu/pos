@@ -37,6 +37,14 @@ $(document).ready(function(){
             $("#selectAll").prop("checked", false);
         }
     });
+
+    // Check in checkbox first before you can delete
+    $('.btn-danger').click(function(e){
+        if ($('table tbody input[type="checkbox"]:checked').length === 0) {
+            e.preventDefault(); // Prevent default behavior
+            alert("Please select at least one user to delete."); // Alert message
+        }
+    });
 });
 </script>
 </head>
