@@ -92,8 +92,8 @@ table.table-striped tbody tr:nth-of-type(odd) {
     background-color: #fcfcfc;
 }
 table.table-striped.table-hover tbody tr:hover {
-    background: #7e8592;
-    transition: background-color 0.3s ease;
+    background: #bcc0c6;
+    transition: background-color 0.5s ease;
 }
 table.table th i {
     font-size: 13px;
