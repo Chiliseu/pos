@@ -37,24 +37,6 @@ $(document).ready(function(){
             $("#selectAll").prop("checked", false);
         }
     });
-
-    // Prevent showing delete modal without selection
-    $('#deleteButton').click(function(e){
-        if ($('table tbody input[type="checkbox"]:checked').length === 0) {
-            e.preventDefault(); // Prevent default behavior
-            // Show an alert using Bootstrap's alert component
-            if (!$('#deleteAlert').length) {
-                $(".table-wrapper").prepend(`
-                    <div id="deleteAlert" class="alert alert-warning alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Warning!</strong> Please select at least one user to delete.
-                    </div>
-                `);
-            }
-        }
-    });
 });
 </script>
 </head>
@@ -101,8 +83,7 @@ $(document).ready(function(){
                         <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" id="deleteButton" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-
+                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                     @endforeach
