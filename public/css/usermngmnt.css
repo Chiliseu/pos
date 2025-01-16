@@ -92,7 +92,7 @@ table.table-striped tbody tr:nth-of-type(odd) {
     background-color: #fcfcfc;
 }
 table.table-striped.table-hover tbody tr:hover {
-    background: #566787;
+    background: #7e8592;
 }
 table.table th i {
     font-size: 13px;
