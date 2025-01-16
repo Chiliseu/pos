@@ -49,11 +49,15 @@ $(document).ready(function(){
                 location.reload(); // Reload the page to update the table
             },
             error: function(response) {
-                var errors = response.responseJSON.errors;
                 var errorHtml = '<ul>';
-                $.each(errors, function(key, value) {
-                    errorHtml += '<li>' + value[0] + '</li>';
-                });
+                if (response.responseJSON && response.responseJSON.errors) {
+                    var errors = response.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        errorHtml += '<li>' + value[0] + '</li>';
+                    });
+                } else {
+                    errorHtml += '<li>An unexpected error occurred.</li>';
+                }
                 errorHtml += '</ul>';
                 $('#addUserErrors').html(errorHtml).show();
             }
