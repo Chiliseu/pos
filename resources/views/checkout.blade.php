@@ -501,7 +501,14 @@ function showPaymentSuccessMessage() {
     if (successModal) {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
-        updatePointsAfterPayment();
+        
+        const finalTotal = parseFloat(document.getElementById('total').textContent.replace('₱', '').trim());
+        const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
+
+        addOrder(subtotal, finalTotal);
+        if(pointsAdded){
+            updatePointsAfterPayment();
+        }
        
         // Auto-close the modal after 2 seconds
         setTimeout(() => {
@@ -806,11 +813,6 @@ function cancelTransaction() {
 //===========================RESET TRANSACTION=================================
 //function that resets the transaction  after
 function newTranssaction(){
-
-    const finalTotal = parseFloat(document.getElementById('total').textContent.replace('₱', '').trim());
-    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
-
-    addOrder(subtotal, finalTotal);
 
     document.getElementById('loyaltybox').checked = false;
     handleLoyaltyBox();
