@@ -143,7 +143,7 @@
                         <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
@@ -167,7 +167,7 @@
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="Lastname" class="form-control" requiredrequired pattern="[A-Za-z\s]+" title="Last name should only contain letters">
+                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
@@ -179,7 +179,7 @@
                         </div>
                         <div class="form-group">
                             <label>Contact No</label>
-                            <input type="text" name="ContactNo" class="form-control" pattern="^[0-9]+$" title="Contact number should only contain digits.">
+                            <input type="" name="ContactNo" class="form-control" pattern="^[0-9]+$" title="Contact number should only contain digits.">
                         </div>					
                     </div>
                     <div class="modal-footer">

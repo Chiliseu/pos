@@ -16,15 +16,15 @@ class UserController extends Controller
 
     public function store(Request $request) {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'UserRoleID' => 'required|integer',
-            'Firstname' => 'required|string|max:50',
-            'Lastname' => 'required|string|max:50',
-            'MiddleInitial' => 'nullable|string|max:1',
+            'Firstname' => 'required|string|max:50|regex:/^[A-Za-z\s]+$/',
+            'Lastname' => 'required|string|max:50|regex:/^[A-Za-z\s]+$/',
+            'MiddleInitial' => 'nullable|string|max:1|regex:/^[A-Za-z\s]+$/',
             'Suffix' => 'nullable|string|max:50',
-            'ContactNo' => 'nullable|string|max:15',
+            'ContactNo' => 'nullable|string|max:15|regex:/^[0-9]+$/|max:15',
         ]);
 
         $validatedData['password'] = bcrypt($validatedData['password']);
