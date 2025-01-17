@@ -726,7 +726,8 @@ function updatePointsAfterPayment() {
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
 
-    addOrder(subtotal, finalTotal);
+    if(subtotal > 0 && total > 0)
+        addOrder(subtotal, finalTotal);
 
     updateLoyaltyCard(loyaltyPoints);
 }
@@ -809,6 +810,7 @@ function cancelTransaction() {
 //===========================RESET TRANSACTION=================================
 //function that resets the transaction  after
 function newTranssaction(){
+
     document.getElementById('loyaltybox').checked = false;
     handleLoyaltyBox();
     document.getElementById('product_code').value = '';
