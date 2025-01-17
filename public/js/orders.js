@@ -55,3 +55,4 @@ async function addOrder(subtotal, total) {
         // Handle errors (e.g., show error messages)
     }
 }
+

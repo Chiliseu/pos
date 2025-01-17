@@ -27,7 +27,7 @@ $total = $subtotal; // Discount temporarily set to 0
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
     <script src="js/apiHandler.js"></script>
-    <script src="'js/orders.js"></script>
+    <script src="js/orders.js"></script>
     <script>
 
         async function getLoyaltyCard() {
@@ -726,7 +726,7 @@ function updatePointsAfterPayment() {
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
 
-    addOrders(subtotal, finalTotal);
+    addOrder(subtotal, finalTotal);
 
     updateLoyaltyCard(loyaltyPoints);
 }
