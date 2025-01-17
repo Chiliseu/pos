@@ -481,7 +481,6 @@ function confirmPayment() {
         // Handle "Yes" click
         confirmYes.addEventListener('click', () => {
             confirmationModal.style.display = 'none'; // Close confirmation modal
-            isPaymentSuccessListenerAttached = true;
             showPaymentSuccessMessage(); // Proceed to success modal
         });
 
@@ -490,8 +489,8 @@ function confirmPayment() {
             confirmationModal.style.display = 'none'; // Close confirmation modal
         });
 
-        confirmYes.removeEventListener('click', handleYesClick);
-        confirmNo.removeEventListener('click', handleNoClick);
+        // confirmYes.removeEventListener('click', handleYesClick);
+        // confirmNo.removeEventListener('click', handleNoClick);
 
         return false; // Prevent form submission
     }
