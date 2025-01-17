@@ -1,8 +1,8 @@
 <?php
 // Initialize variables for subtotal, discount, and total
-$Finalsubtotal = 0;
-$Finaldiscount_points = 0;
-$Finaltotal = 0;
+$subtotal = 0;
+$discount_points = 0;
+$total = 0;
 
 $products = [];
 
@@ -11,7 +11,7 @@ foreach ($products as $product) {
     $subtotal += $product['price'] * $product['qty']; // Multiply price by quantity
 }
 
-$Finaltotal = $Finalsubtotal; // Discount temporarily set to 0
+$total = $subtotal; // Discount temporarily set to 0
 ?>
 
 <!DOCTYPE html>
@@ -638,9 +638,6 @@ function updateTotals() {
     // Update the subtotal and total
     document.getElementById('subtotal').textContent = `₱${newSubtotal.toFixed(2)}`;
     document.getElementById('total').textContent = `₱${newSubtotal.toFixed(2)}`;
-
-    $Finalsubtotal = $newSubtotal;
-    $Finaltotal = $total;
 
     // Recalculate change
     calculateChange();
