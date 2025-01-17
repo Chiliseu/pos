@@ -1,8 +1,8 @@
 <?php
 // Initialize variables for subtotal, discount, and total
-$subtotal = 0;
-$discount_points = 0;
-$total = 0;
+$Finalsubtotal = 0;
+$Finaldiscount_points = 0;
+$Finaltotal = 0;
 
 $products = [];
 
@@ -11,7 +11,7 @@ foreach ($products as $product) {
     $subtotal += $product['price'] * $product['qty']; // Multiply price by quantity
 }
 
-$total = $subtotal; // Discount temporarily set to 0
+$Finaltotal = $Finalsubtotal; // Discount temporarily set to 0
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +27,8 @@ $total = $subtotal; // Discount temporarily set to 0
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
     <script src="js/apiHandler.js"></script>
+    <script src="'js/orders.js"></script>
     <script>
-        let token = null; // Global variable to store the Bearer token
 
         async function getLoyaltyCard() {
             const loyaltyCardId = document.getElementById('loyalty-card-id').value;
@@ -455,8 +455,6 @@ function verifiedExisting (points = 0) {
 }
 
 
-
-
 //====== ERROR SOUND ======
 function playError() {
     const error = new Audio("{{ asset('Sound/error.wav') }}");
@@ -497,7 +495,6 @@ function confirmPayment() {
     return false; // Prevent form submission
 }
 
-
 function showPaymentSuccessMessage() {
     const successModal = document.getElementById('success-modal');
 
@@ -516,7 +513,6 @@ function showPaymentSuccessMessage() {
 
     return false; // Prevent form submission
 }
-
 
 //====== CHECKOUT VALIDATION ======
 function validateCheckout() {
@@ -643,6 +639,9 @@ function updateTotals() {
     document.getElementById('subtotal').textContent = `₱${newSubtotal.toFixed(2)}`;
     document.getElementById('total').textContent = `₱${newSubtotal.toFixed(2)}`;
 
+    $Finalsubtotal = $newSubtotal;
+    $Finaltotal = $total;
+
     // Recalculate change
     calculateChange();
 }
@@ -729,6 +728,8 @@ function updatePointsAfterPayment() {
 
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
+
+    addOrders(subtotal, finalTotal);
 
     updateLoyaltyCard(loyaltyPoints);
 }
@@ -829,6 +830,8 @@ function newTranssaction(){
     pointsAdded = false;
     document.getElementById('discount-points-input').value = '';
     document.getElementById('discount-points-btn').disabled = true;
+
+
 }
 
 

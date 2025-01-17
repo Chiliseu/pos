@@ -14,7 +14,6 @@ class CreateOrdersTable extends Migration
             $table->float('Subtotal')->nullable(); // Subtotal, optional
             $table->float('Total')->nullable(); // Total, optional
 
-
             $table->timestamps(); // Created_at and updated_at
         });
     }
