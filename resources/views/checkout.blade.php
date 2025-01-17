@@ -468,6 +468,8 @@ function preventNegativeQuantity(input) {
     }
 }
 
+let isPaymentSuccessListenerAttached = false;
+
 //====== PAYMENT SUCCESS MODAL ======
 function confirmPayment() {
     const confirmationModal = document.getElementById('confirmation-Paymentmodal');
@@ -478,11 +480,19 @@ function confirmPayment() {
     if (confirmationModal && confirmYes && confirmNo) {
         confirmationModal.style.display = 'flex';
 
-        // Handle "Yes" click
-        confirmYes.addEventListener('click', () => {
+        // // Handle "Yes" click
+        // confirmYes.addEventListener('click', () => {
+        //     confirmationModal.style.display = 'none'; // Close confirmation modal
+        //     showPaymentSuccessMessage(); // Proceed to success modal
+        // });
+
+        if (!isPaymentSuccessListenerAttached) {
+            confirmYes.addEventListener('click', () => {
             confirmationModal.style.display = 'none'; // Close confirmation modal
             showPaymentSuccessMessage(); // Proceed to success modal
         });
+        isPaymentSuccessListenerAttached = true;
+        }
 
         // Handle "No" click
         confirmNo.addEventListener('click', () => {
@@ -642,7 +652,6 @@ function updateTotals() {
     // Recalculate change
     calculateChange();
 }
-
 
 //====== CLEAR CART ======
 function validateVoid(){
