@@ -52,7 +52,7 @@ class UserController extends Controller
             'UserRoleID' => 'required|integer',
             'Firstname' => 'required|string|max:255',
             'Lastname' => 'required|string|max:255',
-            'MiddleInitial' => 'nullable|string|max:1',
+            'MiddleInitial' => 'nullable|string|max:2',
             'Suffix' => 'nullable|string|max:255',
             'ContactNo' => 'nullable|string|max:255',
         ]);
