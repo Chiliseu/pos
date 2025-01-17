@@ -171,7 +171,7 @@
                         </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
-                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters">
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="2", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Suffix</label>
