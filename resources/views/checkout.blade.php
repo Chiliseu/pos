@@ -501,9 +501,7 @@ function showPaymentSuccessMessage() {
     if (successModal) {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
-        if(pointsAdded){
-            updatePointsAfterPayment();
-        }
+        updatePointsAfterPayment();
        
         // Auto-close the modal after 2 seconds
         setTimeout(() => {
