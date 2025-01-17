@@ -48,7 +48,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8',
             'UserRoleID' => 'required|integer',
             'Firstname' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
             'Lastname' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
