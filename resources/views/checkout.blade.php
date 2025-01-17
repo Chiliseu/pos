@@ -683,6 +683,8 @@ function validatePassword() {
 
 //====== LOYALTY POINTS HANDLER ======
 let pointsAdded = false;
+let orders_added = false;
+
 
 function handlePointsSwitch(event) {
     const isChecked = document.getElementById('usePointsSwitch').checked;
@@ -703,7 +705,6 @@ function handlePointsSwitch(event) {
         document.getElementById('total').textContent = `₱${subtotal.toFixed(2)}`; // Restore original total
     }
 }
-
 
 //====== UPDATE POINTS AFTER PAYMENT ======
 function updatePointsAfterPayment() {
@@ -727,9 +728,9 @@ function updatePointsAfterPayment() {
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
 
-    if(!$orders_added){
+    if(!orders_added){
         addOrder(subtotal, finalTotal);
-        $orders_added = true;
+        orders_added = true;
     }    
 
     updateLoyaltyCard(loyaltyPoints);
@@ -831,10 +832,9 @@ function newTranssaction(){
     pointsAdded = false;
     document.getElementById('discount-points-input').value = '';
     document.getElementById('discount-points-btn').disabled = true;
-    $orders_added = false;
+    orders_added = false;
 
 }
-
 
 //====== INITIALIZATION ======
 window.onload = updateTotals;
