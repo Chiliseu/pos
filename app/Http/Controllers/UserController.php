@@ -24,12 +24,13 @@ class UserController extends Controller
             'Lastname' => 'required|string|max:50|regex:/^[A-Za-z\s]+$/',
             'MiddleInitial' => 'nullable|string|max:2|regex:/^[A-Za-z\s]+$/',
             'Suffix' => 'nullable|string|max:50',
-            'ContactNo' => 'nullable|string|max:15|regex:/^[0-9]+$/|max:15',
+            'ContactNo' => 'nullable|string|max:11|regex:/^[0-9]+$/|max:11',
         ], [
+            'name.regex' => 'Name should only contain letters and spaces.',
             'Firstname.regex' => 'First name should only contain letters and spaces.',
             'Lastname.regex' => 'Last name should only contain letters and spaces.',
             'MiddleInitial.regex' => 'Middle initial should only contain one or two letters.',
-            'ContactNo.digits_between' => 'Contact number should only contain digits.',
+            'ContactNo.regex' => 'Contact number should only contain digits.',
         ]);
 
         $validatedData['password'] = bcrypt($validatedData['password']);

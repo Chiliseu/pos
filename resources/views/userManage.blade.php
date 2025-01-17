@@ -143,7 +143,7 @@
                         <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="name" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters">
+                            <input type="text" name="name" class="form-control" required pattern="[A-Za-z\s]+" title="Name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
