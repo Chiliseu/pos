@@ -59,6 +59,10 @@ Route::get('/admin-menu', function () {
     return view('admin-menu');
 });
 
+Route::get('/order-add', function () {
+    return view('order_post');
+});
+
 Route::get('/userManage', function () {
     return view('userManage');
 })->name('userManage');

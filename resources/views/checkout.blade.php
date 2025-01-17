@@ -731,7 +731,6 @@ function updatePointsAfterPayment() {
     updateLoyaltyCard(loyaltyPoints);
 }
 
-
 //====== UPDATE TOTAL AFTER DISCOUNT ======
 function updateTotalAfterDiscount(points) {
     const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
