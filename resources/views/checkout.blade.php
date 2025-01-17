@@ -468,8 +468,6 @@ function preventNegativeQuantity(input) {
     }
 }
 
-let isPaymentSuccessListenerAttached = false;
-
 //====== PAYMENT SUCCESS MODAL ======
 function confirmPayment() {
     const confirmationModal = document.getElementById('confirmation-Paymentmodal');
@@ -481,10 +479,8 @@ function confirmPayment() {
         confirmationModal.style.display = 'flex';
 
         // Handle "Yes" click
-        if (!isPaymentSuccessListenerAttached) 
         confirmYes.addEventListener('click', () => {
             confirmationModal.style.display = 'none'; // Close confirmation modal
-            isPaymentSuccessListenerAttached = true;
             showPaymentSuccessMessage(); // Proceed to success modal
         });
 
