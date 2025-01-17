@@ -3,6 +3,7 @@
 $subtotal = 0;
 $discount_points = 0;
 $total = 0;
+$orders_added = false;
 
 $products = [];
 
@@ -726,9 +727,10 @@ function updatePointsAfterPayment() {
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
 
-    if(subtotal > 0 && total > 0)
+    if(!orders_added){
         addOrder(subtotal, finalTotal);
-
+        orders_added = true;
+    }    
     updateLoyaltyCard(loyaltyPoints);
 }
 
@@ -828,7 +830,7 @@ function newTranssaction(){
     pointsAdded = false;
     document.getElementById('discount-points-input').value = '';
     document.getElementById('discount-points-btn').disabled = true;
-
+    orders_added = false;
 
 }
 
