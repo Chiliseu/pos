@@ -62,6 +62,32 @@ button:hover {
     text-align: center;  
 }  
 
+.backBtn {
+    margin: 20px 0;
+    width: 50%;
+    text-align: left;
+    float: left;
+}
+
+.backBtn a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #2b4b2f; /* Dark green background */
+    border: 2px solid #2b4b2f; /* Dark green border */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s ease-in-out;
+}
+
+.backBtn a:hover {
+    background-color: #1f3622; /* Darker green on hover */
+    color: white;
+    text-decoration: none;
+    transform: scale(1.1); /* Slight scaling effect */
+}
+
 /* INPUT Section (Checkout Page) */  
 /*----------------------------------*/  
 /* Wrapper for inputContainer and scanner-container */

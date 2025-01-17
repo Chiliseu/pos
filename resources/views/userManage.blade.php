@@ -17,6 +17,9 @@
 <script src="js/userManage.js"></script>
 </head>
 <body>
+    <div class="backBtn">
+        <a href="javascript:history.back()" id="back">&larr; Back</a>
+    </div>
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
@@ -87,10 +90,17 @@
                             <label>Email</label>
                             <input type="email" name="email" class="form-control" required>
                         </div>
-                        <div class="form-group password-container">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                            <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password"></span>
+                        <div id="form-group-password-container" class="form-group">
+                            <div class="password-container">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" required>
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
+                            <div class="password-container">
+                                <label>Confirm Password</label>
+                                <input type="password" name="confirm_password" class="form-control" required>
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Role</label>
@@ -117,7 +127,7 @@
                         </div>
                         <div class="form-group">
                             <label>Contact No</label>
-                            <input type="text" name="ContactNo" class="form-control">
+                            <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>					
                     </div>
                     <div class="modal-footer">
@@ -128,7 +138,8 @@
             </div>
         </div>
     </div>
-    <!-- Edit Modal HTML -->
+
+   <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -149,10 +160,17 @@
                             <label>Email</label>
                             <input type="email" name="email" class="form-control" required>
                         </div>
-                        <div class="form-group password-container">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control">
-                            <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password"></span>
+                        <div id="form-group-password-container" class="form-group">
+                            <div class="password-container">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control">
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
+                            <div class="password-container">
+                                <label>Confirm Password</label>
+                                <input type="password" name="confirm_password" class="form-control">
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Role</label>
@@ -179,7 +197,7 @@
                         </div>
                         <div class="form-group">
                             <label>Contact No</label>
-                            <input type="text" name="ContactNo" class="form-control">
+                            <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>					
                     </div>
                     <div class="modal-footer">
@@ -190,6 +208,7 @@
             </div>
         </div>
     </div>
+
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">

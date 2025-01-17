@@ -1,22 +1,22 @@
-$(document).ready(function(){
+$(document).ready(function() {
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
     
     // Select/Deselect checkboxes
     var checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function(){
-        if(this.checked){
-            checkbox.each(function(){
+    $("#selectAll").click(function() {
+        if (this.checked) {
+            checkbox.each(function() {
                 this.checked = true;                      
             });
-        } else{
-            checkbox.each(function(){
+        } else {
+            checkbox.each(function() {
                 this.checked = false;                        
             });
         } 
     });
-    checkbox.click(function(){
-        if(!this.checked){
+    checkbox.click(function() {
+        if (!this.checked) {
             $("#selectAll").prop("checked", false);
         }
     });
@@ -33,6 +33,7 @@ $(document).ready(function(){
         $('#editEmployeeModal input[name="Suffix"]').val(user.Suffix);
         $('#editEmployeeModal input[name="ContactNo"]').val(user.ContactNo);
         $('#editEmployeeModal input[name="password"]').val(''); // Leave password field empty for security reasons
+        $('#editEmployeeModal input[name="confirm_password"]').val(''); // Leave confirm password field empty for security reasons
         $('#editEmployeeModal form').attr('action', '/users/' + user.id);
     });
 
@@ -40,6 +41,13 @@ $(document).ready(function(){
     $('#addUserForm').on('submit', function(e) {
         e.preventDefault();
         var form = $(this);
+        var password = form.find('input[name="password"]').val();
+        var confirmPassword = form.find('input[name="confirm_password"]').val();
+
+        if (password !== confirmPassword) {
+            $('#addUserErrors').html('<ul><li>Passwords do not match.</li></ul>').show();
+            return;
+        }
         $.ajax({
             type: form.attr('method'),
             url: form.attr('action'),
@@ -68,6 +76,14 @@ $(document).ready(function(){
     $('#editUserForm').on('submit', function(e) {
         e.preventDefault();
         var form = $(this);
+        var password = form.find('input[name="password"]').val();
+        var confirmPassword = form.find('input[name="confirm_password"]').val();
+
+        if (password !== confirmPassword) {
+            $('#editUserErrors').html('<ul><li>Passwords do not match.</li></ul>').show();
+            return;
+        }
+
         $.ajax({
             type: form.attr('method'),
             url: form.attr('action'),
@@ -88,65 +104,65 @@ $(document).ready(function(){
         });
     });
 
-    $(document).ready(function() {
-        // Set the action URL for the delete form
-        $(document).on('click', '#MultipleDelete', function() {
-            var selectedUsers = [];
-            $('table tbody input[type="checkbox"]:checked').each(function() {
-                selectedUsers.push($(this).val());
-            });
-    
-            if (selectedUsers.length > 0) {
-                $('#deleteUserForm').attr('action', '/users').data('user-ids', selectedUsers);
-                console.log('Selected users:', selectedUsers);
+    // Set the action URL for the delete form
+    $(document).on('click', '#MultipleDelete', function() {
+        var selectedUsers = [];
+        $('table tbody input[type="checkbox"]:checked').each(function() {
+            selectedUsers.push($(this).val());
+        });
+
+        if (selectedUsers.length > 0) {
+            $('#deleteUserForm').attr('action', '/users').data('user-ids', selectedUsers);
+            console.log('Selected users:', selectedUsers);
+        }
+    });
+
+    // Delete user form submission
+    $(document).on('submit', '#deleteUserForm', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var selectedUsers = form.data('user-ids');
+        console.log('Form submitted with users:', selectedUsers);
+        $.ajax({
+            type: 'DELETE',
+            url: form.attr('action'),
+            data: {
+                _token: form.find('input[name="_token"]').val(),
+                user_ids: selectedUsers
+            },
+            success: function(response) {
+                console.log('Delete successful:', response);
+                $('#deleteEmployeeModal').modal('hide');
+                selectedUsers.forEach(function(userId) {
+                    $('tr').has('input[value="' + userId + '"]').remove(); // Remove the deleted user's row
+                });
+            },
+            error: function(response) {
+                console.log('Delete failed:', response);
+                var errors = response.responseJSON.errors;
+                var errorHtml = '<ul>';
+                // Handle errors here
+                $('#editUserErrors').html(errorHtml).show();
             }
-        });
-    
-        // Delete user form submission
-        $(document).on('submit', '#deleteUserForm', function(e) {
-            e.preventDefault();
-            var form = $(this);
-            var selectedUsers = form.data('user-ids');
-            console.log('Form submitted with users:', selectedUsers);
-            $.ajax({
-                type: 'DELETE',
-                url: form.attr('action'),
-                data: {
-                    _token: form.find('input[name="_token"]').val(),
-                    user_ids: selectedUsers
-                },
-                success: function(response) {
-                    console.log('Delete successful:', response);
-                    $('#deleteEmployeeModal').modal('hide');
-                    selectedUsers.forEach(function(userId) {
-                        $('tr').has('input[value="' + userId + '"]').remove(); // Remove the deleted user's row
-                    });
-                },
-                error: function(response) {
-                    console.log('Delete failed:', response);
-                    var errors = response.responseJSON.errors;
-                    var errorHtml = '<ul>';
-                    // Handle errors here
-                    $('#editUserErrors').html(errorHtml).show();
-                }
-            });
-        });
-    
-        // Handle individual delete button click
-        $(document).on('click', '.delete', function() {
-            var user = $(this).data('user');
-            $('#deleteUserForm').attr('action', '/users/' + user.id).data('user-ids', [user.id]);
-            console.log('Delete button clicked for user:', user);
         });
     });
 
+    // Handle individual delete button click
+    $(document).on('click', '.delete', function() {
+        var user = $(this).data('user');
+        $('#deleteUserForm').attr('action', '/users/' + user.id).data('user-ids', [user.id]);
+        console.log('Delete button clicked for user:', user);
+    });
+
     // Toggle password visibility
-    $('.toggle-password').on('click', function() {
+    $(document).on('click', '.toggle-password', function() {
         var input = $(this).siblings('input');
-        if (input.attr('type') === 'password') {
-            input.attr('type', 'text');
-        } else {
-            input.attr('type', 'password');
-        }
+        var type = input.attr('type') === 'password' ? 'text' : 'password';
+        input.attr('type', type);
+    });
+
+    //only allow numeric value for contact no.
+    $('input[name="ContactNo"]').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
     });
 });

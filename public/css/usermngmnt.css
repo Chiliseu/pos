@@ -2,37 +2,6 @@
 body {
     font-family: 'Varela Round', sans-serif;
 }
-.modal .modal-dialog {
-    max-width: 400px;
-}
-.modal .modal-header, .modal .modal-body, .modal .modal-footer {
-    padding: 20px 30px;
-}
-.modal .modal-content {
-    border-radius: 3px;
-}
-.modal .modal-footer {
-    background: #ecf0f1;
-    border-radius: 0 0 3px 3px;
-}
-.modal .modal-title {
-    display: inline-block;
-}
-.modal .form-control {
-    border-radius: 2px;
-    box-shadow: none;
-    border-color: #dddddd;
-}
-.modal textarea.form-control {
-    resize: vertical;
-}
-.modal .btn {
-    border-radius: 2px;
-    min-width: 100px;
-}	
-.modal form label {
-    font-weight: normal;
-}
 
 /* Table styles */
 .table-wrapper {
@@ -92,8 +61,7 @@ table.table-striped tbody tr:nth-of-type(odd) {
     background-color: #fcfcfc;
 }
 table.table-striped.table-hover tbody tr:hover {
-    background: #bcc0c6;
-    transition: background-color 0.5s ease;
+    background: #f5f5f5;
 }
 table.table th i {
     font-size: 13px;
@@ -113,10 +81,10 @@ table.table td a {
     outline: none !important;
 }
 table.table td a:hover {
-    color: #566787;
+    color: #2196F3;
 }
-table.table td a.edit {
-    color: #FFC107;
+table.table td a.settings {
+    color: #2196F3;
 }
 table.table td a.delete {
     color: #F44336;
@@ -124,55 +92,16 @@ table.table td a.delete {
 table.table td i {
     font-size: 19px;
 }
-.pagination {
-    float: right;
-    margin: 0 0 5px;
-}
-.pagination li a {
-    border: none;
-    font-size: 13px;
-    min-width: 30px;
-    min-height: 30px;
-    color: #999;
-    margin: 0 2px;
-    line-height: 30px;
-    border-radius: 2px !important;
-    text-align: center;
-    padding: 0 6px;
-}
-.pagination li a:hover {
-    color: #666;
-}	
-.pagination li.active a, .pagination li.active a.page-link {
-    background: #2b4b2f;
-}
-.pagination li.active a:hover {        
-    background: #2b4b2f;
-}
-.pagination li.disabled i {
-    color: #ccc;
-}
-.pagination li i {
-    font-size: 16px;
-    padding-top: 6px
-}
-.hint-text {
-    float: left;
-    margin-top: 10px;
-    font-size: 13px;
-}
-
-/* Custom checkbox */
 .custom-checkbox {
     position: relative;
 }
-.custom-checkbox input[type="checkbox"] {    
+.custom-checkbox input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     margin: 5px 0 0 3px;
     z-index: 9;
 }
-.custom-checkbox label:before{
+.custom-checkbox label:before {
     width: 18px;
     height: 18px;
 }
@@ -196,13 +125,12 @@ table.table td i {
     height: 11px;
     border: solid #000;
     border-width: 0 3px 3px 0;
-    transform: inherit;
-    z-index: 3;
     transform: rotate(45deg);
+    z-index: 3;
 }
 .custom-checkbox input[type="checkbox"]:checked + label:before {
-    border-color: #2b4b2f;
-    background: #2b4b2f;
+    border-color: #03A9F4;
+    background: #03A9F4;
 }
 .custom-checkbox input[type="checkbox"]:checked + label:after {
     border-color: #fff;
@@ -214,10 +142,12 @@ table.table td i {
     background: #ddd;
 }
 
-/* Modal styles */
+/* General styling for the modal */
 .modal .modal-dialog {
-    max-width: 400px;
+    max-width: 70% !important;
+    margin: auto;
 }
+
 .modal .modal-header, .modal .modal-body, .modal .modal-footer {
     padding: 20px 30px;
 }
@@ -246,10 +176,26 @@ table.table td i {
 .modal form label {
     font-weight: normal;
 }
+.modal .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.modal .form-row .form-group {
+    flex: 1;
+    min-width: 150px; /* Ensure responsiveness */
+}
 
+#form-group-password-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
 .password-container {
     position: relative;
+    flex: 1;
+    min-width: 150px; /* Ensure responsiveness */
 }
 .password-container input[type="password"],
 .password-container input[type="text"] {
@@ -259,11 +205,59 @@ table.table td i {
 .password-container .toggle-password {
     position: absolute;
     right: 10px;
-    top: 70%; 
+    top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
 }
 .password-container .toggle-password img {
     width: 20px;
     height: 20px;
+}
+
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.backBtn {
+    margin: 20px 0;
+    width: 100%;
+    text-align: left;
+}
+
+.backBtn a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #2b4b2f; /* Dark green background */
+    border: 2px solid #2b4b2f; /* Dark green border */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.backBtn a:hover {
+    background-color: #1f3622; /* Darker green on hover */
+    color: white;
+    text-decoration: none;
+    transform: scale(1.1); /* Slight scaling effect */
+}
+
+.eyeIcon{
+    margin-top: 25px;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+    .modal .modal-dialog {
+        max-width: 90%; /* On smaller screens, occupy 90% width */
+    }
 }
