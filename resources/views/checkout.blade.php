@@ -494,7 +494,6 @@ function confirmPayment() {
     return false; // Prevent form submission
 }
 
-
 function showPaymentSuccessMessage() {
     const successModal = document.getElementById('success-modal');
 
@@ -506,10 +505,8 @@ function showPaymentSuccessMessage() {
         const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
 
         addOrder(subtotal, finalTotal);
-        if(pointsAdded){
-            updatePointsAfterPayment();
-        }
-       
+        updatePointsAfterPayment();
+
         // Auto-close the modal after 2 seconds
         setTimeout(() => {
             successModal.style.display = 'none';
