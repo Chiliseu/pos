@@ -733,6 +733,8 @@ function updatePointsAfterPayment() {
     //     orders_added = true;
     // }    
 
+    addOrder(subtotal, finalTotal);
+
     updateLoyaltyCard(loyaltyPoints);
 }
 
