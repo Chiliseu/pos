@@ -478,10 +478,6 @@ function confirmPayment() {
     if (confirmationModal && confirmYes && confirmNo) {
         confirmationModal.style.display = 'flex';
 
-        // Remove any previous event listeners (to prevent duplication)
-        confirmYes.removeEventListener('click', handleYesClick);
-        confirmNo.removeEventListener('click', handleNoClick);
-
         // Define the event handlers for Yes and No buttons
         const handleYesClick = () => {
             confirmationModal.style.display = 'none'; // Close confirmation modal
@@ -492,6 +488,10 @@ function confirmPayment() {
             confirmationModal.style.display = 'none'; // Close confirmation modal
         };
 
+        // Remove any previous event listeners to prevent duplication
+        confirmYes.removeEventListener('click', handleYesClick);
+        confirmNo.removeEventListener('click', handleNoClick);
+
         // Add event listeners for Yes and No buttons
         confirmYes.addEventListener('click', handleYesClick);
         confirmNo.addEventListener('click', handleNoClick);
@@ -501,6 +501,7 @@ function confirmPayment() {
 
     return false; // Prevent form submission
 }
+
 
 
 function showPaymentSuccessMessage() {
