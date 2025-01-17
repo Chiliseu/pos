@@ -258,6 +258,6 @@ table.table td i {
 /* Responsive styling for smaller screens */
 @media (max-width: 768px) {
     .modal .modal-dialog {
-        max-width: 90%; /* On smaller screens, occupy 90% width */
+        max-width: 85%; /* On smaller screens, occupy 90% width */
     }
 }
