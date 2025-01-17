@@ -3,7 +3,6 @@
 $subtotal = 0;
 $discount_points = 0;
 $total = 0;
-$orders_added = false;
 
 $products = [];
 
@@ -683,8 +682,6 @@ function validatePassword() {
 
 //====== LOYALTY POINTS HANDLER ======
 let pointsAdded = false;
-let orders_added = false;
-
 
 function handlePointsSwitch(event) {
     const isChecked = document.getElementById('usePointsSwitch').checked;
@@ -705,6 +702,7 @@ function handlePointsSwitch(event) {
         document.getElementById('total').textContent = `₱${subtotal.toFixed(2)}`; // Restore original total
     }
 }
+
 
 //====== UPDATE POINTS AFTER PAYMENT ======
 function updatePointsAfterPayment() {
@@ -727,13 +725,6 @@ function updatePointsAfterPayment() {
 
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
-
-    // if(!orders_added){
-    //     addOrder(subtotal, finalTotal);
-    //     orders_added = true;
-    // }    
-
-    addOrder(subtotal, finalTotal);
 
     updateLoyaltyCard(loyaltyPoints);
 }
@@ -817,6 +808,11 @@ function cancelTransaction() {
 //function that resets the transaction  after
 function newTranssaction(){
 
+    const finalTotal = parseFloat(document.getElementById('total').textContent.replace('₱', '').trim());
+    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
+
+    addOrder(subtotal, finalTotal);
+
     document.getElementById('loyaltybox').checked = false;
     handleLoyaltyBox();
     document.getElementById('product_code').value = '';
@@ -834,7 +830,6 @@ function newTranssaction(){
     pointsAdded = false;
     document.getElementById('discount-points-input').value = '';
     document.getElementById('discount-points-btn').disabled = true;
-    orders_added = false;
 
 }
 
