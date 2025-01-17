@@ -81,7 +81,7 @@
                         <div id="addUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" required pattern="[A-Za-z\s]+" title="Name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
@@ -101,15 +101,15 @@
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="Firstname" class="form-control" required>
+                            <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="Lastname" class="form-control" required>
+                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
-                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1">
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="2" required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters">
                         </div>
                         <div class="form-group">
                             <label>Suffix</label>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="form-group">
                             <label>Contact No</label>
-                            <input type="text" name="ContactNo" class="form-control">
+                            <input type="text" name="ContactNo" class="form-control" required pattern="^[0-9]+$" title="Contact number should only contain digits.">
                         </div>					
                     </div>
                     <div class="modal-footer">
