@@ -480,19 +480,13 @@ function confirmPayment() {
     if (confirmationModal && confirmYes && confirmNo) {
         confirmationModal.style.display = 'flex';
 
-        // // Handle "Yes" click
-        // confirmYes.addEventListener('click', () => {
-        //     confirmationModal.style.display = 'none'; // Close confirmation modal
-        //     showPaymentSuccessMessage(); // Proceed to success modal
-        // });
-
-        if (!isPaymentSuccessListenerAttached) {
-            confirmYes.addEventListener('click', () => {
+        // Handle "Yes" click
+        if (!isPaymentSuccessListenerAttached) 
+        confirmYes.addEventListener('click', () => {
             confirmationModal.style.display = 'none'; // Close confirmation modal
+            isPaymentSuccessListenerAttached = true;
             showPaymentSuccessMessage(); // Proceed to success modal
         });
-        isPaymentSuccessListenerAttached = true;
-        }
 
         // Handle "No" click
         confirmNo.addEventListener('click', () => {
