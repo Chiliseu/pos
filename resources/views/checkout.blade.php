@@ -728,10 +728,10 @@ function updatePointsAfterPayment() {
     // Reset discount points after payment
     document.getElementById('discount-points').textContent = '0';
 
-    if(!orders_added){
-        addOrder(subtotal, finalTotal);
-        orders_added = true;
-    }    
+    // if(!orders_added){
+    //     addOrder(subtotal, finalTotal);
+    //     orders_added = true;
+    // }    
 
     updateLoyaltyCard(loyaltyPoints);
 }
