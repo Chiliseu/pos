@@ -489,8 +489,8 @@ function confirmPayment() {
             confirmationModal.style.display = 'none'; // Close confirmation modal
         });
 
-        // confirmYes.removeEventListener('click', handleYesClick);
-        // confirmNo.removeEventListener('click', handleNoClick);
+        confirmYes.removeEventListener('click', handleYesClick);
+        confirmNo.removeEventListener('click', handleNoClick);
 
         return false; // Prevent form submission
     }
