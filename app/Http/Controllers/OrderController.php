@@ -72,7 +72,18 @@ class OrderController extends Controller
 
     public function getNewestOrderId()
     {
-        $order = Order::latest()->first();  // Fetch the latest order
-        return response()->json(['orderId' => $order ? $order->id : null]);
+        // Attempt to fetch the latest order
+        $latestOrder = Order::latest()->first();
+
+        // Check if an order was found
+        if ($latestOrder) {
+            return response()->json([
+                'orderId' => $latestOrder->id,
+            ]);
+        } else {
+            return response()->json([
+                'orderId' => null,
+            ]);
+        }
     }
 }
