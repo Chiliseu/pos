@@ -733,8 +733,8 @@ function updatePointsAfterPayment(NewOrder) {
     updateLoyaltyCard(loyaltyPoints);
 
     //Change the UserID 1
-    addTransaction(NewOrder.OrderID, 1, document.getElementById('loyalty_card').value, 
-                   pointsUsed, loyaltyGain);
+    addTransaction(NewOrder.OrderID, 1, parseInt(document.getElementById('loyalty_card').value), 
+                   pointsUsed, parseInt(loyaltyGain));
 }
 
 //====== UPDATE TOTAL AFTER DISCOUNT ======
