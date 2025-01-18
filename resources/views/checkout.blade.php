@@ -495,14 +495,14 @@ function confirmPayment() {
     return false; // Prevent form submission
 }
 
-function showPaymentSuccessMessage() {
+async function showPaymentSuccessMessage() {
     const successModal = document.getElementById('success-modal');
 
     if (successModal) {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
         
-        const NewOrder = addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
+        const NewOrder = await addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
         console.log(NewOrder.OrderID);
