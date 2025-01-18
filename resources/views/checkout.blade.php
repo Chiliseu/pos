@@ -28,6 +28,7 @@ $total = $subtotal; // Discount temporarily set to 0
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
     <script src="js/apiHandler.js"></script>
     <script src="js/orders.js"></script>
+    <script src="js/transaction.js"></script>
     <script>
 
         async function getLoyaltyCard() {
@@ -732,11 +733,9 @@ function updatePointsAfterPayment(NewOrder) {
 
     updateLoyaltyCard(loyaltyPoints);
 
-    // let x = parseInt(document.getElementById('loyalty_card').value);
-
     // //Change the UserID 1
-    // addTransaction(2, 1, 2, 
-    //                pointsUsed, 2);
+    addTransaction(NewOrder.OrderID, 1, parseInt(document.getElementById('loyalty_card').value), 
+                   pointsUsed, loyaltyGain);
 }
 
 //====== UPDATE TOTAL AFTER DISCOUNT ======
