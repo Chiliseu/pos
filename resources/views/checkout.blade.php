@@ -504,7 +504,7 @@ function showPaymentSuccessMessage() {
         const NewOrder = addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
-        if((document.getElementById('loyalty_card').value === "")){
+        if(!(document.getElementById('loyalty_card').value === "")){
             updatePointsAfterPayment(NewOrder);
         }
         
@@ -733,7 +733,7 @@ function updatePointsAfterPayment(NewOrder) {
     updateLoyaltyCard(loyaltyPoints);
 
     //Change the UserID 1
-    addTransaction(NewOrder.OrderID, 1, parseInt(document.getElementById('loyalty_card').value), 
+    addTransaction(2, 1, parseInt(document.getElementById('loyalty_card').value), 
                    pointsUsed, parseInt(loyaltyGain));
 }
 
