@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
+
 class OrderProductController extends Controller
 {
     public function index()
     {
-        return OrderProduct::all();
+        $orderProducts = OrderProduct::all();
+        return view('testOrderProducts', compact('orderProducts'));
     }
 
     public function store(Request $request)
@@ -61,4 +63,5 @@ class OrderProductController extends Controller
 
         return response()->json(null, 204);
     }
+    
 }

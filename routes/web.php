@@ -8,6 +8,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
 
 // Route for the login page (GET)
 Route::get('/', function () {
@@ -96,3 +97,5 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
+// TEST ROUTE
+Route::get('/order-products', [OrderProductController::class, 'index']);
