@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('transactions', TransactionController::class);
 
     Route::get('order-products', [OrderProductController::class, 'index']);
-    Route::post('order-products', [OrderProductController::class, 'store']);
+    Route::post('/order-products', [OrderProductController::class, 'store']);
     Route::get('order-products/{orderID}/{productID}', [OrderProductController::class, 'show']);
     Route::put('order-products/{orderID}/{productID}', [OrderProductController::class, 'update']);
     Route::delete('order-products/{orderID}/{productID}', [OrderProductController::class, 'destroy']);
