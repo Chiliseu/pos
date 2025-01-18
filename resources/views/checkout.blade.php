@@ -734,9 +734,11 @@ function updatePointsAfterPayment(NewOrder) {
     updateLoyaltyCard(loyaltyPoints);
 
     console.log(NewOrder.OrderID);
+    console.log(NewOrder.pointsAdded);
     console.log(parseInt(document.getElementById('loyalty_card').value));
     console.log(pointsUsed);
     console.log(loyaltyGain);
+    //console.log(Auth::user()->id);
 
     // //Change the UserID 1
     addTransaction(NewOrder.OrderID, 1, parseInt(document.getElementById('loyalty_card').value), 
