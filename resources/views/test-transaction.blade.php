@@ -33,7 +33,9 @@
         <button type="submit">Submit Transaction</button>
     </form>
 
-    <script src="js/transactions.js">
+    <script src="js/transactions.js"></script>
+
+    <script>
         // Function to handle form submission and call addTransaction
         function submitTransactionForm() {
             const orderId = document.getElementById('order_id').value;
