@@ -103,7 +103,8 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
 
         const orderProductResult = await orderProductResponse.json();
         console.log('Order product added:', orderProductResult);
-        
+
+        return orderProductResult;
     } catch (error) {
         console.error('Error adding order product:', error);
         throw error;
