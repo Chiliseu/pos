@@ -4,6 +4,10 @@ $subtotal = 0;
 $discount_points = 0;
 $total = 0;
 
+use Illuminate\Support\Facades\Auth;
+
+$userID = Auth::user()->id;
+
 $products = [];
 
 // Calculate subtotal
@@ -505,11 +509,8 @@ async function showPaymentSuccessMessage() {
         const NewOrder = await addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
-        console.log(NewOrder.OrderID);
-        console.log(NewOrder.pointsAdded);
-
         if(!(document.getElementById('loyalty_card').value === "")){
-            updatePointsAfterPayment(NewOrder.OrderID);
+            updatePointsAfterPayment(NewOrder);
         }
         
         // Auto-close the modal after 2 seconds
@@ -736,10 +737,8 @@ function updatePointsAfterPayment(NewOrder) {
 
     updateLoyaltyCard(loyaltyPoints);
 
-    console.log(parseInt(document.getElementById('loyalty_card').value));
-    console.log(pointsUsed);
-    console.log(loyaltyGain);
-    //console.log(Auth::user()->id);
+    var userId = @json($userID);
+    console.log(userId);
 
     // //Change the UserID 1
     addTransaction(NewOrder.OrderID, 1, parseInt(document.getElementById('loyalty_card').value), 
