@@ -506,10 +506,23 @@ async function showPaymentSuccessMessage() {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
         
-        const NewOrder = await addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
-        parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
+        const NewOrder = await addOrder(
+            parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
+            parseFloat(document.getElementById('total').textContent.replace('₱', '').trim())
+        );
 
-        if(!(document.getElementById('loyalty_card').value === "")){
+        // Get the product details from the table
+        const productRows = document.querySelectorAll('#product-table tbody tr');
+        for (const row of productRows) {
+            const productID = row.querySelector('.product-id').textContent.trim();
+            const quantity = parseInt(row.querySelector('.product-quantity').textContent.trim());
+            const totalPrice = parseFloat(row.querySelector('.product-total-price').textContent.replace('₱', '').trim());
+
+            // Call the addOrderProduct function for each product
+            await addOrderProduct(NewOrder.OrderID, productID, quantity, totalPrice);
+        }
+
+        if (!(document.getElementById('loyalty_card').value === "")) {
             updatePointsAfterPayment(NewOrder);
         }
         
