@@ -60,6 +60,7 @@ async function addOrder(subtotal, total) {
 }
 
 async function addOrderProduct(orderID, productID, quantity, totalPrice) {
+    console.log("TEST TEST");
     try {
         // Step 1: Generate the Bearer Token
         const tokenResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/generate-token', {
