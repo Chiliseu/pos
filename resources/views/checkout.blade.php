@@ -513,15 +513,22 @@ async function showPaymentSuccessMessage() {
 
         // Get the product details from the table
         const productRows = document.querySelectorAll('#product-table-body tr');
-        console.log("test");
-        for (const row of productRows) {                    
-            const productID = row.querySelector('.product-id').textContent.trim();
-            const quantity = parseInt(row.querySelector('.product-quantity').textContent.trim());
-            const totalPrice = parseFloat(row.querySelector('.product-total-price').textContent.replace('₱', '').trim());
+        for (const row of productRows) {
+            const productIDElement = row.querySelector('td:nth-child(3)'); // Assuming the product code is in the third column
+            const quantityElement = row.querySelector('.qty');
+            const totalPriceElement = row.querySelector('.total-price');
 
-            console.log("ID:", productID, "  qty:", quantity, "  prc", totalPrice);
-            // Call the addOrderProduct function for each product
-            await addOrderProduct(NewOrder.OrderID, productID, quantity, totalPrice);
+            if (productIDElement && quantityElement && totalPriceElement) {
+                const productID = productIDElement.textContent.trim();
+                const quantity = parseInt(quantityElement.textContent.trim());
+                const totalPrice = parseFloat(totalPriceElement.textContent.replace('₱', '').trim());
+
+                console.log("ID:", productID, "  qty:", quantity, "  prc", totalPrice);
+                // Call the addOrderProduct function for each product
+                await addOrderProduct(NewOrder.OrderID, productID, quantity, totalPrice);
+            } else {
+                console.error('Missing product details in row:', row);
+            }
         }
 
         if (!(document.getElementById('loyalty_card').value === "")) {
