@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Transaction</title>
     <!-- Link to the External JS file -->
-    <script src="js/transactions.js"></script>
+    <script src="https://pos-production-c2c1.up.railway.app/js/transactions.js"></script>
 </head>
 <body>
     <h1>Test Transaction</h1>
