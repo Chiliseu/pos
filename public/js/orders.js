@@ -49,10 +49,14 @@ async function addOrder(subtotal, total) {
         const orderResult = await orderResponse.json();
         console.log('Order created:', orderResult);
 
-        // Handle success (e.g., show a success message or update the UI)
+        // Return the order result to the caller
+        return orderResult; // This will return the newly created order data
+
     } catch (error) {
         console.error('Error:', error);
-        // Handle errors (e.g., show error messages)
+        // Optionally, return null or some error message on failure
+        return null; // Return null or an error message on failure
     }
 }
 
+addOrder(1, 2)

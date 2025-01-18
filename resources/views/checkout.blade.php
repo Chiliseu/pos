@@ -501,11 +501,11 @@ function showPaymentSuccessMessage() {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
         
-        addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
+        const NewOrder = addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
         if(!(document.getElementById('loyalty_card').value === "")){
-            updatePointsAfterPayment();
+            updatePointsAfterPayment(NewOrder);
         }
         
         // Auto-close the modal after 2 seconds
@@ -709,7 +709,7 @@ function handlePointsSwitch(event) {
 
 
 //====== UPDATE POINTS AFTER PAYMENT ======
-function updatePointsAfterPayment() {
+function updatePointsAfterPayment(NewOrder) {
     const finalTotal = parseFloat(document.getElementById('total').textContent.replace('₱', '').trim());
     const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
     const loyaltyGain = Math.floor(finalTotal * 0.01); // Loyalty points gained based on subtotal (1%)
@@ -733,7 +733,7 @@ function updatePointsAfterPayment() {
     updateLoyaltyCard(loyaltyPoints);
 
     //Change the UserID 1
-    addTransaction(orderId, 1, document.getElementById('loyalty_card').value, 
+    addTransaction(NewOrder.OrderID, 1, document.getElementById('loyalty_card').value, 
                    pointsUsed, loyaltyGain);
 }
 
