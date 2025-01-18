@@ -64,6 +64,10 @@ Route::get('/order-add', function () {
     return view('order_post');
 });
 
+Route::get('/test-transaction', function () {
+    return view('test-transaction');
+});
+
 Route::get('/userManage', function () {
     return view('userManage');
 })->name('userManage');
