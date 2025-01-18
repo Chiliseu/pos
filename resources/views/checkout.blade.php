@@ -504,10 +504,10 @@ function showPaymentSuccessMessage() {
         addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
+        if(!(document.getElementById('loyalty_card').value === "")){
+            updatePointsAfterPayment();
+        }
         
-        updatePointsAfterPayment();
-
-
         // Auto-close the modal after 2 seconds
         setTimeout(() => {
             successModal.style.display = 'none';
@@ -731,6 +731,10 @@ function updatePointsAfterPayment() {
     document.getElementById('discount-points').textContent = '0';
 
     updateLoyaltyCard(loyaltyPoints);
+
+    //Change the UserID 1
+    addTransaction(orderId, 1, document.getElementById('loyalty_card').value, 
+                   pointsUsed, loyaltyGain);
 }
 
 //====== UPDATE TOTAL AFTER DISCOUNT ======
