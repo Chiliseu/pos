@@ -501,11 +501,12 @@ function showPaymentSuccessMessage() {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
         
-        const finalTotal = parseFloat(document.getElementById('total').textContent.replace('₱', '').trim());
-        const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim());
+        addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
+        parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
-        addOrder(subtotal, finalTotal);
+        
         updatePointsAfterPayment();
+
 
         // Auto-close the modal after 2 seconds
         setTimeout(() => {

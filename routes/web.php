@@ -88,3 +88,6 @@ Route::put('/users/{user}', [UserController::class, 'update'])->name('users.upda
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
 Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');
+
+Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
+

@@ -69,4 +69,10 @@ class OrderController extends Controller
         $order->delete();
         return response()->json(['message' => 'Order deleted'], 200);
     }
+
+    public function getNewestOrderId()
+    {
+        $order = Order::latest()->first();  // Fetch the latest order
+        return response()->json(['orderId' => $order ? $order->id : null]);
+    }
 }

@@ -58,5 +58,3 @@ async function addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, p
         // Handle errors (e.g., show error messages)
     }
 }
-
-addTransaction(1, 2, 1, 4, 6)
