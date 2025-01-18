@@ -512,7 +512,7 @@ async function showPaymentSuccessMessage() {
         );
 
         // Get the product details from the table
-        const productRows = document.querySelectorAll('#product-table tbody tr');
+        const productRows = document.querySelectorAll('#product-table-body');
         for (const row of productRows) {
             const productID = row.querySelector('.product-id').textContent.trim();
             const quantity = parseInt(row.querySelector('.product-quantity').textContent.trim());
