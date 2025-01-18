@@ -505,9 +505,11 @@ function showPaymentSuccessMessage() {
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
         if(!(document.getElementById('loyalty_card').value === "")){
-            updatePointsAfterPayment(NewOrder);
+            
         }
         
+        updatePointsAfterPayment(NewOrder);
+
         // Auto-close the modal after 2 seconds
         setTimeout(() => {
             successModal.style.display = 'none';
