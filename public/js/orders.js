@@ -58,5 +58,3 @@ async function addOrder(subtotal, total) {
         return null; // Return null or an error message on failure
     }
 }
-
-addOrder(1, 2)
