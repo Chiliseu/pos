@@ -28,7 +28,7 @@ $total = $subtotal; // Discount temporarily set to 0
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
     <script src="js/apiHandler.js"></script>
     <script src="js/orders.js"></script>
-    <script src="js/transaction.js"></script>
+    <script src="js/transactions.js"></script>
     <script>
 
         async function getLoyaltyCard() {
