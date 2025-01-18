@@ -58,14 +58,3 @@ async function addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, p
         // Handle errors (e.g., show error messages)
     }
 }
-
-function submitTransactionForm() {
-    const orderId = document.getElementById('order_id').value;
-    const userId = document.getElementById('user_id').value;
-    const loyaltyCardId = document.getElementById('loyalty_card').value;
-    const totalPointsUsed = document.getElementById('total_points_used').value;
-    const pointsEarned = document.getElementById('points_earned').value;
-
-    // Call the addTransaction function with form values
-    addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, pointsEarned);
-}

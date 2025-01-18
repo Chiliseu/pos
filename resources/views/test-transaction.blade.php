@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Transaction</title>
-    <!-- Include the external JS file -->
-    <script src="js/transaction.js" defer></script>
+    <!-- Link to the External JS file -->
+    <script src="js/transaction.js"></script>
 </head>
 <body>
     <h1>Test Transaction</h1>
@@ -34,5 +34,19 @@
 
         <button type="submit">Submit Transaction</button>
     </form>
+
+    <script>
+        // Function to handle form submission and call addTransaction
+        function submitTransactionForm() {
+            const orderId = document.getElementById('order_id').value;
+            const userId = document.getElementById('user_id').value;
+            const loyaltyCardId = document.getElementById('loyalty_card').value;
+            const totalPointsUsed = document.getElementById('total_points_used').value;
+            const pointsEarned = document.getElementById('points_earned').value;
+
+            // Call the addTransaction function from the external JS file
+            addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, pointsEarned);
+        }
+    </script>
 </body>
 </html>
