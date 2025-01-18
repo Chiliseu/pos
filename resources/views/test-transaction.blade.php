@@ -34,7 +34,6 @@
         <button type="submit">Submit Transaction</button>
     </form>
 
-
     <script>
 
         // Function to handle form submission and call addTransaction
