@@ -26,7 +26,7 @@ class TransactionController extends Controller
     {
         $validated = $request->validate([
             'OrderID' => 'required|exists:orders,OrderID',
-            'LoyaltyCardID' => 'required|exists:loyalty_cards,id',
+            'LoyaltyCardID' => 'required|integer',
             'UserID' => 'required|exists:users,id',
             'TotalPointsUsed' => 'required|integer',
             'PointsEarned' => 'required|integer',
@@ -49,7 +49,7 @@ class TransactionController extends Controller
 
         $validated = $request->validate([
             'OrderID' => 'sometimes|exists:orders,OrderID',
-            'LoyaltyCardID' => 'sometimes|exists:loyalty_cards,id',
+            'LoyaltyCardID' => 'required|integer',
             'UserID' => 'required|exists:users,id',
             'TotalPointsUsed' => 'sometimes|integer',
             'PointsEarned' => 'sometimes|integer',
