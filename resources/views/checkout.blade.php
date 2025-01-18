@@ -513,11 +513,13 @@ async function showPaymentSuccessMessage() {
 
         // Get the product details from the table
         const productRows = document.querySelectorAll('#product-table-body');
+        console.log("test");
         for (const row of productRows) {
             const productID = row.querySelector('.product-id').textContent.trim();
             const quantity = parseInt(row.querySelector('.product-quantity').textContent.trim());
             const totalPrice = parseFloat(row.querySelector('.product-total-price').textContent.replace('₱', '').trim());
 
+            console.log("ID:", productID, "  qty:", quantity, "  prc", totalPrice);
             // Call the addOrderProduct function for each product
             await addOrderProduct(NewOrder.OrderID, productID, quantity, totalPrice);
         }
