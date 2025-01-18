@@ -505,8 +505,11 @@ function showPaymentSuccessMessage() {
         const NewOrder = addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
         parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
 
+        console.log(NewOrder.OrderID);
+        console.log(NewOrder.pointsAdded);
+
         if(!(document.getElementById('loyalty_card').value === "")){
-            updatePointsAfterPayment(NewOrder);
+            updatePointsAfterPayment(NewOrder.OrderID);
         }
         
         // Auto-close the modal after 2 seconds
@@ -733,8 +736,6 @@ function updatePointsAfterPayment(NewOrder) {
 
     updateLoyaltyCard(loyaltyPoints);
 
-    console.log(NewOrder.OrderID);
-    console.log(NewOrder.pointsAdded);
     console.log(parseInt(document.getElementById('loyalty_card').value));
     console.log(pointsUsed);
     console.log(loyaltyGain);
