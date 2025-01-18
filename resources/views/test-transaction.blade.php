@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Transaction</title>
-    <!-- <script src="js/transactions.js"></script> -->
+    <script src="js/transactions.js"></script>
 </head>
 <body>
     <h1>Test Transaction</h1>
@@ -37,7 +37,7 @@
 
     <script>
 
-async function addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, pointsEarned) {
+    async function addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, pointsEarned) {
     try {
         // Step 1: Format the current date as YYYY-MM-DD
         const currentDate = new Date();
@@ -96,7 +96,7 @@ async function addTransaction(orderId, userId, loyaltyCardId, totalPointsUsed, p
         console.error('Error:', error);
         // Handle errors (e.g., show error messages)
     }
-}
+    }
 
         // Function to handle form submission and call addTransaction
         function submitTransactionForm() {
