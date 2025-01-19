@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('order-products/{orderID}/{productID}', [OrderProductController::class, 'update']);
     Route::delete('order-products/{orderID}/{productID}', [OrderProductController::class, 'destroy']);
 
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('user', UserController::class);
     Route::apiResource('user-roles', UserRoleController::class);
     Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getByLoyaltyCardID']);
 
