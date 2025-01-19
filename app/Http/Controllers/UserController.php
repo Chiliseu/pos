@@ -19,7 +19,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'UserRoleID' => 'required|integer',
+            'UserRoleID' => 'required|exists:user_roles,UserRoleID',
             'Firstname' => 'required|string|max:50|regex:/^[A-Za-z\s]+$/',
             'Lastname' => 'required|string|max:50|regex:/^[A-Za-z\s]+$/',
             'MiddleInitial' => 'nullable|string|max:2|regex:/^[A-Za-z\s]+$/',

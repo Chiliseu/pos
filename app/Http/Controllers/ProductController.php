@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'CategoryID' => 'required|exists:category,id', // Ensure the CategoryID exists in the category table
+            'CategoryID' => 'required|exists:category,CategoryID', // Ensure the CategoryID exists in the category table
             'Name' => 'required|string|max:255',
             'Price' => 'required|numeric|min:0',
         ]);
