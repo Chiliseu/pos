@@ -3,9 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+//Route::get('/user', function (Request $request) {
+//    return $request->user();
+//})->middleware('auth:sanctum');
 
 use App\Http\Controllers\TokenController;
 
@@ -22,7 +22,6 @@ use App\Http\Controllers\UserRoleController;
 // Protect these routes using Sanctum
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('orders', OrderController::class);
-    Route::apiResource('order-products', OrderController::class);
     Route::apiResource('products', ProductController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('transactions', TransactionController::class);
