@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('transactions', TransactionController::class);
 
-    Route::get('order-products', [OrderProductController::class, 'index']);
+    Route::get('order-products', [OrderProductController::class, 'indexJSON']);
     Route::post('order-products', [OrderProductController::class, 'store']);
     Route::get('order-products/{orderID}/{productID}', [OrderProductController::class, 'show']);
     Route::put('order-products/{orderID}/{productID}', [OrderProductController::class, 'update']);
