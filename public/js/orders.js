@@ -58,3 +58,58 @@ async function addOrder(subtotal, total) {
         return null; // Return null or an error message on failure
     }
 }
+
+async function addOrderProduct(orderID, productID, quantity, totalPrice) {
+    console.log("TEST TEST");
+    try {
+        // Step 1: Generate the Bearer Token
+        const tokenResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/generate-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!tokenResponse.ok) {
+            const errorData = await tokenResponse.json();
+            throw new Error(`Token generation failed: ${errorData.message || 'Unknown error'}`);
+        }
+
+        const tokenData = await tokenResponse.json();
+        const bearerToken = tokenData.token;
+
+        // Step 2: Add the Order Product using the Bearer Token
+        const orderProductData = {
+            OrderID: orderID,
+            ProductID: productID,
+            Quantity: quantity,
+            TotalPrice: totalPrice,
+        };
+
+        console.log("TEST TEST TEST TEST TEST TEST TEST");
+        const orderProductResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/order-products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${bearerToken}`,
+            },
+            body: JSON.stringify(orderProductData),
+        });
+
+        if (!orderProductResponse.ok) {
+            const errorData = await orderProductResponse.json();
+            throw new Error(`Order product addition failed: ${errorData.message || 'Unknown error'}`);
+        }
+
+        const orderProductResult = await orderProductResponse.json();
+        console.log('Order product added:', orderProductResult);
+
+        return orderProductResult;
+    } catch (error) {
+        console.log("ERROR ERROR ERROR ERROR");
+        console.error('Error adding order product:', error);
+        throw error;
+    }
+}

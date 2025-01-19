@@ -506,10 +506,32 @@ async function showPaymentSuccessMessage() {
         // Ensure modal is shown in the center
         successModal.style.display = 'flex';
         
-        const NewOrder = await addOrder(parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
-        parseFloat(document.getElementById('total').textContent.replace('₱', '').trim()));
+        const NewOrder = await addOrder(
+            parseFloat(document.getElementById('subtotal').textContent.replace('₱', '').trim()), 
+            parseFloat(document.getElementById('total').textContent.replace('₱', '').trim())
+        );
 
-        if(!(document.getElementById('loyalty_card').value === "")){
+        // Get the product details from the table
+        const productRows = document.querySelectorAll('#product-table-body tr');
+        for (const row of productRows) {
+            const productIDElement = row.querySelector('td:nth-child(3)'); // Assuming the product code is in the third column
+            const quantityElement = row.querySelector('.qty');
+            const totalPriceElement = row.querySelector('.total-price');
+
+            if (productIDElement && quantityElement && totalPriceElement) {
+                const productID = productIDElement.textContent.trim();
+                const quantity = parseInt(quantityElement.textContent.trim());
+                const totalPrice = parseFloat(totalPriceElement.textContent.replace('₱', '').trim());
+
+                console.log("ID:", productID, "  qty:", quantity, "  prc", totalPrice);
+                // Call the addOrderProduct function for each product
+                await addOrderProduct(NewOrder.OrderID, productID, quantity, totalPrice);
+            } else {
+                console.error('Missing product details in row:', row);
+            }
+        }
+
+        if (!(document.getElementById('loyalty_card').value === "")) {
             updatePointsAfterPayment(NewOrder);
         }
         
