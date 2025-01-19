@@ -14,6 +14,11 @@ class UserController extends Controller
         return view('userManage', compact('users'));
     }
 
+    public function indexJSON()
+    {
+        return response()->json( User::all(), 200);
+    }
+
     public function store(Request $request) {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|regex:/^[A-Za-z\s]+$/',
