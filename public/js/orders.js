@@ -87,6 +87,7 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
             TotalPrice: totalPrice,
         };
 
+        console.log("TEST TEST TEST TEST TEST TEST TEST");
         const orderProductResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/order-products', {
             method: 'POST',
             headers: {
