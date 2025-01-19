@@ -98,4 +98,4 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
 // TEST ROUTE
-Route::get('/order-products', [OrderProductController::class, 'index']);
+Route::get('/order-products-test', [OrderProductController::class, 'index']);
