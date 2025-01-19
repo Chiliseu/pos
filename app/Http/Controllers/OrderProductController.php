@@ -16,7 +16,7 @@ class OrderProductController extends Controller
     {
         $validated = $request->validate([
             'OrderID' => 'required|exists:orders,OrderID',
-            'ProductID' => 'required|exists:products,id',
+            'ProductID' => 'required|exists:products,ProductID',
             'Quantity' => 'required|integer|min:1',
             'TotalPrice' => 'required|numeric|min:0',
         ]);
