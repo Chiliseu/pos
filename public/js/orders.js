@@ -108,6 +108,7 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
 
         return orderProductResult;
     } catch (error) {
+        console.log("ERROR ERROR ERROR ERROR");
         console.error('Error adding order product:', error);
         throw error;
     }
