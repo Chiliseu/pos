@@ -14,6 +14,11 @@ class OrderProductController extends Controller
         return view('testOrderProducts', compact('orderProducts'));
     }
 
+    public function indexJSON()
+    {
+        return response()->json(OrderProduct::all(), 200);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -61,7 +66,7 @@ class OrderProductController extends Controller
 
         $orderProduct->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Order-Products deleted'], 204);
     }
     
 }

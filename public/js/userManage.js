@@ -21,6 +21,7 @@ $(document).ready(function() {
         }
     });
 
+
     // Fill the edit modal with user data
     $('.edit').on('click', function() {
         var user = $(this).data('user');

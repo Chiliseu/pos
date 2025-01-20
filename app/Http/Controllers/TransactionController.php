@@ -66,7 +66,7 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Transaction deleted'], 204);
     }
 
     public function storeTransaction(Request $request)
