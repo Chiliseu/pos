@@ -91,7 +91,7 @@ $total = $subtotal; // Discount temporarily set to 0
             <table>
                 <thead>
                     <tr>
-                        <th>SELECT</th>
+                        <th><input type="checkbox" id="selectAll"></th>
                         <th>NAME</th>
                         <th>CODE</th>
                         <th>QTY</th>
@@ -262,9 +262,6 @@ $total = $subtotal; // Discount temporarily set to 0
                     <input type="number" id="change" value="0" readonly step="0.01">
 
                     <!-----------------------PAY BUTTONS--------------------------------------->
-                    <div class="cancelTransacButton">
-                        <button type="button" id="cancelTransac" onclick="cancelTransaction()" disabled>Cancel</button>
-                    </div>
                     {{-- onsubmit="return confirmPayment()" --}}
                     <div class="paymentButtonContainer">
                         <form action="#" onsubmit="return confirmPayment()">
@@ -274,9 +271,9 @@ $total = $subtotal; // Discount temporarily set to 0
                                 <input type="hidden" name="products[]" value='<?php echo json_encode($product); ?>'>
                             <?php endforeach; ?>
 
-                            <input type="hidden" name="order_date" value="{{ now()->toDateString() }}"> <!-- Or provide a specific order date -->
-                            <input type="hidden" name="subtotal" value="{{ $subtotal }}"> <!-- Your subtotal calculation -->
-                            <input type="hidden" name="total" value="{{ $total }}"> <!-- Your total calculation -->
+                            <input type="hidden" name="order_date" value="{{ now()->toDateString() }}"> 
+                            <input type="hidden" name="subtotal" value="{{ $subtotal }}"> 
+                            <input type="hidden" name="total" value="{{ $total }}"> 
                             <button type="submit" class="checkout-btn" id="checkout-btn" disabled>PAY</button>
                         </form>
                     </div>
@@ -384,24 +381,22 @@ async function updateLoyaltyCard(points) {
 const adminPassword = "admin123"; // Replace with the actual admin password
 
 //====== EVENT LISTENERS ======
+document.getElementById('selectAll').addEventListener('change', selectAll);
 document.getElementById('cashReceived').addEventListener('input', calculateChange);
 document.getElementById('loyaltybox').addEventListener('change', handleLoyaltyBox);
 document.getElementById('Cancel').addEventListener('click', closeModal);
 document.getElementById('usePointsSwitch').addEventListener('change', handlePointsSwitch);
-document.getElementById('loyalty_card').addEventListener('focus', handleLoyaltyCardFocus);
-
-
-// Set up a MutationObserver to detect changes in the #total element
-const observer = new MutationObserver(() => {
-        handleCancelTransacBtn();
-    });
 
 // Start observing the #total element for text content changes
 const totalElement = document.getElementById('total');
 observer.observe(totalElement, { childList: true, subtree: true, characterData: true });
 
-// Initialize the button state
-handleCancelTransacBtn();
+
+function selectAll() {
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    checkboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
+}
 
 //====== LOYALTY BOX HANDLER ======
 function handleLoyaltyBox() {
@@ -806,40 +801,6 @@ function calculateChange() {
         document.getElementById('checkout-btn').disabled = true;
     }
 }
-//===========================CANCEL TRANSACTION================================
-function handleCancelTransacBtn() {
-        const totalElement = document.getElementById('total');
-        const total = parseFloat(totalElement.textContent.replace('₱', '').trim());
-
-        // Enable or disable the button based on the total amount
-        document.getElementById('cancelTransac').disabled = total === 0;
-    }
-
-function cancelTransaction() {
-    const cancelModal = document.getElementById('cancel-modal');
-    const cancelConfirmYes = document.getElementById('cancelConfirmYes');
-    const cancelConfirmNo = document.getElementById('cancelConfirmNo');
-
-    // Show the confirmation modal
-    if (cancelModal && cancelConfirmYes && cancelConfirmNo) {
-        cancelModal.style.display = 'flex';
-
-        // Handle "Yes" click
-        cancelConfirmYes.addEventListener('click', () => {
-            cancelModal.style.display = 'none'; // Close confirmation modal
-            newTranssaction(); // Proceed to success modal
-        });
-
-        // Handle "No" click
-        cancelConfirmNo.addEventListener('click', () => {
-            cancelModal.style.display = 'none'; // Close confirmation modal
-        });
-
-        return false; // Prevent form submission
-    }
-
-    return false; // Prevent form submission
-}
 
 //===========================RESET TRANSACTION=================================
 //function that resets the transaction  after
@@ -848,6 +809,7 @@ function newTranssaction(){
     document.getElementById('loyaltybox').checked = false;
     handleLoyaltyBox();
     document.getElementById('product_code').value = '';
+    document.getElementById('selectAll').checked = false;
     document.getElementById('quantity').value = '';
     document.getElementById('product-table-body').innerHTML = '';
     document.getElementById('subtotal').textContent = '₱0.00';
