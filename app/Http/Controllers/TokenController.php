@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-    
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +13,10 @@ class TokenController extends Controller
     {
         // Assuming you have a user to issue the token to, for example, an admin user
         $user = User::find(1); // Retrieve user by ID (you can modify this logic)
+
+        if (!$user) {
+            return response()->json(['error' => 'No user found to generate token'], 404);
+        }
 
         // Generate a token for the user
         $token = $user->createToken('YourAppName')->plainTextToken;

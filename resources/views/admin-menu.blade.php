@@ -16,7 +16,7 @@
                 <img src="/Picture/StoreLogo.png" alt="Store Logo" class="logo">
                 <h1>Dipensa Teknolohiya Grocery</h1>
             </div>
-            
+
             <div class="menubtn-container">
                 <!-- Point-of-Sale Button -->
                 <form action="{{ route('checkout') }}">
@@ -27,7 +27,12 @@
                 <form action="{{ route('userManage') }}">
                     <button type="submit">User Management</button>
                 </form>
-                    
+
+                <!-- Select Report Type Button -->
+                <form action="{{ route('selectReportType') }}">
+                    <button type="submit">Generate Report</button>
+                </form>
+
                 <!-- Logout Button -->
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
