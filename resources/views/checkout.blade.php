@@ -1,5 +1,6 @@
 <?php
 // Initialize variables for subtotal, discount, and total
+//hi yuan
 $subtotal = 0;
 $discount_points = 0;
 $total = 0;
