@@ -15,6 +15,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="js/userManage.js"></script>
+
+<script>
+    document.getElementById('cancelButton').addEventListener('click', function() {
+        document.getElementById('addUserForm').reset();
+    });
+</script>
 </head>
 <body>
     <div class="backBtn">
@@ -83,8 +89,8 @@
                     <div class="modal-body">
                         <div id="addUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <label>Username</label>
+                            <input type="text" name="name" class="form-control" required maxlength="25">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
@@ -111,20 +117,27 @@
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters">
-                        </div>
+                            <input type="text" name="Firstname" class="form-control" required maxlength="25" pattern="[A-Za-z]+" title="First name should only contain letters, no numbers, symbols, special characters, or spaces" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">                        </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters">
-                        </div>
+                            <input type="text" name="Lastname" class="form-control" required maxlength="25" pattern="[A-Za-z]+" title="First name should only contain letters, no numbers, symbols, special characters, or spaces" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">                        </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
-                            <input type="text" name="MiddleInitial" class="form-control" maxlength="2" required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters">
-                        </div>
-                        <div class="form-group">
-                            <label>Suffix</label>
-                            <input type="text" name="Suffix" class="form-control">
-                        </div>
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1" required pattern="[A-Za-z]" title="Middle initial should only contain one letter" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '').toUpperCase()" style="text-transform: uppercase;">                        </div>
+                            <div class="form-group">
+                                <label>Suffix</label>
+                                <select name="Suffix" class="form-control">
+                                    <option value="">None</option>
+                                    <option value="Sr.">Sr.</option>
+                                    <option value="Jr.">Jr.</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>
+                                </select>
+                            </div>
                         <div class="form-group">
                             <label>Contact No</label>
                             <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
@@ -181,19 +194,19 @@
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters">
+                            <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters">
+                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
-                            <input type="text" name="MiddleInitial" class="form-control" maxlength="2", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters">
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
                             <label>Suffix</label>
-                            <input type="text" name="Suffix" class="form-control">
+                            <input type="text" name="Suffix" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
                             <label>Contact No</label>
@@ -202,7 +215,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-info" value="Save"> 
+                        <input type="submit" class="btn btn-info" value="Save">
                     </div>
                 </form>
             </div>

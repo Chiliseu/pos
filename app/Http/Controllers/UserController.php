@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
- 
+
 class UserController extends Controller
 {
     public function index()
@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function store(Request $request) {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users,name', 
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'UserRoleID' => 'required|exists:user_roles,UserRoleID',
@@ -31,7 +31,7 @@ class UserController extends Controller
             'Suffix' => 'nullable|string|max:50',
             'ContactNo' => 'nullable|string|max:11|regex:/^[0-9]+$/|max:11',
         ], [
-            'name.regex' => 'Name should only contain letters and spaces.',
+            'name.regex' => 'Name should be unique and only contain letters and spaces.',
             'Firstname.regex' => 'First name should only contain letters and spaces.',
             'Lastname.regex' => 'Last name should only contain letters and spaces.',
             'MiddleInitial.regex' => 'Middle initial should only contain one or two letters.',
@@ -51,7 +51,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users,name', 
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'UserRoleID' => 'required|integer',
@@ -61,7 +61,7 @@ class UserController extends Controller
             'Suffix' => 'nullable|string|max:255',
             'ContactNo' => 'nullable|string|max:255|regex:/^[0-9]+$/|max:11',
         ], [
-            'name.regex' => 'Name should only contain letters and spaces.',
+            'name.regex' => 'Name should be unique and only contain letters and spaces.',
             'Firstname.regex' => 'First name should only contain letters and spaces.',
             'Lastname.regex' => 'Last name should only contain letters and spaces.',
             'MiddleInitial.regex' => 'Middle initial should only contain one or two letters.',
