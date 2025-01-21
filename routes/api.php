@@ -18,6 +18,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\ReportController;
 
 // Protect these routes using Sanctum
 Route::middleware('auth:sanctum')->group(function () {
@@ -40,5 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('user-roles', UserRoleController::class);
     Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getByLoyaltyCardID']);
+    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
 
 });

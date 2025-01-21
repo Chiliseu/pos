@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\ReportController;
 
 // Route for the login page (GET)
 Route::get('/', function () {
@@ -30,9 +31,9 @@ Route::post('/', function (\Illuminate\Http\Request $request) {
     // Retrieve the products and loyalty points data from the form submission
     $products = $request->input('products', []); // Products array
     $loyaltyPoints = $request->input('loyalty_points', 0); // Loyalty points
-    
+
     // You can add your payment logic here (e.g., processing payment, reducing points)
-    
+
     // For now, we just return a success response
     return response()->json([
         'success' => true,
@@ -73,6 +74,10 @@ Route::get('/userManage', function () {
     return view('userManage');
 })->name('userManage');
 
+Route::get('/select-report-type', function () {
+    return view('selectReportType');
+})->name('selectReportType');
+
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::post('/register', [AuthController::class, 'registerUser']);
@@ -96,6 +101,10 @@ Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.
 Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
+
+Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
+Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
+Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
