@@ -7,6 +7,12 @@
         <title>Dipensa Teknolohiya Grocery - Admin Menu</title>
         <link rel="stylesheet" href="/css/menu.css">
         <link rel="icon" type="image/png" href="/Picture/StoreLogo.png">
+
+        <style>
+            .Reportbtn {
+                display: none;
+            }   
+        </style>
     </head>
 
     <body>
