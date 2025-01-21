@@ -13,14 +13,30 @@ $(document).ready(function() {
             checkbox.each(function() {
                 this.checked = false;                        
             });
-        } 
+        }
+        updateDeleteLinks();
     });
     checkbox.click(function() {
         if (!this.checked) {
             $("#selectAll").prop("checked", false);
         }
+        updateDeleteLinks();
     });
 
+    function updateDeleteLinks() {
+        const anyChecked = checkbox.is(':checked');
+        const deleteLinks = $('.delete');
+        if (anyChecked) {
+            deleteLinks.removeClass('disabled');
+            deleteLinks.removeAttr('disabled');
+        } else {
+            deleteLinks.addClass('disabled');
+            deleteLinks.attr('disabled', 'disabled');
+        }
+    }
+
+    // Initial check in case some checkboxes are already checked on page load
+    updateDeleteLinks();
 
     // Fill the edit modal with user data
     $('.edit').on('click', function() {

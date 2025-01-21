@@ -59,7 +59,7 @@
                     <tr>
                         <td>
                             <span class="custom-checkbox">
-                                <input type="checkbox" id="checkbox{{ $user->id }}" name="options[]" value="{{ $user->id }}">
+                                <input type="checkbox" id="checkbox{{ $user->id }}" name="options[]" value="{{ $user->id }}" class="user-checkbox">
                                 <label for="checkbox{{ $user->id }}"></label>
                             </span>
                         </td>
@@ -68,7 +68,7 @@
                         <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete">&#xE872;</i></a>
+                            <a href="#deleteEmployeeModal" class="delete disabled" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete" disabled>&#xE872;</i></a>
                         </td>
                     </tr>
                     @endforeach

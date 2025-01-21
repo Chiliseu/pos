@@ -60,7 +60,6 @@ async function addOrder(subtotal, total) {
 }
 
 async function addOrderProduct(orderID, productID, quantity, totalPrice) {
-    console.log("TEST TEST");
     try {
         // Step 1: Generate the Bearer Token
         const tokenResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/generate-token', {
@@ -87,7 +86,6 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
             TotalPrice: totalPrice,
         };
 
-        console.log("TEST TEST TEST TEST TEST TEST TEST");
         const orderProductResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/order-products', {
             method: 'POST',
             headers: {
@@ -108,7 +106,6 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
 
         return orderProductResult;
     } catch (error) {
-        console.log("ERROR ERROR ERROR ERROR");
         console.error('Error adding order product:', error);
         throw error;
     }

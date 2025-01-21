@@ -118,3 +118,8 @@ form, a {
     width: 100%;
     text-decoration: none;
 }
+
+.Reportbtn {
+    display: none;
+    
+}
