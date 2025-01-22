@@ -10,7 +10,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id('OrderID'); // Primary key
-            $table->string('UniqueIdentifier')->unique(); // Unique identifier column
+            $table->string('UniqueIdentifier')->unique()->nullable(); // Unique identifier column
             $table->date('OrderDate'); // Order date, required
             $table->float('Subtotal')->nullable(); // Subtotal, optional
             $table->float('Total')->nullable(); // Total, optional
