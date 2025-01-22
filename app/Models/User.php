@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;  // Make sure this is included
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
-class User extends Model
+class User extends Authenticatable // Extends Authenticatable to implement necessary authentication methods
 {
     use HasFactory;
 
@@ -33,7 +34,7 @@ class User extends Model
         static::creating(function ($user) {
             // Generate UniqueIdentifier in the format 'USR-random'
             if (!$user->UniqueIdentifier) {
-                $user->UniqueIdentifier = 'USR-' . strtoupper(str_random(6));
+                $user->UniqueIdentifier = 'USR-' . strtoupper(Str::random(6)); // Use Str::random() instead of str_random()
             }
         });
     }

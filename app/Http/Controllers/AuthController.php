@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
 
 class AuthController extends Controller
 {
@@ -33,11 +33,11 @@ class AuthController extends Controller
         // Redirect to login or auto-login the user
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
+
     public function login()
     {
         return view('login'); // Return your login view
     }
-
 
     //checks if the user is authenticated
     public function authenticate(Request $request)
@@ -47,26 +47,25 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             // Regenerate session to prevent session fixation attacks
             $request->session()->regenerate();
-    
+
             // Check if the authenticated user is an admin
             if (Auth::user()->UserRoleID == 2) {
                 return redirect()->intended('/admin-menu'); // Redirect to admin dashboard
             }
-    
+
             return redirect()->intended('/staff-menu'); // Redirect to the intended page or dashboard
         }
-    
+
         // Redirect back with an error
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-
 
     public function logout(Request $request)
     {
@@ -77,9 +76,4 @@ class AuthController extends Controller
 
         return redirect('/login'); // Redirect to login page
     }
-
-
 }
-
-
-//Testing Hello
