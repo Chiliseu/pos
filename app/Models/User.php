@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable // Extends Authenticatable to implement necessary authentication methods
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     protected $primaryKey = 'id'; // Default primary key
 
