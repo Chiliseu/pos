@@ -87,7 +87,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully']);
     }
 
-    // Taga Validate kung meron ba talagang ganung product sa database
+    // Validate if a product with the given code exists in the database
     public function validateProductCode(Request $request)
     {
         try {
@@ -103,8 +103,8 @@ class ProductController extends Controller
             if ($product) {
                 return response()->json([
                     'exists' => true,
-                    'productName' => $product->Name,  // Use correct column name
-                    'productPrice' => $product->Price // Use correct column name
+                    'productName' => $product->Name,
+                    'productPrice' => $product->Price
                 ]);
             } else {
                 return response()->json(['exists' => false]);
@@ -115,5 +115,4 @@ class ProductController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 }

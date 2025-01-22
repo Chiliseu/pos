@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -17,11 +18,11 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        
+
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
-        
+
         return response()->json($order, 200);
     }
 
@@ -34,7 +35,13 @@ class OrderController extends Controller
             'Total' => 'nullable|numeric',
         ]);
 
+        // Generate a unique identifier in the format ORD-Random
+        $validated['UniqueIdentifier'] = 'ORD-' . Str::random(8); // Random 8-character string
+
+        // Create the order with the validated data
         $order = Order::create($validated);
+
+        // Return the created order with the OrderID
         return response()->json($order, 201);
     }
 
@@ -42,7 +49,7 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order = Order::find($id);
-        
+
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
@@ -78,7 +85,7 @@ class OrderController extends Controller
         // Check if an order was found
         if ($latestOrder) {
             return response()->json([
-                'orderId' => $latestOrder->id,
+                'orderId' => $latestOrder->OrderID, // Use OrderID from migration
             ]);
         } else {
             return response()->json([
