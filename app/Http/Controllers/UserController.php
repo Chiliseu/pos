@@ -16,12 +16,14 @@ class UserController extends Controller
 
     public function indexJSON()
     {
-        return response()->json( User::all(), 200);
+        return response()->json(User::all(), 200);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        // Validation rules
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:users,name', 
+            'name' => 'required|string|max:255|unique:users,name',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'UserRoleID' => 'required|exists:user_roles,UserRoleID',
@@ -38,20 +40,25 @@ class UserController extends Controller
             'ContactNo.regex' => 'Contact number should only contain digits.',
         ]);
 
+        // Hashing the password before saving
         $validatedData['password'] = bcrypt($validatedData['password']);
+        
+        // Creating the user
         $user = User::create($validatedData);
 
         return response()->json($user, 201);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         return User::findOrFail($id);
     }
 
     public function update(Request $request, User $user)
     {
+        // Validation rules for updating the user
         $data = $request->validate([
-            'name' => 'required|string|max:255', 
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'UserRoleID' => 'required|integer',
@@ -68,18 +75,22 @@ class UserController extends Controller
             'ContactNo.regex' => 'Contact number should only contain digits.',
         ]);
 
+        // Hash password if provided
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         } else {
             unset($data['password']);
         }
 
+        // Updating the user
         $user->update($data);
 
         return response()->json(['success' => true]);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
+        // Find the user and delete it
         $user = User::findOrFail($id);
         $user->delete();
 
@@ -88,6 +99,7 @@ class UserController extends Controller
 
     public function destroyMultiple(Request $request)
     {
+        // Delete multiple users
         $userIds = $request->input('user_ids');
         User::whereIn('id', $userIds)->delete();
 

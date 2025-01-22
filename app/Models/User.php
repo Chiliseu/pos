@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;  // Make sure this is included
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable // Extends Authenticatable to implement necessary authentication methods
 {
     use HasFactory, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $primaryKey = 'id'; // Default primary key
+
     protected $fillable = [
         'name',
         'email',
@@ -25,24 +23,26 @@ class User extends Authenticatable
         'MiddleInitial',
         'Suffix',
         'ContactNo',
+        'UniqueIdentifier',
+        'IsDeleted',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // Automatically generate the UniqueIdentifier when creating the user
+    public static function boot()
+    {
+        parent::boot();
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+        static::creating(function ($user) {
+            // Generate UniqueIdentifier in the format 'USR-random'
+            if (!$user->UniqueIdentifier) {
+                $user->UniqueIdentifier = 'USR-' . strtoupper(Str::random(6)); // Use Str::random() instead of str_random()
+            }
+        });
+    }
+
+    // Relationships (assuming you have a UserRole model)
+    public function userRole()
+    {
+        return $this->belongsTo(UserRole::class, 'UserRoleID');
+    }
 }

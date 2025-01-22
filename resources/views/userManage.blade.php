@@ -20,6 +20,7 @@
     document.getElementById('cancelButton').addEventListener('click', function() {
         document.getElementById('addUserForm').reset();
     });
+    
 </script>
 </head>
 <body>

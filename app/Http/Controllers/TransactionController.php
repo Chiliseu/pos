@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str; // For generating UniqueIdentifier
 
 class TransactionController extends Controller
 {
@@ -18,7 +19,6 @@ class TransactionController extends Controller
     public function getByLoyaltyCardID($loyaltyCardID)
     {
         $transactions = Transaction::where('LoyaltyCardID', $loyaltyCardID)->get();
-
         return response()->json($transactions);
     }
 
@@ -33,6 +33,10 @@ class TransactionController extends Controller
             'TransactionDate' => 'required|date',
         ]);
 
+        // Generate UniqueIdentifier for the transaction with 'TRS-' prefix
+        $validated['UniqueIdentifier'] = strtoupper('TRS-' . Str::random(8)); // Format: TRS-Random
+
+        // Create the transaction
         $transaction = Transaction::create($validated);
 
         return response()->json($transaction, 201);
@@ -57,7 +61,6 @@ class TransactionController extends Controller
         ]);
 
         $transaction->update($validated);
-
         return response()->json($transaction);
     }
 
@@ -77,39 +80,45 @@ class TransactionController extends Controller
         // Calculate subtotal and total based on the products
         $subtotal = 0;
         $total = 0;
-        // foreach ($products as $product) {
-        //     $productData = json_decode($product, true);  // Decode the JSON data
-        //     $subtotal += $productData['TotalPrice'];  // Assuming TotalPrice is one of the fields
-        // }
+        foreach ($products as $product) {
+            $productData = json_decode($product, true);  // Decode the JSON data
+            $subtotal += $productData['TotalPrice'];  // Assuming TotalPrice is one of the fields
+            $total += $productData['TotalPrice'];     // Assuming TotalPrice is one of the fields
+        }
 
-        // If you need to apply any discounts, loyalty points, etc., you can modify the total here
-
-        // Now you can handle the logic for creating an order, inserting order products, and the transaction
-
-        // For example, creating the order:
-        Order::create([
+        // Create the order
+        $order = Order::create([
             'OrderDate' => now()->toDateString(),
             'Subtotal' => $subtotal,
             'Total' => $total,
         ]);
 
-        // Then add order products (as before)
-        // foreach ($products as $product) {
-        //     $productData = json_decode($product, true);
-        //     OrderProduct::create([
-        //         'OrderID' => $order->OrderID,
-        //         'ProductID' => $productData['ProductID'],
-        //         'Quantity' => $productData['Quantity'],
-        //         'TotalPrice' => $productData['TotalPrice'],
-        //     ]);
-        // }
+        // Add order products
+        foreach ($products as $product) {
+            $productData = json_decode($product, true);
+            OrderProduct::create([
+                'OrderID' => $order->OrderID,
+                'ProductID' => $productData['ProductID'],
+                'Quantity' => $productData['Quantity'],
+                'TotalPrice' => $productData['TotalPrice'],
+            ]);
+        }
 
-        // Add transaction logic here (e.g., calculating loyalty points, etc.)
+        // Create the transaction
+        $transaction = Transaction::create([
+            'OrderID' => $order->OrderID,
+            'LoyaltyCardID' => $request->input('LoyaltyCardID'),
+            'UserID' => $request->input('UserID'),
+            'TotalPointsUsed' => $request->input('TotalPointsUsed'),
+            'PointsEarned' => $request->input('PointsEarned'),
+            'TransactionDate' => now()->toDateString(),
+            'UniqueIdentifier' => 'TRS-' . Str::random(8), // Unique identifier for the transaction with 'TRS-' prefix
+        ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Transaction completed successfully!',
+            'transaction' => $transaction,
         ]);
     }
-
 }

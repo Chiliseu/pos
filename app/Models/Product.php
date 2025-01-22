@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -13,7 +14,7 @@ class Product extends Model
     protected $primaryKey = 'ProductID';
 
     // The attributes that are mass assignable
-    protected $fillable = ['CategoryID', 'Name', 'Price'];
+    protected $fillable = ['CategoryID', 'Name', 'Price', 'UniqueIdentifier'];
 
     // The attributes that should be hidden for arrays (optional)
     protected $hidden = [];
@@ -21,14 +22,33 @@ class Product extends Model
     // Timestamps are enabled by default (created_at, updated_at) so no need to set it unless disabled
     public $timestamps = true;
 
+    // Automatically generate the UniqueIdentifier when creating the product
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            // Generate UniqueIdentifier in the format 'PRD-random'
+            if (!$product->UniqueIdentifier) {
+                $product->UniqueIdentifier = 'PRD-' . Str::upper(Str::random(6));
+            }
+        });
+    }
+
     /**
      * Get the category that owns the product.
      */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'CategoryID');
+    }
 
-        public function orders()
+    /**
+     * Get the orders that belong to the product.
+     */
+    public function orders()
     {
         return $this->belongsToMany(Order::class, 'order_products', 'ProductID', 'OrderID')
                     ->withPivot('Quantity', 'TotalPrice');
     }
-
 }
