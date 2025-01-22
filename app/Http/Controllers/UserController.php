@@ -41,7 +41,8 @@ class UserController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
         $user = User::create($validatedData);
 
-        return response()->json($user, 201);
+        session()->flash('success', 'USER ADDED SUCCESSFULLY');
+        return redirect()->back(); // Redirect back to the page
     }
 
     public function show($id) {
@@ -76,14 +77,16 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return response()->json(['success' => true]);
+        session()->flash('success', 'USER UPDATED SUCCESSFULLY');
+        return redirect()->back();
     }
 
     public function destroy($id) {
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully'], 204);
+        session()->flash('success', 'USER DELETED SUCCESSFULLY');
+        return redirect()->back();
     }
 
     public function destroyMultiple(Request $request)
