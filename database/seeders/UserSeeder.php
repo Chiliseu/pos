@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'MiddleInitial' => 'A',
             'Suffix' => '',
             'ContactNo' => '1234567890',
+            'UniqueIdentifier' => $this->generateUniqueIdentifier(),
         ]);
 
         // Second user with UserRoleID 2
@@ -34,6 +35,14 @@ class UserSeeder extends Seeder
             'MiddleInitial' => 'B',
             'Suffix' => 'Jr',
             'ContactNo' => '0987654321',
+            'UniqueIdentifier' => $this->generateUniqueIdentifier(),
         ]);
+    }
+
+    private function generateUniqueIdentifier()
+    {
+        $randomLetter = chr(rand(65, 90)); // Generate a random uppercase letter
+        $randomNumber = rand(1000, 9999); // Generate a random number
+        return 'USR-' . $randomLetter . $randomNumber;
     }
 }

@@ -13,6 +13,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('OrderID'); // Foreign Key for Order
             $table->unsignedBigInteger('UserID'); // Foreign Key for User
             $table->unsignedBigInteger('LoyaltyCardID'); // Foreign Key for Loyalty Card
+            $table->string('UniqueIdentifier')->unique(); // Unique identifier column
             $table->integer('TotalPointsUsed'); // Points used
             $table->integer('PointsEarned'); // Points earned
             $table->date('TransactionDate'); // Date of transaction

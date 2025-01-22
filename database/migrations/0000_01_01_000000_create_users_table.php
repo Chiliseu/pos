@@ -30,8 +30,9 @@ return new class extends Migration
             $table->string('MiddleInitial', 1)->nullable();
             $table->string('Suffix')->nullable();
             $table->string('ContactNo')->nullable();
+            $table->string('UniqueIdentifier')->unique(); // Unique identifier column
 
-            $table->foreign('UserRoleID')->references('UserRoleID')->on('user_roles')->onDelete('cascade'); // Replace 'roles' with the actual roles table name
+            $table->foreign('UserRoleID')->references('UserRoleID')->on('user_roles')->onDelete('cascade');
         });
 
         // Existing tables
@@ -58,7 +59,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['UserRoleID']);
-            $table->dropColumn(['UserRoleID', 'Firstname', 'Lastname', 'MiddleInitial', 'Suffix', 'ContactNo']);
+            $table->dropColumn(['UserRoleID', 'Firstname', 'Lastname', 'MiddleInitial', 'Suffix', 'ContactNo', 'UniqueIdentifier']);
         });
 
         Schema::dropIfExists('users');
