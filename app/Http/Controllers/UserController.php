@@ -41,7 +41,7 @@ class UserController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
         $user = User::create($validatedData);
 
-        return response()->json($user, 201);
+        return redirect()->back()->with('success', 'USER ADDED SUCCESSFULLY');
     }
 
     public function show($id) {
