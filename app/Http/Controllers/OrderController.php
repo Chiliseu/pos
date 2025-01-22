@@ -36,7 +36,7 @@ class OrderController extends Controller
         ]);
 
         // Generate a unique identifier in the format ORD-Random
-        $validated['UniqueIdentifier'] = 'ORD-' . Str::random(8); // Random 8-character string
+        $validated['UniqueIdentifier'] = strtoupper('ORD-' . Str::random(8)); // Random 8-character string
 
         // Create the order with the validated data
         $order = Order::create($validated);
