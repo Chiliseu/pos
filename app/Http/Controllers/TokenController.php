@@ -7,20 +7,22 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessTokenResult;
 
-class TokenController extends Controller
+
+
+public function generateToken(Request $request)
 {
-    public function generateToken(Request $request)
-    {
-        // Assuming you have a user to issue the token to, for example, an admin user
-        $user = User::find(1); // Retrieve user by ID (you can modify this logic)
+    // Retrieve the user by ID (you can modify this logic)
+    $user = User::find(1);
 
-        if (!$user) {
-            return response()->json(['error' => 'No user found to generate token'], 404);
-        }
-
-        // Generate a token for the user
-        $token = $user->createToken('YourAppName')->plainTextToken;
-
-        return response()->json(['token' => $token]);
+    if (!$user) {
+        return response()->json(['error' => 'No user found to generate token'], 404);
     }
+
+    // Revoke (delete) all current tokens for the user
+    $user->tokens()->delete();
+
+    // Generate a new token for the user
+    $token = $user->createToken('POS-System')->plainTextToken;
+
+    return response()->json(['token' => $token]);
 }
