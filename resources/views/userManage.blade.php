@@ -20,34 +20,10 @@
     document.getElementById('cancelButton').addEventListener('click', function() {
         document.getElementById('addUserForm').reset();
     });
-
-    @if(session('success'))
-    $(document).ready(function() {
-        $('#successModal').modal('show');
-    });
-    @endif
     
 </script>
 </head>
 <body>
-    
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Success</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                {{ session('success') }}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
     <div class="backBtn">
         <a href="javascript:history.back()" id="back">&larr; Back</a>
     </div>
