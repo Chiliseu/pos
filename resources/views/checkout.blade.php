@@ -124,8 +124,8 @@ $total = $subtotal; // Discount temporarily set to 0
                 <!---------------------- Manual Input Section ---------------------->
                 <div id = "inputContainer">
                     <form method="POST" action="">
-                        <label>Product Number</label>
-                        <input type="number" id="product_code" name="product_number" placeholder="Enter Product Number">
+                        <label>Product Code</label>
+                        <input type="text" id="product_code" name="product_number" placeholder="Enter Product Code">
 
                         <label>Quantity</label>
                         <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" min="1">
@@ -558,7 +558,7 @@ function addProduct() {
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (!productCode) {
-        alert('No product number entered. Please input a product number.');
+        alert('No product code entered. Please input a product code.');
         return;
     }
 
