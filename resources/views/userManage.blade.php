@@ -26,19 +26,6 @@
     <div class="backBtn">
         <a href="javascript:history.back()" id="back">&larr; Back</a>
     </div>
-<!-- Success Message -->
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <script>
-            alert("{{ session('success') }}");
-        </script>
-    @endif
-
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
