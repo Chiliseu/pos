@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    public function selectReportType()
+    {
+        return view('selectReportType');
+    }
+    
     /**
      * Generate a report based on the provided report type.
      */
