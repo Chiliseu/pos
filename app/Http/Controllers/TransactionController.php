@@ -50,7 +50,7 @@ class TransactionController extends Controller
             $loyaltyCard = $loyaltyCardResponse->json();
     
             // Step 3: Validate LoyaltyCard data
-            if (!isset($loyaltyCard['id'])) {
+            if (!isset($loyaltyCard['LoyaltyCardID'])) {
                 return response()->json(['error' => 'Invalid Loyalty Card data received from API'], 500);
             }
     
