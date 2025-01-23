@@ -67,7 +67,7 @@ class TransactionController extends Controller
                 'transactions.TotalPointsUsed',
                 'transactions.PointsEarned',
                 'transactions.TransactionDate',
-                'trasactions.UniqueIdentifier',
+                'transactions.UniqueIdentifier',
             )
             ->get();
 
