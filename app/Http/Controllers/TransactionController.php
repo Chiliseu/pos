@@ -16,27 +16,36 @@ class TransactionController extends Controller
         return Transaction::all();
     }
 
-    public function getByLoyaltyCardID($transactionUniqueIdentifier)
+    public function getByLoyaltyCardID($loyaltyCardUID)
     {
-        // Fetch the transaction by its UniqueIdentifier with related data
-        $transaction = Transaction::with(['order', 'user', 'loyaltyCard'])
-        ->where('UniqueIdentifier', $transactionUniqueIdentifier)
-        ->first();
+                // Check if a LoyaltyCard with the provided UniqueIdentifier exists
+        $loyaltyCard = LoyaltyCard::where('UniqueIdentifier', $loyaltyCardUID)->first();
 
-        if (!$transaction) {
-            return response()->json(['error' => 'Transaction not found'], 404);
+        if (!$loyaltyCard) {
+            return response()->json(['error' => 'Loyalty Card not found'], 404);
         }
 
-        // Build a response with the UniqueIdentifiers from related tables
-        $response = [
-            'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier,
-            'OrderUniqueIdentifier' => $transaction->order->UniqueIdentifier ?? null,
-            'UserUniqueIdentifier' => $transaction->user->UniqueIdentifier ?? null,
-            'LoyaltyCardUniqueIdentifier' => $transaction->loyaltyCard->UniqueIdentifier ?? null,
-            'TotalPointsUsed' => $transaction->TotalPointsUsed,
-            'PointsEarned' => $transaction->PointsEarned,
-            'TransactionDate' => $transaction->TransactionDate,
-        ];
+        // Fetch transactions associated with the LoyaltyCard
+        $transactions = Transaction::with(['order', 'user', 'loyaltyCard'])
+            ->where('LoyaltyCardID', $loyaltyCard->LoyaltyCardID)
+            ->get();
+
+        if ($transactions->isEmpty()) {
+            return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
+        }
+
+        // Format the response to include all transactions
+        $response = $transactions->map(function ($transaction) {
+            return [
+                'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier,
+                'OrderUniqueIdentifier' => $transaction->order->UniqueIdentifier ?? null,
+                'UserUniqueIdentifier' => $transaction->user->UniqueIdentifier ?? null,
+                'LoyaltyCardUniqueIdentifier' => $transaction->loyaltyCard->UniqueIdentifier ?? null,
+                'TotalPointsUsed' => $transaction->TotalPointsUsed,
+                'PointsEarned' => $transaction->PointsEarned,
+                'TransactionDate' => $transaction->TransactionDate,
+            ];
+        });
 
         return response()->json($response, 200);
     }
