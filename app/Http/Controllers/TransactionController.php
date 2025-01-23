@@ -62,12 +62,12 @@ class TransactionController extends Controller
             ->Join('users', 'transactions.UserID', '=', 'users.id')
             ->where('transactions.LoyaltyCardID', $loyaltyCardID)
             ->select(
-                'transactions.UniqueIdentifier as TransactionUniqueIdentifier',
                 'orders.UniqueIdentifier as OrderUniqueIdentifier',
                 'users.UniqueIdentifier as UserUniqueIdentifier',
                 'transactions.TotalPointsUsed',
                 'transactions.PointsEarned',
-                'transactions.TransactionDate'
+                'transactions.TransactionDate',
+                'trasactions.UniqueIdentifier'
             )
             ->get();
 
