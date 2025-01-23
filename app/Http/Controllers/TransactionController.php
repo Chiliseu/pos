@@ -54,34 +54,36 @@ class TransactionController extends Controller
                 return response()->json(['error' => 'Invalid Loyalty Card data received from API'], 500);
             }
     
-            // Step 4: Check if transactions exist for the LoyaltyCard
-            $transactions = Transaction::with(['order', 'user', 'loyaltyCard'])
-                ->where('LoyaltyCardID', $loyaltyCard['LoyaltyCardID'])
+            $loyaltyCardID = $loyaltyCard['LoyaltyCardID'];
+    
+            // Step 4: Query transactions from the database (raw query)
+            $transactions = DB::table('transactions')
+                ->where('LoyaltyCardID', $loyaltyCardID)
                 ->get();
     
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
             }
     
-            // Format the response
+            // Step 5: Format the response
             $response = $transactions->map(function ($transaction) {
                 return [
-                    'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier,
-                    'OrderUniqueIdentifier' => $transaction->order->UniqueIdentifier ?? null,
-                    'UserUniqueIdentifier' => $transaction->user->UniqueIdentifier ?? null,
-                    'LoyaltyCardUniqueIdentifier' => $transaction->loyaltyCard->UniqueIdentifier ?? null,
-                    'TotalPointsUsed' => $transaction->TotalPointsUsed,
-                    'PointsEarned' => $transaction->PointsEarned,
-                    'TransactionDate' => $transaction->TransactionDate,
+                    'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier ?? null,
+                    'OrderUniqueIdentifier' => $transaction->OrderUniqueIdentifier ?? null,
+                    'UserUniqueIdentifier' => $transaction->UserUniqueIdentifier ?? null,
+                    'LoyaltyCardUniqueIdentifier' => $transaction->LoyaltyCardUniqueIdentifier ?? null,
+                    'TotalPointsUsed' => $transaction->TotalPointsUsed ?? 0,
+                    'PointsEarned' => $transaction->PointsEarned ?? 0,
+                    'TransactionDate' => $transaction->TransactionDate ?? null,
                 ];
             });
     
             return response()->json($response, 200);
-    
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
+    
 
     public function store(Request $request)
     {
