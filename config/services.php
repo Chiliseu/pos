@@ -35,8 +35,10 @@ return [
         ],
     ],
 
+    //! MUST EDIT
     'loyalty_system' => [
-        'url' => env('LOYALTY_SYSTEM_URL', 'http://loyalty-system.local'),  // Default value if not set
-    ],
+        'url' => env('LOYALTY_SYSTEM_URL', 'http://loyalty-system.local'),
+        'token' => env('3|hjqMnQbUPLEJozCDDqj8JYnZSuLtHpyBoqVWtbkUea1419bd', ''),
+],
 
 ];

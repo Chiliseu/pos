@@ -6,12 +6,88 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Http;
 //use Illuminate\Support\Facades\Log;
+use App\Services\LoyaltyService;
 
 class ReportController extends Controller
 {
-    /**
-     * Generate a report based on the provided report type.
-     */
+    protected $loyaltyApi;
+
+    public function __construct(LoyaltyService $loyaltyApi)
+    {
+        $this->loyaltyApi = $loyaltyApi;
+    }
+
+    public function getLoyaltyTransactionSummary(Request $request)
+    {
+        $filters = [
+            'startDate' => $request->input('startDate', '1970-01-01'),
+            'endDate' => $request->input('endDate', now()->toDateString()),
+        ];
+
+        try {
+            $data = $this->loyaltyApi->getTransactions($filters);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
+    public function getCustomerPointsSummary(Request $request)
+    {
+        $filters = [
+            'startDate' => $request->input('startDate', '1970-01-01'),
+            'endDate' => $request->input('endDate', now()->toDateString()),
+        ];
+
+        try {
+            $data = $this->loyaltyApi->getLoyaltyCards($filters);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function getProductPerformance(Request $request)
+    {
+        $filters = [
+            'startDate' => $request->input('startDate', '1970-01-01'),
+            'endDate' => $request->input('endDate', now()->toDateString()),
+        ];
+
+        try {
+            $data = $this->loyaltyApi->getProductPerformance($filters);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function getLoyaltyCustomerHistory(Request $request)
+    {
+        $filters = [
+            'startDate' => $request->input('startDate', '1970-01-01'),
+            'endDate' => $request->input('endDate', now()->toDateString()),
+        ];
+
+        try {
+            $data = $this->loyaltyApi->getLoyaltyCustomerHistory($filters);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+}
+
+/**
+class ReportController extends Controller
+{
+
     public function generateReport(Request $request)
     {
         // Get the report type from the request
@@ -37,9 +113,7 @@ class ReportController extends Controller
                 ], 400);
         }
     }
-    /**
-     * Fetch Loyalty Transaction Summary.
-     */
+
     public function getLoyaltyTransactionSummary(Request $request)
     {
         $startDate = $request->input('startDate');
@@ -72,9 +146,7 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Fetch Customer Points Summary.
-     */
+
     public function getCustomerPointsSummary(Request $request)
     {
         $startDate = $request->input('startDate');
@@ -101,9 +173,7 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Fetch Product Performance for Loyalty Customers.
-     */
+
     public function getProductPerformance(Request $request)
     {
         $startDate = $request->input('startDate');
@@ -136,9 +206,6 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Fetch Loyalty Customer Purchase History.
-     */
     public function getLoyaltyCustomerHistory(Request $request)
     {
         $startDate = $request->input('startDate');
@@ -166,4 +233,4 @@ class ReportController extends Controller
 
         return response()->json($data);
     }
-}
+} */

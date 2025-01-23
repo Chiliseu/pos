@@ -10,10 +10,30 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Transaction::all();
+        $query = DB::table('transactions')
+            ->select(
+                'transactions.TransactionID',
+                'transactions.TransactionDate',
+                DB::raw("CONCAT(users.Firstname, ' ', users.Lastname) AS CustomerName"),
+                'transactions.LoyaltyCardID',
+                'transactions.PointsEarned',
+                'transactions.TotalPointsUsed',
+                'orders.OrderID',
+                'orders.Total'
+            )
+            ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
+            ->join('users', 'transactions.UserID', '=', 'users.id');
+
+        if ($request->has('startDate') && $request->has('endDate')) {
+            $query->whereBetween('transactions.TransactionDate', [$request->startDate, $request->endDate]);
+        }
+
+        return response()->json($query->get(), 200);
     }
+
+
 
     public function getByLoyaltyCardID($loyaltyCardID)
     {

@@ -102,9 +102,14 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
-Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
-Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
-Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+///Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
+///Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
+///Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+
+Route::get('/report/loyalty-transaction-summary', [ReportController::class, 'getLoyaltyTransactionSummary']);
+Route::get('/report/customer-points-summary', [ReportController::class, 'getCustomerPointsSummary']);
+Route::get('/report/product-performance', [ReportController::class, 'getProductPerformance']);
+Route::get('/report/loyalty-customer-history', [ReportController::class, 'getLoyaltyCustomerHistory']);
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);

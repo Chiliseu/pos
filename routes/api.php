@@ -19,6 +19,9 @@ use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\LoyaltyCardsController;
+
+
 
 // Protect these routes using Sanctum
 Route::middleware('auth:sanctum')->group(function () {
@@ -41,6 +44,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('user-roles', UserRoleController::class);
     Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getByLoyaltyCardID']);
-    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+    //Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+
+    Route::get('/report/loyalty-transaction-summary', [ReportController::class, 'getLoyaltyTransactionSummary']);
+    Route::get('/report/customer-points-summary', [ReportController::class, 'getCustomerPointsSummary']);
+    Route::get('/report/product-performance', [ReportController::class, 'getProductPerformance']);
+    Route::get('/report/loyalty-customer-history', [ReportController::class, 'getLoyaltyCustomerHistory']);
+
+    Route::get('/transactions', [TransactionController::class, 'index']);
+    //Route::get('/loyaltycards', [LoyaltyCardsController::class, 'index']);
+    //Route::get('/product-performance', [ProductPerformanceController::class, 'index']);
+    //Route::get('/loyalty-customer-history', [CustomerHistoryController::class, 'index']);
+
 
 });

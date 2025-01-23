@@ -1,79 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Report Type</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        .card {
-            margin: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">Generate Report</div>
-            <div class="card-body">
-                <div class="row">
-                    @php
-                        $reports = [
-                            [
-                                'title' => 'Loyalty Transaction Summary',
-                                'description' => 'View detailed summary of all loyalty program transactions',
-                                'route' => 'generateReport',
-                                'type' => 'loyaltyTransactionSummary' // Updated to match the controller
-                            ],
-                            [
-                                'title' => 'Customer Points Summary',
-                                'description' => 'Analysis of points earned and redeemed by loyalty members',
-                                'route' => 'generateReport',
-                                'type' => 'customerPointsSummary' // Updated
-                            ],
-                            [
-                                'title' => 'Product Performance for Loyalty Customers',
-                                'description' => 'Track most popular products among loyalty members',
-                                'route' => 'generateReport',
-                                'type' => 'productPerformance' // Updated
-                            ],
-                            [
-                                'title' => 'Loyalty Customer Purchase History',
-                                'description' => 'Detailed purchase records for loyalty program members',
-                                'route' => 'generateReport',
-                                'type' => 'loyaltyCustomerHistory' // Updated
-                            ]
-                        ];
-                    @endphp
+@php
+    $reports = [
+        [
+            'title' => 'Loyalty Transaction Summary',
+            'description' => 'View detailed summary of all loyalty program transactions',
+            'endpoint' => 'loyalty-transaction-summary'
+        ],
+        [
+            'title' => 'Customer Points Summary',
+            'description' => 'Analysis of points earned and redeemed by loyalty members',
+            'endpoint' => 'customer-points-summary'
+        ],
+        [
+            'title' => 'Product Performance for Loyalty Customers',
+            'description' => 'Track most popular products among loyalty members',
+            'endpoint' => 'product-performance'
+        ],
+        [
+            'title' => 'Loyalty Customer Purchase History',
+            'description' => 'Detailed purchase records for loyalty program members',
+            'endpoint' => 'loyalty-customer-history'
+        ]
+    ];
+@endphp
 
-                    @foreach ($reports as $report)
-                        <div class="col-md-6">
-                            <form action="{{ route($report['route']) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="reportType" value="{{ $report['type'] }}">
-                                <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
-                                    <h5>{{ $report['title'] }}</h5>
-                                    <p class="text-muted">{{ $report['description'] }}</p>
-                                </button>
-                            </form>
-                        </div>
-                    @endforeach
+@foreach ($reports as $report)
+    <div class="card">
+        <div class="card-body">
+            <form id="form-{{ $report['endpoint'] }}" onsubmit="generateReport(event, '{{ $report['endpoint'] }}')">
+                @csrf
+                <h5 class="card-title">{{ $report['title'] }}</h5>
+                <p class="card-text">{{ $report['description'] }}</p>
 
-                    <!--<form action="{{ route('generateReport') }}" method="POST">
-                        <input type="hidden" name="reportType" value="{{ $report['type'] }}">
-                        <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
-                    </form>-->
-
+                <div class="form-group mb-3">
+                    <label for="startDate-{{ $report['endpoint'] }}">Start Date</label>
+                    <input type="date"
+                           class="form-control"
+                           id="startDate-{{ $report['endpoint'] }}"
+                           name="startDate"
+                           required>
                 </div>
-            </div>
+
+                <div class="form-group mb-3">
+                    <label for="endDate-{{ $report['endpoint'] }}">End Date</label>
+                    <input type="date"
+                           class="form-control"
+                           id="endDate-{{ $report['endpoint'] }}"
+                           name="endDate"
+                           required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Generate Report
+                </button>
+            </form>
         </div>
     </div>
-</body>
-</html>
+@endforeach
+
+<script>
+function generateReport(event, endpoint) {
+    event.preventDefault();
+
+    const form = document.getElementById(`form-${endpoint}`);
+    const startDate = document.getElementById(`startDate-${endpoint}`).value;
+    const endDate = document.getElementById(`endDate-${endpoint}`).value;
+
+    // Create the URL with query parameters
+    const url = `/report/${endpoint}?startDate=${startDate}&endDate=${endDate}`;
+
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'; // Opens in new tab
+
+    // Append to document, click it, and remove it
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
