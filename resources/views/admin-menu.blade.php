@@ -31,7 +31,7 @@
                 
                 <!-- Select Report Type Button -->
                 <form action="{{ route('selectReportType') }}">
-                    <button type="submit" class="Reportbtn" disabled>Generate Report</button>
+                    <button type="submit" class="Reportbtn">Generate Report</button>
                 </form>
 
                 <!-- Logout Button -->
