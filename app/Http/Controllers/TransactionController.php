@@ -81,7 +81,6 @@ class TransactionController extends Controller
                     'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier ?? null,
                     'OrderUniqueIdentifier' => $transaction->OrderUniqueIdentifier ?? null,
                     'UserUniqueIdentifier' => $transaction->UserUniqueIdentifier ?? null,
-                    'LoyaltyCardUniqueIdentifier' => $loyaltyCardUID,
                     'TotalPointsUsed' => $transaction->TotalPointsUsed ?? 0,
                     'PointsEarned' => $transaction->PointsEarned ?? 0,
                     'TransactionDate' => $transaction->TransactionDate ?? null,
