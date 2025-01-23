@@ -51,7 +51,7 @@ class TransactionController extends Controller
 
         // Step 3: Check if transactions exist for the LoyaltyCard
         $transactions = Transaction::with(['order', 'user', 'loyaltyCard'])
-            ->where('LoyaltyCardID', $loyaltyCard['id'])
+            ->where('LoyaltyCardID', $loyaltyCard['LoyaltyCardID'])
             ->get();
 
         if ($transactions->isEmpty()) {
