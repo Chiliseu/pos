@@ -58,20 +58,30 @@ class TransactionController extends Controller
     
             // Step 4: Query transactions from the database (raw query)
             $transactions = DB::table('transactions')
-                ->where('LoyaltyCardID', $loyaltyCardID)
-                ->get();
-    
+            ->Join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
+            ->Join('users', 'transactions.UserID', '=', 'users.id')
+            ->where('transactions.LoyaltyCardID', $loyaltyCardID)
+            ->select(
+                'transactions.UniqueIdentifier as TransactionUniqueIdentifier',
+                'orders.UniqueIdentifier as OrderUniqueIdentifier',
+                'users.UniqueIdentifier as UserUniqueIdentifier',
+                'transactions.TotalPointsUsed',
+                'transactions.PointsEarned',
+                'transactions.TransactionDate'
+            )
+            ->get();
+
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
             }
     
             // Step 5: Format the response
-            $response = $transactions->map(function ($transaction) {
+            $response = $transactions->map(function ($transaction) use ($loyaltyCardUID) {
                 return [
                     'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier ?? null,
                     'OrderUniqueIdentifier' => $transaction->OrderUniqueIdentifier ?? null,
                     'UserUniqueIdentifier' => $transaction->UserUniqueIdentifier ?? null,
-                    'LoyaltyCardUniqueIdentifier' => $transaction->LoyaltyCardUniqueIdentifier ?? null,
+                    'LoyaltyCardUniqueIdentifier' => $loyaltyCardUID,
                     'TotalPointsUsed' => $transaction->TotalPointsUsed ?? 0,
                     'PointsEarned' => $transaction->PointsEarned ?? 0,
                     'TransactionDate' => $transaction->TransactionDate ?? null,
