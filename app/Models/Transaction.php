@@ -26,16 +26,12 @@ class Transaction extends Model
     // Relationships
     public function order()
     {
-        return $this->belongsTo(Order::class, 'OrderID'); // Order relationship
+        return $this->belongsTo(Order::class, 'OrderID', 'OrderID');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'UserID'); // User relationship (fixed column reference)
+        return $this->belongsTo(User::class, 'UserID', 'id');
     }
 
-    public function loyaltyCard()
-    {
-        return $this->belongsTo(LoyaltyCard::class, 'LoyaltyCardID'); // LoyaltyCard relationship
-    }
 }

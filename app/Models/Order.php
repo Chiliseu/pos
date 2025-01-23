@@ -45,4 +45,8 @@ class Order extends Model
 
     // Define relationships (if any)
     // For example, if you have a Customer model
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'OrderID', 'OrderID');
+    }
 }

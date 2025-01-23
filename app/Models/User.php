@@ -45,4 +45,9 @@ class User extends Authenticatable // Extends Authenticatable to implement neces
     {
         return $this->belongsTo(UserRole::class, 'UserRoleID');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'UserID', 'id');
+    }
 }
