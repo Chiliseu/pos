@@ -16,10 +16,29 @@ class TransactionController extends Controller
         return Transaction::all();
     }
 
-    public function getByLoyaltyCardID($loyaltyCardID)
+    public function getByLoyaltyCardID($transactionUniqueIdentifier)
     {
-        $transactions = Transaction::where('LoyaltyCardID', $loyaltyCardID)->get();
-        return response()->json($transactions);
+        // Fetch the transaction by its UniqueIdentifier with related data
+        $transaction = Transaction::with(['order', 'user', 'loyaltyCard'])
+        ->where('UniqueIdentifier', $transactionUniqueIdentifier)
+        ->first();
+
+        if (!$transaction) {
+            return response()->json(['error' => 'Transaction not found'], 404);
+        }
+
+        // Build a response with the UniqueIdentifiers from related tables
+        $response = [
+            'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier,
+            'OrderUniqueIdentifier' => $transaction->order->UniqueIdentifier ?? null,
+            'UserUniqueIdentifier' => $transaction->user->UniqueIdentifier ?? null,
+            'LoyaltyCardUniqueIdentifier' => $transaction->loyaltyCard->UniqueIdentifier ?? null,
+            'TotalPointsUsed' => $transaction->TotalPointsUsed,
+            'PointsEarned' => $transaction->PointsEarned,
+            'TransactionDate' => $transaction->TransactionDate,
+        ];
+
+        return response()->json($response, 200);
     }
 
     public function store(Request $request)
@@ -34,7 +53,7 @@ class TransactionController extends Controller
         ]);
 
         // Generate UniqueIdentifier for the transaction with 'TRS-' prefix
-        $validated['UniqueIdentifier'] = strtoupper('TRS-' . Str::random(6)); // Format: TRS-Random
+        $validated['UniqueIdentifier'] = strtoupper('TRS-' . Str::random(5)); // Format: TRS-Random
 
         // Create the transaction
         $transaction = Transaction::create($validated);
@@ -112,7 +131,7 @@ class TransactionController extends Controller
             'TotalPointsUsed' => $request->input('TotalPointsUsed'),
             'PointsEarned' => $request->input('PointsEarned'),
             'TransactionDate' => now()->toDateString(),
-            'UniqueIdentifier' => 'TRS-' . Str::random(8), // Unique identifier for the transaction with 'TRS-' prefix
+            'UniqueIdentifier' => 'TRS-' . Str::random(5), // Unique identifier for the transaction with 'TRS-' prefix
         ]);
 
         return response()->json([

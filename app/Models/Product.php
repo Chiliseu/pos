@@ -30,7 +30,7 @@ class Product extends Model
         static::creating(function ($product) {
             // Generate UniqueIdentifier in the format 'PRD-random'
             if (!$product->UniqueIdentifier) {
-                $product->UniqueIdentifier = 'PRD-' . Str::upper(Str::random(6));
+                $product->UniqueIdentifier = 'PRD-' . Str::upper(Str::random(5));
             }
         });
     }
