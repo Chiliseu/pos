@@ -32,7 +32,7 @@ return new class extends Migration {
         $table->string('MiddleInitial', 1)->nullable();
         $table->string('Suffix')->nullable();
         $table->string('ContactNo')->nullable();
-        $table->string('UniqueIdentifier')->unique()->nullable(); // Unique identifier column
+        $table->string('UniqueIdentifier')->unique(); // Unique identifier column
         $table->boolean('IsDeleted')->default(false); // Add IsDeleted column with default value of false
 
         $table->foreign('UserRoleID')->references('UserRoleID')->on('user_roles')->onDelete('cascade');
