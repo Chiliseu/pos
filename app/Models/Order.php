@@ -38,7 +38,7 @@ class Order extends Model
         // Automatically generate UniqueIdentifier before creating an order
         static::creating(function ($order) {
             if (!$order->UniqueIdentifier) {
-                $order->UniqueIdentifier = 'ORD-' . Str::random(8); // Format: ORD-Random
+                $order->UniqueIdentifier = 'ORD-' . Str::random(6); // Format: ORD-Random
             }
         });
     }

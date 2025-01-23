@@ -34,7 +34,7 @@ class TransactionController extends Controller
         ]);
 
         // Generate UniqueIdentifier for the transaction with 'TRS-' prefix
-        $validated['UniqueIdentifier'] = strtoupper('TRS-' . Str::random(8)); // Format: TRS-Random
+        $validated['UniqueIdentifier'] = strtoupper('TRS-' . Str::random(6)); // Format: TRS-Random
 
         // Create the transaction
         $transaction = Transaction::create($validated);
