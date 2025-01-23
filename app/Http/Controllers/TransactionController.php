@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str; // For generating UniqueIdentifier
+use Illuminate\Support\Facades\Http;
 
 class TransactionController extends Controller
 {
@@ -16,25 +17,48 @@ class TransactionController extends Controller
         return Transaction::all();
     }
 
-    public function getByLoyaltyCardID($loyaltyCardUID)
-    {
-                // Check if a LoyaltyCard with the provided UniqueIdentifier exists
-        $loyaltyCard = LoyaltyCard::where('UniqueIdentifier', $loyaltyCardUID)->first();
+    public function getTransactionByLoyaltyCardUID($loyaltyCardUID)
+{
+    // Remote API URL
+    $baseUrl = 'https://loyalty-production.up.railway.app/api';
+    $tokenUrl = $baseUrl . '/generate-token';
+    $loyaltyCardUrl = $baseUrl . '/loyalty-cards/' . $loyaltyCardUID;
 
-        if (!$loyaltyCard) {
+    try {
+        // Step 1: Generate token
+        $tokenResponse = Http::post($tokenUrl, []);
+        if (!$tokenResponse->ok()) {
+            return response()->json(['error' => 'Unable to generate token from loyalty system'], 500);
+        }
+
+        $token = $tokenResponse->json()['token'] ?? null;
+        if (!$token) {
+            return response()->json(['error' => 'Token not found in loyalty system response'], 500);
+        }
+
+        // Step 2: Fetch the LoyaltyCard data using the token
+        $loyaltyCardResponse = Http::withToken($token)->get($loyaltyCardUrl);
+
+        if ($loyaltyCardResponse->status() === 404) {
             return response()->json(['error' => 'Loyalty Card not found'], 404);
         }
 
-        // Fetch transactions associated with the LoyaltyCard
+        if (!$loyaltyCardResponse->ok()) {
+            return response()->json(['error' => 'Failed to fetch Loyalty Card from loyalty system'], 500);
+        }
+
+        $loyaltyCard = $loyaltyCardResponse->json();
+
+        // Step 3: Check if transactions exist for the LoyaltyCard
         $transactions = Transaction::with(['order', 'user', 'loyaltyCard'])
-            ->where('LoyaltyCardID', $loyaltyCard->LoyaltyCardID)
+            ->where('LoyaltyCardID', $loyaltyCard['id'])
             ->get();
 
         if ($transactions->isEmpty()) {
             return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
         }
 
-        // Format the response to include all transactions
+        // Format the response
         $response = $transactions->map(function ($transaction) {
             return [
                 'TransactionUniqueIdentifier' => $transaction->UniqueIdentifier,
@@ -48,7 +72,11 @@ class TransactionController extends Controller
         });
 
         return response()->json($response, 200);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
     }
+}
 
     public function store(Request $request)
     {
