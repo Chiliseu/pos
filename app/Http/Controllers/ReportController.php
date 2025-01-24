@@ -20,7 +20,7 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         // Get the report type from the request
-        $reportType = $request->input('reportType');
+        $reportType = $request->query('reportType');
 
         // Query the database directly without using a model
         if ($reportType === 'loyaltyCustomerHistory') {
@@ -44,9 +44,7 @@ class ReportController extends Controller
                 return $this->getLoyaltyCustomerHistory($request);
 
             default:
-                return response()->json([
-                    'error' => 'Invalid report type provided.'
-                ], 400);
+            return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
         }
     }
     /**

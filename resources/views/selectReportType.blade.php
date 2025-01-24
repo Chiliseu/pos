@@ -56,7 +56,6 @@
                     @foreach ($reports as $report)
                         <div class="col-md-6">
                             <form action="{{ route($report['route']) }}" method="GET">
-                                @csrf
                                 <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                                 <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
                                     <h5>{{ $report['title'] }}</h5>
