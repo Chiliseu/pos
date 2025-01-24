@@ -41,10 +41,6 @@
     const errorMessage = document.getElementById('errorMessage');
     const transactionSummary = document.getElementById('transactionSummary');
 
-    // Define the base URLs
-    const baseUrl = 'https://pos-production-c2c1.up.railway.app/api';
-    const transactionsUrl = `${baseUrl}/transactions/loyalty`;
-
     // Open the modal when the button is clicked
     openModalBtn.addEventListener('click', () => {
         modal.style.display = 'flex';
@@ -62,7 +58,7 @@
         }
     });
 
-    // Handle form submission
+    // Loyalty form submission
     loyaltyForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent default form submission
 
@@ -74,18 +70,15 @@
         }
 
         try {
-            // Fetch data using the transactions URL
-            const response = await fetch(`${transactionsUrl}?loyaltyCardId=${loyaltyCardId}`);
-            if (!response.ok) throw new Error('Failed to fetch transactions');
+            // Call the apiHandler function from apiHandler.js
+            const transactionsData = await apiHandler('fetchTransactionsByLoyaltyCard', loyaltyCardId);
 
-            const transactionsData = await response.json();
-
-            console.log('Fetched Transactions Data:', transactionsData); // Debug log
+            console.log('Fetched Transactions Data:', transactionsData);
 
             // Render the transactions table
             renderLoyaltyCard(transactionsData);
         } catch (error) {
-            displayError(error.message || 'An error occurred while fetching the data.');
+            displayError(error || 'An error occurred while fetching the data.');
         }
     });
 
@@ -134,7 +127,6 @@
         errorMessage.style.display = 'block';
         errorMessage.textContent = message;
     }
-</script>
-
+    </script>
 </body>
 </html>
