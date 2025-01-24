@@ -77,24 +77,49 @@
         });
 
         // Function to fetch Loyalty Card data
-async function fetchLoyaltyCard(loyaltyCardId) {
-    const response = await fetch(`/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
-    if (!response.ok) {
-        throw new Error('Loyalty Card not found.');
-    }
-    return response.json(); // Assuming the API returns a JSON object
-}
+        async function fetchLoyaltyCard(loyaltyCardId) {
+            const response = await fetch(`/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
+            if (!response.ok) {
+                throw new Error('Loyalty Card not found.');
+            }
+            return response.json(); // Assuming the API returns a JSON object
+        }
+
         // Function to render the Loyalty Card data
         function renderLoyaltyCard(loyaltyCard) {
-            transactionSummary.innerHTML = `
-                <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.id}</h3>
-                <p>Total Transactions: ${loyaltyCard.transactions.length}</p>
-                <ul>
-                    ${loyaltyCard.transactions.map(transaction => `
-                        <li>${transaction.date}: $${transaction.amount}</li>
-                    `).join('')}
-                </ul>
+            // Render the transaction summary in a table format
+            let transactionsHtml = `
+                <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.loyalty_card_id}</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Total Points Used</th>
+                            <th>Points Earned</th>
+                            <th>Transaction Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
             `;
+
+            loyaltyCard.transactions.forEach(transaction => {
+                transactionsHtml += `
+                    <tr>
+                        <td>${transaction.TransactionUniqueIdentifier}</td>
+                        <td>${transaction.OrderUniqueIdentifier}</td>
+                        <td>${transaction.UserUniqueIdentifier}</td>
+                        <td>${transaction.TotalPointsUsed}</td>
+                        <td>${transaction.PointsEarned}</td>
+                        <td>${transaction.TransactionDate}</td>
+                    </tr>
+                `;
+            });
+
+            transactionsHtml += `</tbody></table>`;
+
+            transactionSummary.innerHTML = transactionsHtml;
         }
 
         // Function to display error messages
