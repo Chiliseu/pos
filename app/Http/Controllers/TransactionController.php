@@ -233,7 +233,7 @@ class TransactionController extends Controller
             $loyaltyCardID = $loyaltyCard['LoyaltyCardID'];
 
             // Step 4: Query transactions from the database (modified query for required data)
-            $transaction = DB::table('transactions')
+            $transactions = DB::table('transactions')
             ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
             ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
