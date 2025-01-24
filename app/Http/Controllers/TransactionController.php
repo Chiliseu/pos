@@ -242,10 +242,10 @@ class TransactionController extends Controller
             ->select(
                 'product.Name as ProductName',
                 'category.Name as CategoryName',
-                DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
-                DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
+                DB::raw('order_products.Quantity as TotalQuantitySold'),
+                DB::raw('order_products.TotalPrice as TotalRevenue')
             )
-            ->groupBy('product.Name', 'category.Name')
+            ->groupBy('product.Name')
             ->orderByDesc(DB::raw('SUM(order_products.Quantity)'))
             ->limit(1)
             ->get();
