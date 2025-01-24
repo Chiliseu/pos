@@ -131,46 +131,50 @@
         }
 
         // Function to render the Loyalty Card data
-        function renderLoyaltyCard(loyaltyCard) {
-            const transactions = loyaltyCard.transactions || loyaltyCard.data?.transactions || [];
-            
-            if (!transactions.length) {
-                transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
-                return;
-            }
+        function renderLoyaltyCard(transactions) {
+    // If no transactions are provided, show a message
+    if (!transactions || transactions.length === 0) {
+        transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
+        return;
+    }
 
-            let transactionsHtml = `
-                <h3>Transaction Summary for Loyalty Card</h3>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Order ID</th>
-                            <th>User ID</th>
-                            <th>Total Points Used</th>
-                            <th>Points Earned</th>
-                            <th>Transaction Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+    // Create the table HTML
+    let transactionsHtml = `
+        <h3>Transaction Summary for Loyalty Card</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Total Points Used</th>
+                    <th>Points Earned</th>
+                    <th>Transaction Date</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
 
-            transactions.forEach(transaction => {
-                transactionsHtml += `
-                    <tr>
-                        <td>${transaction.TransactionUniqueIdentifier}</td>
-                        <td>${transaction.OrderUniqueIdentifier}</td>
-                        <td>${transaction.UserUniqueIdentifier}</td>
-                        <td>${transaction.TotalPointsUsed}</td>
-                        <td>${transaction.PointsEarned}</td>
-                        <td>${transaction.TransactionDate || 'N/A' }</td>
-                    </tr>
-                `;
-            });
+    // Iterate over the transactions array to build table rows
+    transactions.forEach(transaction => {
+        transactionsHtml += `
+            <tr>
+                <td>${transaction.TransactionUniqueIdentifier}</td>
+                <td>${transaction.OrderUniqueIdentifier}</td>
+                <td>${transaction.UserUniqueIdentifier}</td>
+                <td>${transaction.TotalPointsUsed}</td>
+                <td>${transaction.PointsEarned}</td>
+                <td>${transaction.TransactionDate || 'N/A'}</td>
+            </tr>
+        `;
+    });
 
-            transactionsHtml += `</tbody></table>`;
-            transactionSummary.innerHTML = transactionsHtml;
-        }
+    transactionsHtml += `</tbody></table>`;
+
+    // Insert the table into the DOM
+    transactionSummary.innerHTML = transactionsHtml;
+}
+
     </script>
 </body>
 </html>
