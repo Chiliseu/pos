@@ -68,26 +68,24 @@
                 return;
             }
 
-            try {
-                // Call the API to get the Loyalty Card data using the apiHandler
-                const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
-                renderLoyaltyCard(loyaltyCard); // Render the loyalty card details
-            } catch (error) {
-                displayError(error.message || 'An error occurred.');
-            }
+    try {
+        const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
+        console.log('Fetched Loyalty Card Data:', loyaltyCard); // Debug log
+        renderLoyaltyCard(loyaltyCard); // Render the table
+} catch (error) {
+        displayError(error || 'An error occurred while fetching the data.');
+}
         });
 
         // Function to render the Loyalty Card data
         function renderLoyaltyCard(loyaltyCard) {
-    // Validate if transactions exist
-    if (!loyaltyCard.transactions || !Array.isArray(loyaltyCard.transactions) || loyaltyCard.transactions.length === 0) {
-        displayError('No transactions found for this Loyalty Card.');
+    if (!loyaltyCard || !loyaltyCard.transactions || loyaltyCard.transactions.length === 0) {
+        transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
         return;
     }
 
-    // Generate HTML for the transaction table
     let transactionsHtml = `
-        <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.loyalty_card_id}</h3>
+        <h3>Transaction Summary for Loyalty Card</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -102,7 +100,7 @@
             <tbody>
     `;
 
-    // Loop through transactions and generate table rows
+    // Loop through the transactions array
     loyaltyCard.transactions.forEach(transaction => {
         transactionsHtml += `
             <tr>
@@ -117,15 +115,9 @@
     });
 
     transactionsHtml += `</tbody></table>`;
-
-    // Insert the generated table into the transactionSummary div
-    const transactionSummary = document.getElementById('transactionSummary');
-    transactionSummary.innerHTML = transactionsHtml;
-
-    // Hide error message if previously shown
-    const errorMessage = document.getElementById('errorMessage');
-    errorMessage.style.display = 'none';
+    transactionSummary.innerHTML = transactionsHtml; // Update the DOM
 }
+
 
     </script>
 </body>
