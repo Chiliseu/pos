@@ -146,10 +146,19 @@ class ReportController extends Controller
      */
     public function getLoyaltyCustomerHistory(Request $request)
     {
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
-        $customerId = $request->input('customerId');
+        // Validate the input fields
+        $validated = $request->validate([
+            'startDate' => 'required|date',
+            'endDate' => 'required|date|after_or_equal:startDate',
+            'customerId' => 'nullable|integer|exists:users,id',
+        ]);
 
+        // Extract filters from the validated data
+        $startDate = $validated['startDate'];
+        $endDate = $validated['endDate'];
+        $customerId = $validated['customerId'] ?? null;
+
+        // Query the database
         $data = DB::table('orders')
             ->select(
                 'orders.OrderID',
@@ -169,6 +178,11 @@ class ReportController extends Controller
             })
             ->get();
 
-        return response()->json($data);
+        // Return the data to the view
+        return view('generateReport', [
+            'reportType' => 'Loyalty Customer Purchase History',
+            'data' => $data,
+            'headers' => ['Customer Name', 'Product', 'Quantity', 'Total Price', 'Date']
+        ]);
     }
 }
