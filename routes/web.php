@@ -103,9 +103,9 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
 
-Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
 Route::get('/reports', [ReportController::class, 'selectReportType'])->name('reports.select');
-Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('reports.generate');
+Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/purchase-history/{userID}', [TransactionController::class, 'getPurchaseHistoryByUserId'])->name('purchaseHistory');
