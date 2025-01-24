@@ -14,7 +14,8 @@
         <h1>Report: {{ ucfirst(str_replace('_', ' ', $reportType)) }}</h1>
 
         <!-- Filters -->
-        <form method="GET" action="{{ route('reports.generate') }}" id="filterForm">
+        <form method="POST" action="{{ route('generateReport') }}" id="filterForm">
+            @csrf <!-- CSRF protection for POST requests -->
             <input type="hidden" name="reportType" value="{{ $reportType }}">
 
             <!-- Date Filters -->
