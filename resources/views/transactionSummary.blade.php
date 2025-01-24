@@ -58,32 +58,32 @@
         });
 
         // Handle form submission
-        loyaltyForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent the default form submission
+    loyaltyForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the default form submission
 
-            const loyaltyCardId = document.getElementById('loyaltyId').value;
-            if (!loyaltyCardId) {
-                displayError('Please enter a Loyalty Card ID.');
-                return;
-            }
+        const loyaltyCardId = document.getElementById('loyaltyId').value;
+        if (!loyaltyCardId) {
+            displayError('Please enter a Loyalty Card ID.');
+            return;
+        }
 
-            try {
-                // Call the API to get the Loyalty Card data
-                const loyaltyCard = await fetchLoyaltyCard(loyaltyCardId);
-                renderLoyaltyCard(loyaltyCard, loyaltyCardId); // Render the loyalty card details
-            } catch (error) {
-                displayError(error.message || 'An error occurred.');
-            }
-        });
+    try {
+            // Call the API to get the Loyalty Card data using the apiHandler
+            const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
+            renderLoyaltyCard(loyaltyCard); // Render the loyalty card details
+    } catch (error) {
+        displayError(error.message || 'An error occurred.');
+    }
+});
 
         // Function to fetch Loyalty Card data
-        async function fetchLoyaltyCard(loyaltyCardId) {
-            const response = await fetch(`https://pos-production-c2c1.up.railway.app/api/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
-            if (!response.ok) {
-                throw new Error('Loyalty Card not found.');
-            }
-            return response.json(); // Assuming the API returns a JSON object
+    async function fetchLoyaltyCard(loyaltyCardId) {
+        const response = await fetch(`https://pos-production-c2c1.up.railway.app/api/transactions/loyalty/${loyaltyCardId}`); // Correct URL
+        if (!response.ok) {
+            throw new Error('Loyalty Card not found.');
         }
+        return response.json(); // Assuming the API returns a JSON object
+}
 
         // Function to render the Loyalty Card data
         function renderLoyaltyCard(loyaltyCard, loyaltyCardId) {
