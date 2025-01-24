@@ -78,6 +78,10 @@ Route::get('/select-report-type', function () {
     return view('selectReportType');
 })->name('selectReportType');
 
+Route::get('/transactionSummary', function () {
+    return view('transactionSummary');
+})->name('transactionSummary');
+
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::post('/register', [AuthController::class, 'registerUser']);
@@ -102,7 +106,6 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
-Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('transactionSummary');
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
