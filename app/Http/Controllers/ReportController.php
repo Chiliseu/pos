@@ -178,8 +178,6 @@ class ReportController extends Controller
             ->get();
 
         // Return the data to the purchaseHistory view
-        return view('purchaseHistory', [
-            'transactions' => $data,  // Pass the data as 'transactions'
-        ]);
+        return response()->json($data);
     }
 }
