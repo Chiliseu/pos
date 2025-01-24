@@ -100,27 +100,23 @@ class TransactionController extends Controller
 
     public function showTransactionSummary(Request $request)
 {
-    // Validate the incoming loyaltyCardUID
-    $validated = $request->validate([
-        'loyaltyCardUID' => 'required|string',
+     // Validate the Loyalty ID
+     $validated = $request->validate([
+        'loyaltyCardUID' => 'required|exists:users,loyaltyCardUID',  // Assuming you have a 'users' table with the Loyalty ID
     ]);
 
-    // Retrieve the loyaltyCardUID from the validated data
-    $loyaltyCardUID = $validated['loyaltyCardUID'];
+    // Fetch the transactions for the given Loyalty ID
+    $transactions = Transaction::where('loyaltyCardUID', $request->loyaltyCardUID)->get();
 
-    // You can fetch transactions using the loyaltyCardUID and return them
-    $transactions = $this->getTransactionByLoyaltyCardUID($loyaltyCardUID);
-
-    // If transactions are found, return a view or respond with JSON
-    if ($transactions->status() === 200) {
-        return view('transaction_summary', ['transactions' => $transactions->getData()]);
+    // If no transactions found, pass an error message
+    if ($transactions->isEmpty()) {
+        return redirect()->route('transactionSummary')->with('error', 'No transactions found for this Loyalty ID.');
     }
 
-    // Handle error or if no transactions found
-    return back()->with('error', 'No transactions found for the provided Loyalty ID.');
+    // Pass the transactions to the view for rendering
+    return view('transactionSummaryReport', compact('transactions'));
 }
 
-    
     public function store(Request $request)
     {
         $validated = $request->validate([
