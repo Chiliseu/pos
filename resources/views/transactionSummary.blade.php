@@ -115,7 +115,7 @@
                 <td>${transaction.UserUniqueIdentifier}</td>
                 <td>${transaction.TotalPointsUsed}</td>
                 <td>${transaction.PointsEarned}</td>
-                <td>${transaction.TransactionDate}</td>
+                <td>${transaction.TransactionDate || 'N/A' }</td>
             </tr>
         `;
     });
