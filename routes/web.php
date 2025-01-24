@@ -102,8 +102,6 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
-
-Route::post('/reports', [ReportController::class, 'selectReportType'])->name('reports.select');
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
 
 Route::get('/generateReport', function (\Illuminate\Http\Request $request) {

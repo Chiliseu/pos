@@ -193,12 +193,90 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function getPurchaseHistoryByUserId($userID)
+        public function getProductsByLoyaltyCardUID($loyaltyCardUID)
     {
-        $transactions = Transaction::where('UserID', $userID)
-            ->orderBy('TransactionDate', 'desc')
-            ->paginate(10); // Use pagination
+        // Remote API URL
+        $baseUrl = 'https://loyalty-production.up.railway.app/api';
+        $tokenUrl = $baseUrl . '/generate-token';
+        $loyaltyCardUrl = $baseUrl . '/loyalty-cards/' . $loyaltyCardUID;
 
-        return view('purchaseHistory', compact('transactions'));
+        try {
+            // Step 1: Generate token
+            $tokenResponse = Http::post($tokenUrl, []);
+            if (!$tokenResponse->ok()) {
+                return response()->json(['error' => 'Unable to generate token from loyalty system'], 500);
+            }
+
+            $token = $tokenResponse->json()['token'] ?? null;
+            if (!$token) {
+                return response()->json(['error' => 'Token not found in loyalty system response'], 500);
+            }
+
+            // Step 2: Fetch the LoyaltyCard data using the token
+            $loyaltyCardResponse = Http::withToken($token)->get($loyaltyCardUrl);
+
+            if ($loyaltyCardResponse->status() === 404) {
+                return response()->json(['error' => 'Loyalty Card not found'], 404);
+            }
+
+            if (!$loyaltyCardResponse->ok()) {
+                return response()->json(['error' => 'Failed to fetch Loyalty Card from loyalty system'], 500);
+            }
+
+            $loyaltyCard = $loyaltyCardResponse->json();
+
+            // Step 3: Validate LoyaltyCard data
+            if (!isset($loyaltyCard['LoyaltyCardID'])) {
+                return response()->json(['error' => 'Invalid Loyalty Card data received from API'], 500);
+            }
+
+            $loyaltyCardID = $loyaltyCard['LoyaltyCardID'];
+
+            // Step 4: Query transactions from the database (modified query for required data)
+            $transactions = DB::table('transactions')
+            ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
+            ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
+            ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
+            ->join('category', 'product.CategoryID', '=', 'category.CategoryID')
+            ->where('transactions.LoyaltyCardID', $loyaltyCardID)
+            ->select(
+                'product.Name as ProductName',
+                'categorie.Name as CategoryName',
+                DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
+                DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
+            )
+            ->groupBy('product.Name', 'category.Name')
+            ->having(DB::raw('SUM(order_product.Quantity)'), '=', function($query) use ($loyaltyCardID) {
+                $query->select(DB::raw('MAX(subquery.TotalQuantitySold)'))
+                    ->from(DB::raw('(SELECT SUM(order_products.Quantity) as TotalQuantitySold FROM order_products 
+                                     JOIN product ON order_products.ProductID = product.ProductID
+                                     JOIN orders ON order_products.OrderID = orders.OrderID
+                                     JOIN transactions ON orders.OrderID = transactions.OrderID
+                                     WHERE transactions.LoyaltyCardID = ? 
+                                     GROUP BY order_products.ProductID) as subquery'), [$loyaltyCardID]);
+            })
+            ->get();
+
+            
+            if ($transactions->isEmpty()) {
+                return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
+            }
+
+            // Step 5: Format the response
+            $response = $transactions->map(function ($transaction) use ($loyaltyCardUID) {
+                return [
+                    'ProductName' => $transaction->ProductName ?? null,
+                    'CategoryName' => $transaction->CategoryName ?? null,
+                    'TotalQuantitySold' => $transaction->TotalQuantitySold ?? 0,
+                    'TotalRevenue' => $transaction->TotalRevenue ?? 0,
+                ];
+            });
+
+            return response()->json($response, 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
     }
+
 }
