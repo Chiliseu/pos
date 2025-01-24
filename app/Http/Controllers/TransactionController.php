@@ -241,7 +241,7 @@ class TransactionController extends Controller
             ->where('transactions.LoyaltyCardID', $loyaltyCardID)
             ->select(
                 'product.Name as ProductName',
-                'categorie.Name as CategoryName',
+                'category.Name as CategoryName',
                 DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
