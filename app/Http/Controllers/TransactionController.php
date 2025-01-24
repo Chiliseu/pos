@@ -238,18 +238,17 @@ class TransactionController extends Controller
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
             ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
             ->join('category', 'product.CategoryID', '=', 'category.CategoryID')
-            ->where('transactions.LoyaltyCardID', $loyaltyCardID)
+            ->where('transactions.LoyaltyCardID', $loyaltyCardID) // Filter by LoyaltyCardID
             ->select(
                 'product.Name as ProductName',
                 'category.Name as CategoryName',
-                DB::raw('order_products.Quantity as TotalQuantitySold'),
-                DB::raw('order_products.TotalPrice as TotalRevenue')
+                DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
+                DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
-            ->groupBy('product.Name', 'Category.Name')
-            ->orderByDesc(DB::raw('SUM(order_products.Quantity)'))
-            ->limit(1)
-            ->get();
-        
+            ->groupBy('product.ProductID', 'product.Name', 'category.Name')
+            ->orderByDesc(DB::raw('SUM(order_products.Quantity)')) // Order by highest quantity
+            ->limit(1) // Get only the highest product
+            ->first(); // Fetch a single result
 
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
