@@ -106,6 +106,18 @@ Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId'])
 Route::post('/reports', [ReportController::class, 'selectReportType'])->name('reports.select');
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
 
+Route::get('/generateReport', function (\Illuminate\Http\Request $request) {
+    $reportType = $request->input('reportType');
+    
+    if ($reportType === 'loyaltyTransactionSummary') {
+        return view('transactionSummary');
+    }
+
+    // Add logic for other report types if needed
+    return abort(404); // Show 404 for unknown report types
+})->name('generateReport');
+
+
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);

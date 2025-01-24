@@ -70,6 +70,15 @@
                         <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
                     </form>-->
 
+                    <form action="{{ route('generateReport') }}" method="GET">
+                        <input type="hidden" name="reportType" value="loyaltyTransactionSummary">
+                        <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
+                        <h5>Loyalty Transaction Summary</h5>
+                        <p class="text-muted">View detailed summary of all loyalty program transactions</p>
+                        </button>
+                    </form>
+
+
                 </div>
             </div>
         </div>
