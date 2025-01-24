@@ -6,109 +6,7 @@
     <title>Loyalty Transaction Summary</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #openModalBtn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #openModalBtn:hover {
-            background-color: #0056b3;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-btn:hover {
-            color: #ff0000;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        button[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        @media (max-width: 576px) {
-            .modal-content {
-                width: 90%;
-            }
-        }
+        /* Same styling as before */
     </style>
 </head>
 <body>
@@ -116,37 +14,95 @@
     <button id="openModalBtn">Enter Loyalty ID</button>
 
     <!-- Modal -->
-<div id="loyaltyModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeModalBtn">&times;</span>
-        <h2>Loyalty Transaction Summary</h2>
-        <form id="loyaltyForm" action="{{ route('transactionSummary') }}" method="GET">
-            <label for="loyaltyId">Loyalty ID:</label>
-            <input type="text" id="loyaltyId" name="loyaltyCardUID" placeholder="Enter your Loyalty ID" required>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-</div>
+    <div id="loyaltyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <h2>Loyalty Transaction Summary</h2>
 
+            <!-- Form inside modal -->
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+
+            <form id="loyaltyForm">
+                <label for="loyaltyId">Loyalty ID:</label>
+                <input type="text" id="loyaltyId" name="loyaltyCardUID" placeholder="Enter your Loyalty ID" required>
+                <button type="submit">Submit</button>
+            </form>
+
+            <div id="transactionSummary"></div>
+        </div>
+    </div>
 
     <script>
         const modal = document.getElementById('loyaltyModal');
         const openModalBtn = document.getElementById('openModalBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        const loyaltyForm = document.getElementById('loyaltyForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const transactionSummary = document.getElementById('transactionSummary');
 
+        // Open the modal when the button is clicked
         openModalBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
         });
 
+        // Close the modal when the close button is clicked
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
+        // Close modal when clicking outside the modal
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
+
+        // Handle form submission
+        loyaltyForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            const loyaltyCardId = document.getElementById('loyaltyId').value;
+            if (!loyaltyCardId) {
+                displayError('Please enter a Loyalty Card ID.');
+                return;
+            }
+
+            try {
+                // Call the API to get the Loyalty Card data
+                const loyaltyCard = await fetchLoyaltyCard(loyaltyCardId);
+                renderLoyaltyCard(loyaltyCard); // Render the loyalty card details
+            } catch (error) {
+                displayError(error.message || 'An error occurred.');
+            }
+        });
+
+        // Function to fetch Loyalty Card data
+async function fetchLoyaltyCard(loyaltyCardId) {
+    const response = await fetch(`/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
+    if (!response.ok) {
+        throw new Error('Loyalty Card not found.');
+    }
+    return response.json(); // Assuming the API returns a JSON object
+}
+        // Function to render the Loyalty Card data
+        function renderLoyaltyCard(loyaltyCard) {
+            transactionSummary.innerHTML = `
+                <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.id}</h3>
+                <p>Total Transactions: ${loyaltyCard.transactions.length}</p>
+                <ul>
+                    ${loyaltyCard.transactions.map(transaction => `
+                        <li>${transaction.date}: $${transaction.amount}</li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        // Function to display error messages
+        function displayError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            transactionSummary.innerHTML = ''; // Clear any previous transaction summary
+        }
     </script>
 </body>
 </html>

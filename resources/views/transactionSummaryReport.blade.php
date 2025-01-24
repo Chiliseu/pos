@@ -1,4 +1,4 @@
-<!-- resources/views/transaction_summary.blade.php -->
+<!-- resources/views/transactionSummaryReport.blade.php -->
 
 @extends('layouts.app')
 
@@ -6,6 +6,7 @@
     <div class="container">
         <h2>Loyalty Transaction Summary</h2>
 
+        <!-- Display error message if no transactions found -->
         @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif

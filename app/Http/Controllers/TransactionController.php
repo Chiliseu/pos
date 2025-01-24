@@ -100,9 +100,9 @@ class TransactionController extends Controller
 
     public function showTransactionSummary(Request $request)
 {
-     // Validate the Loyalty ID
-     $validated = $request->validate([
-        'loyaltyCardUID' => 'required|exists:users,loyaltyCardUID',  // Assuming you have a 'users' table with the Loyalty ID
+    // Validate the Loyalty ID
+    $validated = $request->validate([
+        'loyaltyCardUID' => 'required|exists:users,loyaltyCardUID',  // Ensure this matches your database
     ]);
 
     // Fetch the transactions for the given Loyalty ID

@@ -106,10 +106,7 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
-// Show the form to enter Loyalty ID
-Route::get('/transaction-summary', [TransactionController::class, 'showTransactionForm'])->name('transactionSummary');
-
-// Handle form submission and show transaction summary
+Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
 Route::get('/transaction-summary-report', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummaryReport');
 
 
