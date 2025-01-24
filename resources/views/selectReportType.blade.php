@@ -69,9 +69,15 @@
                     <!--<form action="{{ route('generateReport') }}" method="POST">
                         <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                         <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
-                    </form>-->
-
+                    </form>-->           
                 </div>
+                <form action="{{ route('generateReport') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="reportType" value="loyaltyCustomerHistory">
+                    <button type="submit" class="btn btn-primary w-100 p-3 text-start">
+                        Loyalty Customer Purchase History
+                    </button>
+                </form>
             </div>
         </div>
     </div>
