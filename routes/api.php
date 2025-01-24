@@ -41,6 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('user-roles', UserRoleController::class);
     Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getTransactionByLoyaltyCardUID']);
-    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::get('products/loyalty/{loyaltyCardID}', [TransactionController::class, 'getProductsByLoyaltyCardUID']);
 
 });

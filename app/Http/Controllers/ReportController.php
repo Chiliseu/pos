@@ -20,28 +20,27 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         // Get the report type from the request
-        $reportType = $request->input('reportType');
-
+        $reportType = $request->query('reportType');
+    
         // Route to the appropriate method based on the report type
         switch ($reportType) {
             case 'loyaltyTransactionSummary':
                 return $this->getLoyaltyTransactionSummary($request);
-
+    
             case 'customerPointsSummary':
                 return $this->getCustomerPointsSummary($request);
-
+    
             case 'productPerformance':
                 return $this->getProductPerformance($request);
-
+    
             case 'loyaltyCustomerHistory':
                 return $this->getLoyaltyCustomerHistory($request);
-
+    
             default:
-                return response()->json([
-                    'error' => 'Invalid report type provided.'
-                ], 400);
+                return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
         }
     }
+    
     /**
      * Fetch Loyalty Transaction Summary.
      */
@@ -146,10 +145,19 @@ class ReportController extends Controller
      */
     public function getLoyaltyCustomerHistory(Request $request)
     {
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
-        $customerId = $request->input('customerId');
+        // Validate the input fields
+        $validated = $request->validate([
+            'startDate' => 'required|date',
+            'endDate' => 'required|date|after_or_equal:startDate',
+            'customerId' => 'nullable|integer|exists:users,id',
+        ]);
 
+        // Extract filters from the validated data
+        $startDate = $validated['startDate'];
+        $endDate = $validated['endDate'];
+        $customerId = $validated['customerId'] ?? null;
+
+        // Query the database for loyalty customer purchase history
         $data = DB::table('orders')
             ->select(
                 'orders.OrderID',
@@ -168,7 +176,6 @@ class ReportController extends Controller
                 return $query->where('users.id', $customerId);
             })
             ->get();
-
         return response()->json($data);
     }
 }

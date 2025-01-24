@@ -1,11 +1,11 @@
 let token = null; // Global variable to store the Bearer token
 
-async function apiHandler(action, id, data = null) {
-    const baseUrl = 'https://loyalty-production.up.railway.app/api';
+async function TransactionAPIHandler(action, id, data = null) {
+    const baseUrl = 'https://pos-production-c2c1.up.railway.app/api';
+    const transactionsUrl = 'https://pos-production-c2c1.up.railway.app/api/transactions/loyalty'; // New base URL for transactions
 
     let url = '';
     let method = '';
-    let body = null;
     let headers = {
         'Content-Type': 'application/json',
     };
@@ -38,17 +38,12 @@ async function apiHandler(action, id, data = null) {
 
     // Determine the endpoint and HTTP method based on action
     switch (action) {
-        case 'fetchLoyaltyCard':
-            url = `${baseUrl}/loyalty-cards/${id}`;
+        case 'fetchTransactionsByLoyaltyCard':
+            // Construct the URL for fetching transactions by loyalty card ID
+            url = `${transactionsUrl}/${id}`;
             method = 'GET';
             break;
 
-        case 'updateLoyaltyCard':
-            url = `${baseUrl}/loyalty-cards/${id}`;
-            method = 'PUT';
-            body = JSON.stringify(data);
-            break;
-        
         default:
             console.error('Invalid action:', action);
             return Promise.reject('Invalid action');
@@ -65,11 +60,6 @@ async function apiHandler(action, id, data = null) {
             method,
             headers,
         };
-
-        // Include the body for PUT requests
-        if (body) {
-            options.body = body;
-        }
 
         const response = await fetch(url, options);
 
