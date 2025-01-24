@@ -92,6 +92,34 @@ class TransactionController extends Controller
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
+
+    public function showTransactionForm()
+    {
+        return view('transactionSummary');  // This loads the form where the user enters their Loyalty ID
+    }
+
+    public function showTransactionSummary(Request $request)
+{
+    // Validate the incoming loyaltyCardUID
+    $validated = $request->validate([
+        'loyaltyCardUID' => 'required|string',
+    ]);
+
+    // Retrieve the loyaltyCardUID from the validated data
+    $loyaltyCardUID = $validated['loyaltyCardUID'];
+
+    // You can fetch transactions using the loyaltyCardUID and return them
+    $transactions = $this->getTransactionByLoyaltyCardUID($loyaltyCardUID);
+
+    // If transactions are found, return a view or respond with JSON
+    if ($transactions->status() === 200) {
+        return view('transaction_summary', ['transactions' => $transactions->getData()]);
+    }
+
+    // Handle error or if no transactions found
+    return back()->with('error', 'No transactions found for the provided Loyalty ID.');
+}
+
     
     public function store(Request $request)
     {
