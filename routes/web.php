@@ -107,10 +107,5 @@ Route::post('/reports', [ReportController::class, 'selectReportType'])->name('re
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
 
 
-//Route::middleware(['auth'])->group(function () {
-    //Route::get('/purchase-history/{userID}', [TransactionController::class, 'getPurchaseHistoryByUserId'])->name('purchaseHistory');
-//});
-
-
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
