@@ -79,13 +79,13 @@
 
         // Function to render the Loyalty Card data
         function renderLoyaltyCard(loyaltyCard) {
-    // Check if transactions exists and is an array
-    if (!loyaltyCard.transactions || !Array.isArray(loyaltyCard.transactions)) {
-        displayError('No transactions found or invalid data format.');
+    // Validate if transactions exist
+    if (!loyaltyCard.transactions || !Array.isArray(loyaltyCard.transactions) || loyaltyCard.transactions.length === 0) {
+        displayError('No transactions found for this Loyalty Card.');
         return;
     }
 
-    // Render the transaction summary in a table format
+    // Generate HTML for the transaction table
     let transactionsHtml = `
         <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.loyalty_card_id}</h3>
         <table class="table table-bordered">
@@ -102,6 +102,7 @@
             <tbody>
     `;
 
+    // Loop through transactions and generate table rows
     loyaltyCard.transactions.forEach(transaction => {
         transactionsHtml += `
             <tr>
@@ -117,7 +118,13 @@
 
     transactionsHtml += `</tbody></table>`;
 
+    // Insert the generated table into the transactionSummary div
+    const transactionSummary = document.getElementById('transactionSummary');
     transactionSummary.innerHTML = transactionsHtml;
+
+    // Hide error message if previously shown
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.style.display = 'none';
 }
 
     </script>
