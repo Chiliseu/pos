@@ -236,20 +236,20 @@ class TransactionController extends Controller
             $transactions = DB::table('transactions')
             ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
-            ->join('products', 'order_products.ProductID', '=', 'products.ProductID')
-            ->join('categories', 'products.CategoryID', '=', 'categories.CategoryID')
+            ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
+            ->join('categories', 'product.CategoryID', '=', 'categories.CategoryID')
             ->where('transactions.LoyaltyCardID', $loyaltyCardID)
             ->select(
-                'products.Name as ProductName',
-                'categories.Name as CategoryName',
+                'product.Name as ProductName',
+                'categorie.Name as CategoryName',
                 DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
-            ->groupBy('products.Name', 'categories.Name')
-            ->having(DB::raw('SUM(order_products.Quantity)'), '=', function($query) use ($loyaltyCardID) {
+            ->groupBy('product.Name', 'categories.Name')
+            ->having(DB::raw('SUM(order_product.Quantity)'), '=', function($query) use ($loyaltyCardID) {
                 $query->select(DB::raw('MAX(subquery.TotalQuantitySold)'))
                     ->from(DB::raw('(SELECT SUM(order_products.Quantity) as TotalQuantitySold FROM order_products 
-                                     JOIN products ON order_products.ProductID = products.ProductID
+                                     JOIN product ON order_products.ProductID = product.ProductID
                                      JOIN orders ON order_products.OrderID = orders.OrderID
                                      JOIN transactions ON orders.OrderID = transactions.OrderID
                                      WHERE transactions.LoyaltyCardID = ? 
