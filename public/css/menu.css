@@ -118,3 +118,62 @@ form, a {
     width: 100%;
     text-decoration: none;
 }
+
+
+/*ADMIN SIDE*/
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: auto;
+    background-color: rgba(8, 124, 43, 0.918); /* Semi-transparent overlay */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add a shadow effect */
+    justify-content: right; /* Center horizontally */
+    align-items: left; /* Center vertically */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    margin: 50px;
+    z-index: 1000; /* Ensure it floats above other elements */
+    color: white;
+    opacity: 0; /* Start hidden */
+    transform: translateX(300px); /* Start slightly off-screen */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.5s ease, transform 1s ease, visibility 0s 0.5s; /* Animation */
+}
+
+.modal.show {
+    opacity: 1; /* Fully visible */
+    transform: translateX(0); /* Move to original position */
+    visibility: visible; /* Make visible */
+    transition: opacity 0.5s ease, transform 1s ease; /* Animation */
+}
+
+.modal.out {
+    opacity: 0; /* Fully hidden */
+    transform: translateX(300px); /* Move off-screen */
+    visibility: hidden; /* Make hidden */
+    transition: opacity 0.5s ease, transform 1s ease, visibility 0s 1s; /* Animation */
+}
+
+.modal-content{
+    width: 100%;
+}
+h2 {
+    color: white;
+    text-shadow: 3px 1px 10px black;
+    text-align: left;
+    font-size: 40px; /* Increased font size */
+    font-family: Helvetica, Arial, sans-serif; /* Corrected font-family property */
+    margin-bottom: 10px; /* Adjusted bottom margin */
+}
+
+h3 {
+    color: white;
+    text-shadow: 3px 1px 10px black;
+    text-align: left;
+    margin-top: 0; /* Adjusted top margin */
+    margin-bottom: 5px;
+    font-size: 30px; /* Increased font size */
+    font-family: Helvetica, Arial, sans-serif; /* Corrected font-family property */
+}

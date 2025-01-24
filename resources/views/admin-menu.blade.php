@@ -1,3 +1,7 @@
+<?php
+    use Illuminate\Support\Facades\Auth;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,6 +12,23 @@
         <link rel="stylesheet" href="/css/menu.css">
         <link rel="icon" type="image/png" href="/Picture/StoreLogo.png">
 
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var modal = document.getElementById('WelcomeAdmin-Modal');
+                modal.classList.add('show'); // Show the modal
+                modal.style.display = 'flex'; // Ensure display is set to flex
+
+                // Auto-dismiss the modal after 5 seconds (5000 milliseconds)
+                setTimeout(function() {
+                    modal.classList.remove('show');
+                    modal.classList.add('out');
+                    setTimeout(function() {
+                        modal.style.display = 'none'; // Hide the modal after animation
+                    }, 1000); // Match the duration of the transform transition
+                }, 5000);
+            });
+        </script>
     </head>
 
     <body>
@@ -41,6 +62,16 @@
                 </form>
             </div>
 
+        </div>
+
+
+        <!----------MODAL ----------->
+        <div class="modal" id="WelcomeAdmin-Modal">
+            <div class="content-modal">
+            <h2>WELCOME</h2>  
+            <h3 id="username">{{ Auth::user()->name }}</h3>         
+            <p>You are now logged in as admin (^ v ^)</p>
+            </div>
         </div>
     </body>
 </html>
