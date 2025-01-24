@@ -106,6 +106,8 @@ Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users
 
 Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
 
+Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
+
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
