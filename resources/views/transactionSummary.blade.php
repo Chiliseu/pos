@@ -99,6 +99,7 @@
         // Loyalty form submission
         loyaltyForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
+            alert("Submit button clicked and loyalty ID submitted!");
 
             const loyaltyCardId = document.getElementById('loyaltyId').value;
 
