@@ -59,23 +59,28 @@
         });
 
         // Handle form submission
-        loyaltyForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent the default form submission
+    loyaltyForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
 
-            const loyaltyCardId = document.getElementById('loyaltyId').value;
-            if (!loyaltyCardId) {
-                displayError('Please enter a Loyalty Card ID.');
-                return;
-            }
+        const loyaltyCardId = document.getElementById('loyaltyId').value;
 
-    try {
-        const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
-        console.log('Fetched Loyalty Card Data:', loyaltyCard); // Debug log
-        renderLoyaltyCard(loyaltyCard); // Render the table
-} catch (error) {
-        displayError(error || 'An error occurred while fetching the data.');
-}
-        });
+        if (!loyaltyCardId) {
+            displayError('Please enter a Loyalty Card ID.');
+            return;
+        }
+
+        try {
+            // Use the new action 'fetchTransactions'
+            const transactionsData = await apiHandler('fetchTransactions', loyaltyCardId);
+
+            console.log('Fetched Transactions Data:', transactionsData); // Debug log
+
+            // Render the transactions table
+            renderLoyaltyCard(transactionsData);
+        } catch (error) {
+            displayError(error || 'An error occurred while fetching the data.');
+        }
+});
 
         // Function to render the Loyalty Card data
         function renderLoyaltyCard(loyaltyCard) {

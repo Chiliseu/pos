@@ -48,6 +48,12 @@ async function apiHandler(action, id, data = null) {
             method = 'PUT';
             body = JSON.stringify(data);
             break;
+        
+        case 'fetchTransactions':
+            url = `${baseUrl}/transactions/loyalty/${id}`; 
+            method = 'GET';
+            break;
+
 
         default:
             console.error('Invalid action:', action);
