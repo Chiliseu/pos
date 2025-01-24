@@ -21,7 +21,13 @@ class ReportController extends Controller
     {
         // Get the report type from the request
         $reportType = $request->input('reportType');
-        return view('purchaseHistory', ['reportType' => $reportType]);
+
+        // Query the database directly without using a model
+        if ($reportType === 'loyaltyCustomerHistory') {
+            $transactions = DB::table('transactions')->get(); 
+        } else {
+            $transactions = [];
+        }
 
         // Route to the appropriate method based on the report type
         switch ($reportType) {
