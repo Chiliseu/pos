@@ -246,16 +246,20 @@ class TransactionController extends Controller
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
             ->groupBy('product.Name', 'category.Name')
-            ->having(DB::raw('SUM(order_products.Quantity)'), '=', function($query) use ($loyaltyCardID) {
-                $query->select(DB::raw('MAX(subquery.TotalQuantitySold)'))
-                    ->from(DB::raw('(SELECT SUM(order_products.Quantity) as TotalQuantitySold FROM order_products 
-                                     JOIN product ON order_products.ProductID = product.ProductID
-                                     JOIN orders ON order_products.OrderID = orders.OrderID
-                                     JOIN transactions ON orders.OrderID = transactions.OrderID
-                                     WHERE transactions.LoyaltyCardID = ? 
-                                     GROUP BY order_products.ProductID) as subquery'), [$loyaltyCardID]);
-            })
+            ->havingRaw('SUM(order_products.Quantity) = (
+                SELECT MAX(subquery.TotalQuantitySold)
+                FROM (
+                    SELECT SUM(order_products.Quantity) as TotalQuantitySold
+                    FROM order_products
+                    JOIN product ON order_products.ProductID = product.ProductID
+                    JOIN orders ON order_products.OrderID = orders.OrderID
+                    JOIN transactions ON orders.OrderID = transactions.OrderID
+                    WHERE transactions.LoyaltyCardID = ?
+                    GROUP BY order_products.ProductID
+                ) as subquery
+            )', [$loyaltyCardID])
             ->get();
+
         
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
