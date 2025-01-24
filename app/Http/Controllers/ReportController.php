@@ -176,8 +176,6 @@ class ReportController extends Controller
                 return $query->where('users.id', $customerId);
             })
             ->get();
-
-        // Return the data to the purchaseHistory view
         return response()->json($data);
     }
 }
