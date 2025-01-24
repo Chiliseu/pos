@@ -104,7 +104,7 @@ Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId'])
 
 
 Route::get('/reports', [ReportController::class, 'selectReportType'])->name('reports.select');
-Route::get('/generate-report', [ReportController::class, 'generateReport'])->middleware('auth')->name('purchasedHistory');
+Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('purchasedHistory');
 
 
 Route::middleware(['auth'])->group(function () {
