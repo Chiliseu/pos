@@ -8,6 +8,7 @@
     <style>
         /* Same styling as before */
     </style>
+    <script src="js/apiHandler.js"></script>
 </head>
 <body>
     <!-- Trigger button for the modal -->
