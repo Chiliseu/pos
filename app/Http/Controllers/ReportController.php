@@ -21,7 +21,7 @@ class ReportController extends Controller
     {
         // Get the report type from the request
         $reportType = $request->input('reportType');
-        return view('generatedReportView', ['reportType' => $reportType]);
+        return view('purchaseHistory', ['reportType' => $reportType]);
 
         // Route to the appropriate method based on the report type
         switch ($reportType) {
