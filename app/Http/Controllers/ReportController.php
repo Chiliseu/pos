@@ -21,32 +21,26 @@ class ReportController extends Controller
     {
         // Get the report type from the request
         $reportType = $request->query('reportType');
-
-        // Query the database directly without using a model
-        if ($reportType === 'loyaltyCustomerHistory') {
-            $transactions = DB::table('transactions')->get(); 
-        } else {
-            $transactions = [];
-        }
-
+    
         // Route to the appropriate method based on the report type
         switch ($reportType) {
             case 'loyaltyTransactionSummary':
                 return $this->getLoyaltyTransactionSummary($request);
-
+    
             case 'customerPointsSummary':
                 return $this->getCustomerPointsSummary($request);
-
+    
             case 'productPerformance':
                 return $this->getProductPerformance($request);
-
+    
             case 'loyaltyCustomerHistory':
                 return $this->getLoyaltyCustomerHistory($request);
-
+    
             default:
-            return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
+                return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
         }
     }
+    
     /**
      * Fetch Loyalty Transaction Summary.
      */
