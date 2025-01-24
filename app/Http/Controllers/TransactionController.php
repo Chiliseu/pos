@@ -256,8 +256,7 @@ class TransactionController extends Controller
                                      GROUP BY order_products.ProductID) as subquery'), [$loyaltyCardID]);
             })
             ->get();
-
-            
+        
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
             }
