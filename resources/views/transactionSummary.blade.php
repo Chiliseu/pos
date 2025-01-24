@@ -78,7 +78,7 @@
 
         // Function to fetch Loyalty Card data
         async function fetchLoyaltyCard(loyaltyCardId) {
-            const response = await fetch(`/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
+            const response = await fetch(`https://pos-production-c2c1.up.railway.app/api/transactions/loyalty/${loyaltyCardId}`); // Make sure this matches the API route you defined
             if (!response.ok) {
                 throw new Error('Loyalty Card not found.');
             }
