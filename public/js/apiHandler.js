@@ -49,12 +49,6 @@ async function apiHandler(action, id, data = null) {
             body = JSON.stringify(data);
             break;
         
-        case 'fetchTransactions':
-            url = `${baseUrl}/transactions/loyalty/${id}`; 
-            method = 'GET';
-            break;
-
-
         default:
             console.error('Invalid action:', action);
             return Promise.reject('Invalid action');

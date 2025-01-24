@@ -34,31 +34,35 @@
     </div>
 
     <script>
-        const modal = document.getElementById('loyaltyModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const loyaltyForm = document.getElementById('loyaltyForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const transactionSummary = document.getElementById('transactionSummary');
+    const modal = document.getElementById('loyaltyModal');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const loyaltyForm = document.getElementById('loyaltyForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const transactionSummary = document.getElementById('transactionSummary');
 
-        // Open the modal when the button is clicked
-        openModalBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
+    // Define the base URLs
+    const baseUrl = 'https://pos-production-c2c1.up.railway.app/api';
+    const transactionsUrl = `${baseUrl}/transactions/loyalty`;
 
-        // Close the modal when the close button is clicked
-        closeModalBtn.addEventListener('click', () => {
+    // Open the modal when the button is clicked
+    openModalBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    // Close the modal when the close button is clicked
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside the modal
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
             modal.style.display = 'none';
-        });
+        }
+    });
 
-        // Close modal when clicking outside the modal
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Handle form submission
+    // Handle form submission
     loyaltyForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent default form submission
 
@@ -70,60 +74,67 @@
         }
 
         try {
-            // Use the new action 'fetchTransactions'
-            const transactionsData = await apiHandler('fetchTransactions', loyaltyCardId);
+            // Fetch data using the transactions URL
+            const response = await fetch(`${transactionsUrl}?loyaltyCardId=${loyaltyCardId}`);
+            if (!response.ok) throw new Error('Failed to fetch transactions');
+
+            const transactionsData = await response.json();
 
             console.log('Fetched Transactions Data:', transactionsData); // Debug log
 
             // Render the transactions table
             renderLoyaltyCard(transactionsData);
         } catch (error) {
-            displayError(error || 'An error occurred while fetching the data.');
+            displayError(error.message || 'An error occurred while fetching the data.');
         }
-});
-
-        // Function to render the Loyalty Card data
-        function renderLoyaltyCard(loyaltyCard) {
-    if (!loyaltyCard || !loyaltyCard.transactions || loyaltyCard.transactions.length === 0) {
-        transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
-        return;
-    }
-
-    let transactionsHtml = `
-        <h3>Transaction Summary for Loyalty Card</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Order ID</th>
-                    <th>User ID</th>
-                    <th>Total Points Used</th>
-                    <th>Points Earned</th>
-                    <th>Transaction Date</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    // Loop through the transactions array
-    loyaltyCard.transactions.forEach(transaction => {
-        transactionsHtml += `
-            <tr>
-                <td>${transaction.TransactionUniqueIdentifier}</td>
-                <td>${transaction.OrderUniqueIdentifier}</td>
-                <td>${transaction.UserUniqueIdentifier}</td>
-                <td>${transaction.TotalPointsUsed}</td>
-                <td>${transaction.PointsEarned}</td>
-                <td>${transaction.TransactionDate}</td>
-            </tr>
-        `;
     });
 
-    transactionsHtml += `</tbody></table>`;
-    transactionSummary.innerHTML = transactionsHtml; // Update the DOM
-}
+    // Function to render the Loyalty Card data
+    function renderLoyaltyCard(loyaltyCard) {
+        if (!loyaltyCard || !loyaltyCard.transactions || loyaltyCard.transactions.length === 0) {
+            transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
+            return;
+        }
 
+        let transactionsHtml = `
+            <h3>Transaction Summary for Loyalty Card</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Order ID</th>
+                        <th>User ID</th>
+                        <th>Total Points Used</th>
+                        <th>Points Earned</th>
+                        <th>Transaction Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
 
-    </script>
+        // Loop through the transactions array
+        loyaltyCard.transactions.forEach(transaction => {
+            transactionsHtml += `
+                <tr>
+                    <td>${transaction.TransactionUniqueIdentifier}</td>
+                    <td>${transaction.OrderUniqueIdentifier}</td>
+                    <td>${transaction.UserUniqueIdentifier}</td>
+                    <td>${transaction.TotalPointsUsed}</td>
+                    <td>${transaction.PointsEarned}</td>
+                    <td>${transaction.TransactionDate}</td>
+                </tr>
+            `;
+        });
+
+        transactionsHtml += `</tbody></table>`;
+        transactionSummary.innerHTML = transactionsHtml; // Update the DOM
+    }
+
+    function displayError(message) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = message;
+    }
+</script>
+
 </body>
 </html>
