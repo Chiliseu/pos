@@ -13,7 +13,7 @@
     <h1>Transaction List</h1>
 
     <label for="loyalty-card-id">Enter Loyalty Card ID:</label>
-    <input type="number" id="loyalty-card-id" placeholder="Enter Loyalty Card ID" required>
+    <input type="text" id="loyalty-card-id" placeholder="Enter Loyalty Card ID" required>
     <button onclick="getTransactions()">Fetch Transactions</button>
 
     <div id="transaction-list">Loading transactions...</div>
