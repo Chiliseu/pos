@@ -246,7 +246,7 @@ class TransactionController extends Controller
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
             ->groupBy('product.Name', 'category.Name')
-            ->having(DB::raw('SUM(order_product.Quantity)'), '=', function($query) use ($loyaltyCardID) {
+            ->having(DB::raw('SUM(order_products.Quantity)'), '=', function($query) use ($loyaltyCardID) {
                 $query->select(DB::raw('MAX(subquery.TotalQuantitySold)'))
                     ->from(DB::raw('(SELECT SUM(order_products.Quantity) as TotalQuantitySold FROM order_products 
                                      JOIN product ON order_products.ProductID = product.ProductID
