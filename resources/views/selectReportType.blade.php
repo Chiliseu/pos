@@ -55,7 +55,8 @@
 
                     @foreach ($reports as $report)
                         <div class="col-md-6">
-                            <form action="{{ route($report['route']) }}" method="GET">
+                            <form action="{{ route($report['route']) }}" method="POST">
+                                @csrf
                                 <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                                 <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
                                     <h5>{{ $report['title'] }}</h5>
@@ -68,7 +69,8 @@
                     <!--<form action="{{ route('generateReport') }}" method="POST">
                         <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                         <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
-                    </form>-->           
+                    </form>-->
+
                 </div>
             </div>
         </div>

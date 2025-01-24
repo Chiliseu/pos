@@ -11,42 +11,33 @@
 
 <body>
     <div class="container mt-4">
-        <h1>Report: {{ ucfirst(str_replace('_', ' ', $reportType)) }}</h1>
+        <h1>Report: {{ ucfirst(str_replace('-', ' ', $reportType)) }}</h1>
 
         <!-- Filters -->
-        <form method="POST" action="{{ route('generateReport') }}" id="filterForm">
-            @csrf <!-- CSRF protection for POST requests -->
+        <form method="GET" action="{{ route('generateReport') }}" id="filterForm">
             <input type="hidden" name="reportType" value="{{ $reportType }}">
-
-            <!-- Date Filters -->
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="start_date" class="form-label">Start Date</label>
-                    <input type="date" name="startDate" id="start_date" class="form-control" value="{{ request('startDate', '2023-01-01') }}">
+            @foreach ($filters as $filter)
+                <div class="mb-3">
+                    @if ($filter === 'start_date' || $filter === 'end_date')
+                        <!-- Date Picker -->
+                        <label for="{{ $filter }}" class="form-label">{{ ucfirst(str_replace('_', ' ', $filter)) }}</label>
+                        @component('components.datepicker', ['name' => $filter, 'defaultDate' => $filter === 'start_date' ? '2019-01-01' : now()->format('Y-m-d')])
+                        @endcomponent
+                    @elseif ($filter === 'user_id' || $filter === 'customer_id')
+                        <!-- Searchable Dropdown -->
+                        <label for="{{ $filter }}" class="form-label">{{ ucfirst(str_replace('_', ' ', $filter)) }}</label>
+                        <select name="{{ $filter }}" id="{{ $filter }}" class="form-select w-full">
+                            <option value="">All</option>
+                            @foreach ($users as $user) <!-- Adjust for customers if needed -->
+                                <option value="{{ $user->id }}">{{ $user->firstname }} {{ $user->lastname }}</option>
+                            @endforeach
+                        </select>
+                    @endif
                 </div>
-                <div class="col-md-4">
-                    <label for="end_date" class="form-label">End Date</label>
-                    <input type="date" name="endDate" id="end_date" class="form-control" value="{{ request('endDate', now()->format('Y-m-d')) }}">
-                </div>
-            </div>
-
-            <!-- Customer Filter -->
-            <div class="mb-3">
-                <label for="customer_id" class="form-label">Customer</label>
-                <select name="customerId" id="customer_id" class="form-select">
-                    <option value="">All Customers</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ request('customerId') == $user->id ? 'selected' : '' }}>
-                            {{ $user->firstname }} {{ $user->lastname }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Apply Filters</button>
+            @endforeach
         </form>
 
-        <!-- Data Table -->
+        <!-- Table -->
         <div class="table-container mt-4">
             <table id="example" class="table table-striped">
                 <thead>
@@ -59,11 +50,9 @@
                 <tbody>
                     @forelse ($data as $row)
                         <tr>
-                            <td>{{ $row->CustomerName }}</td>
-                            <td>{{ $row->ProductName }}</td>
-                            <td>{{ $row->Quantity }}</td>
-                            <td>{{ $row->TotalPrice }}</td>
-                            <td>{{ $row->OrderDate }}</td>
+                            @foreach ($headers as $header)
+                                <td>{{ $row[$header] ?? 'N/A' }}</td> <!-- Adjust mapping logic -->
+                            @endforeach
                         </tr>
                     @empty
                         <tr>
@@ -75,15 +64,15 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.js"></script>
+
     <script>
         new DataTable('#example');
 
-        // Auto-submit form on filter change
+        // Auto-refresh on filter change
         document.querySelectorAll('#filterForm input, #filterForm select').forEach(element => {
             element.addEventListener('change', () => {
                 document.getElementById('filterForm').submit();
