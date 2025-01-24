@@ -165,7 +165,7 @@ class ReportController extends Controller
         $endDate = $validated['endDate'];
         $customerId = $validated['customerId'] ?? null;
 
-        // Query the database
+        // Query the database for loyalty customer purchase history
         $data = DB::table('orders')
             ->select(
                 'orders.OrderID',
@@ -185,11 +185,9 @@ class ReportController extends Controller
             })
             ->get();
 
-        // Return the data to the view
-        return view('generateReport', [
-            'reportType' => 'Loyalty Customer Purchase History',
-            'data' => $data,
-            'headers' => ['Customer Name', 'Product', 'Quantity', 'Total Price', 'Date']
+        // Return the data to the purchaseHistory view
+        return view('purchaseHistory', [
+            'transactions' => $data,  // Pass the data as 'transactions'
         ]);
     }
 }
