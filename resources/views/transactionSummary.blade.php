@@ -70,7 +70,7 @@
             try {
                 // Call the API to get the Loyalty Card data
                 const loyaltyCard = await fetchLoyaltyCard(loyaltyCardId);
-                renderLoyaltyCard(loyaltyCard); // Render the loyalty card details
+                renderLoyaltyCard(loyaltyCard, loyaltyCardId); // Render the loyalty card details
             } catch (error) {
                 displayError(error.message || 'An error occurred.');
             }
@@ -86,10 +86,10 @@
         }
 
         // Function to render the Loyalty Card data
-        function renderLoyaltyCard(loyaltyCard) {
+        function renderLoyaltyCard(loyaltyCard, loyaltyCardId) {
             // Render the transaction summary in a table format
             let transactionsHtml = `
-                <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCard.loyalty_card_id}</h3>
+                <h3>Transaction Summary for Loyalty Card ID: ${loyaltyCardId}</h3>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
