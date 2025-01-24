@@ -71,7 +71,7 @@
 
         try {
             // Call the apiHandler function from apiHandler.js
-            const transactionsData = await apiHandler('fetchTransactionsByLoyaltyCard', loyaltyCardId);
+            const transactionsData = await TransactionAPIHandler('fetchTransactionsByLoyaltyCard', loyaltyCardId);
 
             console.log('Fetched Transactions Data:', transactionsData);
 
