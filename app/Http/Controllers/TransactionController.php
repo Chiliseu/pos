@@ -233,7 +233,7 @@ class TransactionController extends Controller
             $loyaltyCardID = $loyaltyCard['LoyaltyCardID'];
 
             // Step 4: Query transactions from the database (modified query for required data)
-            $transactions = DB::table('transactions')
+            $transaction = DB::table('transactions')
             ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
             ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
@@ -249,6 +249,22 @@ class TransactionController extends Controller
             ->orderByDesc(DB::raw('SUM(order_products.Quantity)')) // Order by highest quantity
             ->limit(1) // Get only the highest product
             ->first(); // Fetch a single result
+        
+        if ($transaction) {
+            // If a result exists, handle it here
+            return response()->json([
+                'ProductName' => $transaction->ProductName,
+                'CategoryName' => $transaction->CategoryName,
+                'TotalQuantitySold' => $transaction->TotalQuantitySold,
+                'TotalRevenue' => $transaction->TotalRevenue,
+            ]);
+        } else {
+            // If no result exists, handle the "empty" case
+            return response()->json([
+                'message' => 'No products found for the given LoyaltyCardID.',
+            ], 404);
+        }
+        
 
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
