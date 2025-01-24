@@ -192,4 +192,13 @@ class TransactionController extends Controller
             'transaction' => $transaction,
         ]);
     }
+
+    public function getPurchaseHistoryByUserId($userID)
+    {
+        $transactions = Transaction::where('UserID', $userID)
+            ->orderBy('TransactionDate', 'desc')
+            ->paginate(10); // Use pagination
+
+        return view('purchaseHistory', compact('transactions'));
+    }
 }
