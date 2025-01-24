@@ -237,7 +237,7 @@ class TransactionController extends Controller
             ->join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
             ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
-            ->join('categories', 'product.CategoryID', '=', 'categories.CategoryID')
+            ->join('category', 'product.CategoryID', '=', 'category.CategoryID')
             ->where('transactions.LoyaltyCardID', $loyaltyCardID)
             ->select(
                 'product.Name as ProductName',
@@ -245,7 +245,7 @@ class TransactionController extends Controller
                 DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
-            ->groupBy('product.Name', 'categories.Name')
+            ->groupBy('product.Name', 'category.Name')
             ->having(DB::raw('SUM(order_product.Quantity)'), '=', function($query) use ($loyaltyCardID) {
                 $query->select(DB::raw('MAX(subquery.TotalQuantitySold)'))
                     ->from(DB::raw('(SELECT SUM(order_products.Quantity) as TotalQuantitySold FROM order_products 
