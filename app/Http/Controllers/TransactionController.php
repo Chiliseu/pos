@@ -238,29 +238,18 @@ class TransactionController extends Controller
             ->join('order_products', 'orders.OrderID', '=', 'order_products.OrderID')
             ->join('product', 'order_products.ProductID', '=', 'product.ProductID')
             ->join('category', 'product.CategoryID', '=', 'category.CategoryID')
-            ->where('transactions.LoyaltyCardID', $loyaltyCardID)
+            ->where('transactions.LoyaltyCardID', $loyaltyCardID) // Filter by LoyaltyCardID
             ->select(
                 'product.Name as ProductName',
                 'category.Name as CategoryName',
                 DB::raw('SUM(order_products.Quantity) as TotalQuantitySold'),
                 DB::raw('SUM(order_products.TotalPrice) as TotalRevenue')
             )
-            ->groupBy('product.Name', 'category.Name')
-            ->havingRaw('SUM(order_products.Quantity) = (
-                SELECT MAX(subquery.TotalQuantitySold)
-                FROM (
-                    SELECT SUM(order_products.Quantity) as TotalQuantitySold
-                    FROM order_products
-                    JOIN product ON order_products.ProductID = product.ProductID
-                    JOIN orders ON order_products.OrderID = orders.OrderID
-                    JOIN transactions ON orders.OrderID = transactions.OrderID
-                    WHERE transactions.LoyaltyCardID = ?
-                    GROUP BY order_products.ProductID
-                ) as subquery
-            )', [$loyaltyCardID])
-            ->get();
+            ->groupBy('product.ProductID', 'product.Name', 'category.Name')
+            ->orderByDesc(DB::raw('SUM(order_products.Quantity)')) // Order by highest quantity
+            ->limit(1) // Get only the highest product
+            ->first(); // Fetch a single result
 
-        
             if ($transactions->isEmpty()) {
                 return response()->json(['error' => 'No transactions found for the provided Loyalty Card'], 404);
             }
