@@ -107,9 +107,9 @@ Route::get('/reports', [ReportController::class, 'selectReportType'])->name('rep
 Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('purchasedHistory');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/purchase-history/{userID}', [TransactionController::class, 'getPurchaseHistoryByUserId'])->name('purchaseHistory');
-});
+//Route::middleware(['auth'])->group(function () {
+    //Route::get('/purchase-history/{userID}', [TransactionController::class, 'getPurchaseHistoryByUserId'])->name('purchaseHistory');
+//});
 
 
 // TEST ROUTE
