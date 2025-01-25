@@ -1,3 +1,9 @@
+<?php
+    use Illuminate\Support\Facades\Auth;
+    $currUser = Auth::user()->id;
+?>
+
+
 <!-- filepath: /d:/Documents/3rd year/SIA/Group Proj/DEPLOYEDDD/pos/resources/views/userManage.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
@@ -54,23 +60,34 @@
                         <th>Role</th>
                         <th>Actions</th>
                     </tr>
+                    <tr>
+                        <td ><h3>Current User:</h3> </td>
+                        <td>{{ $currUser->name }}</td>
+                        <td>{{ $currUser->email }}</td>
+                        <td>{{ $currUser->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
+                        <td>
+                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        </td>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($users as $user)
                     <tr>
-                        <td>
-                            <span class="custom-checkbox">
-                                <input type="checkbox" id="checkbox{{ $user->id }}" name="options[]" value="{{ $user->id }}" class="user-checkbox">
-                                <label for="checkbox{{ $user->id }}"></label>
-                            </span>
-                        </td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
-                        <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete disabled" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete" disabled>&#xE872;</i></a>
-                        </td>
+                        @if ($user->id == !$currUser->id)
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox{{ $user->id }}" name="options[]" value="{{ $user->id }}" class="user-checkbox">
+                                    <label for="checkbox{{ $user->id }}"></label>
+                                </span>
+                            </td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteEmployeeModal" class="delete disabled" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete" disabled>&#xE872;</i></a>
+                            </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
