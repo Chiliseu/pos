@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         // Check if login attempts exceed the limit
         if ($loginAttempts >= 5) {
-            return redirect()->back()->withErrors(['Too many login attempts. Please try again in 1 minute.']);
+            return redirect()->back()->withErrors(['Too many login attempts. Please try again later.']);
         }
 
         // Attempt to authenticate the user
@@ -82,9 +82,15 @@ class AuthController extends Controller
         session()->put('loginAttempts', $loginAttempts + 1);
 
         // Redirect back with an error
-        return back()->withErrors([
-            'email' => "The provided credentials do not match our records. <br>You have " . (5 - ($loginAttempts + 1)) . " attempts remaining.",
-        ]);
+        if ($loginAttempts < 4) {
+            return back()->withErrors([
+                'email' => "The provided credentials do not match our records. Please try again.", ,
+            ]);
+        } else {
+            return back()->withErrors([
+                'email' => "Too many login attempts. Please try again later.",
+            ]);
+        }
     }
 
 

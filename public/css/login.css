@@ -30,6 +30,10 @@ body {
   color: gray;
 }
 
+.loginButton :disabled {
+  color: gray;
+}
+
 /* Logo Styling */
 .logo {
   width: 100px;
@@ -94,6 +98,20 @@ button[type="submit"] {
   background-color: #04AA6D;
   color: white;
 }
+
+
+button[type="submit"]:disabled  {
+  background-color: #142b22;
+  color: rgb(136, 136, 136);
+}
+
+button[type="submit"]:disabled :hover {
+  background-color: #142b22;
+  color: rgb(136, 136, 136);
+  transform: scale(0.98);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
 
 button.clearbtn {
   background-color: #f44336;

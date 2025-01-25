@@ -32,9 +32,10 @@
                 <label for="password">Password <span style="color: red; font-size: 15px"> *</span></label>
                 <input type="password" name="password" id="password" placeholder="Enter Password" required>
             </div>
-            <p>You have {{ 5 - $loginAttempts }} attempts remaining, Try again later</p>
+            
             <button type="submit" id="loginButton" {{ $loginAttempts >= 5 ? 'disabled' : '' }}>Login</button>
             <button type="reset" class="clearbtn">Clear</button> <!-- Clear Button -->
+            <p>You have {{ 5 - $loginAttempts }} login attempts remaining</p>
         </form>
 
         <!-- Display Success Message -->
