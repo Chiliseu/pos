@@ -84,7 +84,7 @@ class AuthController extends Controller
         // Redirect back with an error
         if ($loginAttempts < 4) {
             return back()->withErrors([
-                'email' => "The provided credentials do not match our records. Please try again.", ,
+                'email' => "The provided credentials do not match our records. Please try again.",
             ]);
         } else {
             return back()->withErrors([

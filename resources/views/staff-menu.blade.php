@@ -55,6 +55,6 @@
             <h3 id="username">{{ Auth::user()->name }}</h3>         
             <p>You are now logged in as Staff (^ v ^)</p>
             </div>
-        </div>s
+        </div>
     </body>
 </html>
