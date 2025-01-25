@@ -1,6 +1,6 @@
 <?php
     use Illuminate\Support\Facades\Auth;
-    $currUser = Auth::user()->id;
+    $currUser = Auth::user();
 ?>
 
 
@@ -31,14 +31,14 @@
 </head>
 <body>
     <div class="backBtn">
-        <a href="javascript:history.back()" id="back">&larr; Back</a>
+        <a href="javascript:history.back()" id="back">&larr; <span class="back">Back</span></a>
     </div>
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage <b>Users</b></h2>
+                        <h2>Manage Users</h2>
                     </div>
                     <div class="col-sm-6">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
@@ -48,9 +48,9 @@
             </div>
             <table class="table table-striped table-hover table-responsive">
                 <thead>
-                    <tr>
+                    <tr class="header">
                         <th>
-                            <span class="custom-checkbox">
+                            <span class="custom-checkbox" colspan="2">
                                 <input type="checkbox" id="selectAll">
                                 <label for="selectAll"></label>
                             </span>
@@ -60,20 +60,21 @@
                         <th>Role</th>
                         <th>Actions</th>
                     </tr>
-                    <tr>
-                        <td ><h3>Current User:</h3> </td>
+                    
+                </thead>
+                <tbody>
+                    <tr class="current-user">
+                        <td>Current User:</td>
                         <td>{{ $currUser->name }}</td>
                         <td>{{ $currUser->email }}</td>
                         <td>{{ $currUser->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
                         <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editSelfModal" class="edit" data-toggle="modal" data-user="{{ json_encode($currUser) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                         </td>
                     </tr>
-                </thead>
-                <tbody>
                     @foreach($users as $user)
-                    <tr>
-                        @if ($user->id == !$currUser->id)
+                    <tr class="user-row">
+                        @if ($user->id != $currUser->id)
                             <td>
                                 <span class="custom-checkbox">
                                     <input type="checkbox" id="checkbox{{ $user->id }}" name="options[]" value="{{ $user->id }}" class="user-checkbox">
@@ -85,7 +86,7 @@
                             <td>{{ $user->UserRoleID == 2 ? 'Admin' : 'Staff' }}</td>
                             <td>
                                 <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete disabled" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete" id="Delete" disabled>&#xE872;</i></a>
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" data-user="{{ json_encode($user) }}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                         @endif
                     </tr>
@@ -177,6 +178,76 @@
                 <form id="editUserForm" method="POST">
                     @csrf
                     @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
+                        <div class="form-group">
+                            <label>Name <span class="asterisk">*</span></label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email <span class="asterisk">*</span></label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div id="form-group-password-container" class="form-group">
+                            <div class="password-container">
+                                <label>Password <span class="asterisk">*</span></label>
+                                <input type="password" name="password" class="form-control">
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
+                            <div class="password-container">
+                                <label>Confirm Password <span class="asterisk">*</span></label>
+                                <input type="password" name="confirm_password" class="form-control">
+                                <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Role <span class="asterisk">*</span></label>
+                            <select name="UserRoleID" class="form-control" required>
+                                <option value="1">Staff</option>
+                                <option value="2">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>First Name <span class="asterisk">*</span></label>
+                            <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name <span class="asterisk">*</span></label>
+                            <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
+                        </div>
+                        <div class="form-group">
+                            <label>Middle Initial <span class="asterisk">*</span></label>
+                            <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
+                        </div>
+                        <div class="form-group">
+                            <label>Suffix <span class="asterisk">*</span></label>
+                            <input type="text" name="Suffix" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact No <span class="asterisk">*</span></label>
+                            <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>					
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-info" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Self Modal HTML -->
+    <div id="editSelfModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-header">						
                         <h4 class="modal-title">Edit User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -184,50 +255,50 @@
                     <div class="modal-body">
                         <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Name <span class="asterisk">*</span></label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
+                            <label>Email <span class="asterisk">*</span></label>
                             <input type="email" name="email" class="form-control" required>
                         </div>
                         <div id="form-group-password-container" class="form-group">
                             <div class="password-container">
-                                <label>Password</label>
+                                <label>Password <span class="asterisk">*</span></label>
                                 <input type="password" name="password" class="form-control">
                                 <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
                             </div>
                             <div class="password-container">
-                                <label>Confirm Password</label>
+                                <label>Confirm Password <span class="asterisk">*</span></label>
                                 <input type="password" name="confirm_password" class="form-control">
                                 <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Role</label>
-                            <select name="UserRoleID" class="form-control" required>
+                            <label>Role <span class="asterisk">*</span></label>
+                            <select name="UserRoleID" class="form-control" required disabled style="background-color:rgb(97, 94, 94); color:white;">
                                 <option value="1">Staff</option>
                                 <option value="2">Admin</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label>First Name <span class="asterisk">*</span></label>
                             <input type="text" name="Firstname" class="form-control" required pattern="[A-Za-z\s]+" title="First name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Last Name</label>
+                            <label>Last Name <span class="asterisk">*</span></label>
                             <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Middle Initial</label>
+                            <label>Middle Initial <span class="asterisk">*</span></label>
                             <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Suffix</label>
+                            <label>Suffix <span class="asterisk">*</span></label>
                             <input type="text" name="Suffix" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Contact No</label>
+                            <label>Contact No <span class="asterisk">*</span></label>
                             <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>					
                     </div>

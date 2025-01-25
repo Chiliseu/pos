@@ -51,6 +51,11 @@ Route::middleware(['auth'])->group(function () {
         return view('transactionSummary');
     })->name('transactionSummary');
 
+    Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
