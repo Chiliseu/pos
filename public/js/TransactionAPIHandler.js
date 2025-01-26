@@ -3,7 +3,6 @@ let token = null; // Global variable to store the Bearer token
 async function TransactionAPIHandler(action, id, data = null) {
     const baseUrl = 'https://pos-production-c2c1.up.railway.app/api';
     const transactionsUrl = 'https://pos-production-c2c1.up.railway.app/api/transactions/loyalty'; // New base URL for transactions
-    const loyaltySummaryUrl = 'https://pos-production-c2c1.up.railway.app/customer-points-summary';
     let url = '';
 
     
@@ -43,12 +42,6 @@ async function TransactionAPIHandler(action, id, data = null) {
         case 'fetchTransactionsByLoyaltyCard':
             // Construct the URL for fetching transactions by loyalty card ID
             url = `${transactionsUrl}/${id}`;
-            method = 'GET';
-            break;
-        
-        case 'fetchLoyaltySummary':
-            // Fetch loyalty points summary
-            url = `${loyaltySummaryUrl}/${id}`;
             method = 'GET';
             break;
 

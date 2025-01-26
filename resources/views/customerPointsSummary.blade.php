@@ -8,10 +8,10 @@
     <style>
         /* Modal styling */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             position: fixed;
             top: 0;
             left: 0;
@@ -22,9 +22,9 @@
 
         .modal-content {
             width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-width: 800px; /* Limit modal width */
+            max-height: 80vh; /* Prevent overflow */
+            overflow-y: auto; /* Add scroll if content overflows */
             background: white;
             padding: 20px;
             border-radius: 8px;
@@ -45,16 +45,19 @@
             margin-top: 20px;
         }
     </style>
-    <script src="js/TransactionAPIHandler.js"></script> <!-- Ensure the correct path -->
+    <script src="js/TransactionAPIHandler.js"></script> <!-- Ensure this is the correct path -->
 </head>
 <body>
+    <!-- Trigger button for the modal -->
     <button id="openModalBtn" class="btn btn-primary">Enter Loyalty ID</button>
 
+    <!-- Modal -->
     <div id="loyaltyModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
             <h2>Loyalty Transaction Summary</h2>
 
+            <!-- Form inside modal -->
             <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
 
             <form id="loyaltyForm">
@@ -63,6 +66,7 @@
                 <button type="submit" class="btn btn-success mt-3">Submit</button>
             </form>
 
+            <!-- Transaction summary will be rendered here -->
             <div id="transactionSummary"></div>
         </div>
     </div>
@@ -75,22 +79,27 @@
         const errorMessage = document.getElementById('errorMessage');
         const transactionSummary = document.getElementById('transactionSummary');
 
+        // Open the modal when the button is clicked
         openModalBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
         });
 
+        // Close the modal when the close button is clicked
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
+        // Close modal when clicking outside the modal content
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
 
+        // Loyalty form submission
         loyaltyForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Prevent default form submission
+            alert("Submit button clicked and loyalty ID submitted!");
 
             const loyaltyCardId = document.getElementById('loyaltyId').value;
 
@@ -100,31 +109,68 @@
             }
 
             try {
-                const loyaltySummaryData = await TransactionAPIHandler('fetchLoyaltySummary', loyaltyCardId);
-                renderLoyaltySummary(loyaltySummaryData);
+                // Call the apiHandler function from apiHandler.js
+                const transactionsData = await TransactionAPIHandler('fetchTransactionsByLoyaltyCard', loyaltyCardId);
+
+                console.log('Fetched Transactions Data:', transactionsData);
+
+                // Render the transactions table
+                renderLoyaltyCard(transactionsData);
             } catch (error) {
-                displayError(error || 'An error occurred while fetching the loyalty summary.');
+                displayError(error || 'An error occurred while fetching the data.');
             }
         });
 
-        function renderLoyaltySummary(summary) {
-            if (!summary) {
-                transactionSummary.innerHTML = '<p>No loyalty summary found for the provided Loyalty ID.</p>';
-                return;
-            }
-
-            transactionSummary.innerHTML = `
-                <h3>Loyalty Points Summary</h3>
-                <p>Total Points Earned: ${summary.totalPointsEarned || 0}</p>
-                <p>Total Points Used: ${summary.totalPointsUsed || 0}</p>
-                <p>Available Points: ${summary.availablePoints || 0}</p>
-            `;
-        }
-
+        // Function to display error messages
         function displayError(message) {
             errorMessage.style.display = 'block';
             errorMessage.textContent = message;
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
         }
+
+        // Function to render the Loyalty Card data
+        function renderLoyaltyCard(transactions) {
+    // If no transactions are provided, show a message
+    if (!transactions || transactions.length === 0) {
+        transactionSummary.innerHTML = '<p>No transactions found for the provided Loyalty ID.</p>';
+        return;
+    }
+
+    // Create the table HTML
+    let transactionsHtml = `
+        <h3>Transaction Summary for Loyalty Card</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Total Points Used</th>
+                    <th>Points Earned</th>
+                    <th>Transaction Date</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // Iterate over the transactions array to build table rows
+    transactions.forEach(transaction => {
+        transactionsHtml += `
+            <tr>
+                <td>${transaction.UserUniqueIdentifier}</td>
+                <td>${transaction.TotalPointsUsed}</td>
+                <td>${transaction.PointsEarned}</td>
+                <td>${transaction.TransactionDate || 'N/A'}</td>
+            </tr>
+        `;
+    });
+
+    transactionsHtml += `</tbody></table>`;
+
+    // Insert the table into the DOM
+    transactionSummary.innerHTML = transactionsHtml;
+}
+
     </script>
 </body>
 </html>

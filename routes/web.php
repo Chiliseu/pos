@@ -70,7 +70,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
     Route::get('/transaction-summary-report', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummaryReport');
-    Route::get('/customer-points-summary/{id}', [TransactionController::class, 'showCustomerPointsSummary'])->name('customerPointsSummary');
+    Route::get('/customer-points-summary', [TransactionController::class, 'customerPointsSummary']);
+
 
 
 });

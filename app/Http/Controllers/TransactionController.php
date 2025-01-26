@@ -98,6 +98,12 @@ class TransactionController extends Controller
         return view('transactionSummary');  // This loads the form where the user enters their Loyalty ID
     }
 
+    public function customerPointsSummary()
+    {
+    return view('customerPointsSummary');  // 
+    }
+
+
     public function showTransactionSummary(Request $request)
 {
     // Validate the Loyalty ID
