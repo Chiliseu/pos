@@ -151,7 +151,7 @@
                 </tr>
             </thead>
             <tbody>
-    `;
+    `; 
 
     // Iterate over the transactions array to build table rows
     transactions.forEach(transaction => {
