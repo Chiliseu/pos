@@ -82,9 +82,9 @@ $total = $subtotal; // Discount temporarily set to 0
 
 </head>
 <body>
-<div class="backBtn">
-    <a href="javascript:history.back()" id="back">&larr; Back</a>
-</div>
+    <div class="backBtn">
+        <a href="javascript:history.back()" id="back">&larr; <span class="back">Back</span></a>
+    </div>
 <div class="main-content">
     <!-- ========================= PRODUCT TABLE SECTION ========================= -->
     <div class="table-container">

@@ -24,6 +24,52 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', function () {
         return view('checkout'); // Show the checkout page
     })->name('checkout');
+
+    Route::get('/staff-menu', function () {
+        return view('staff-menu');
+    });
+
+    Route::get('/admin-menu', function () {
+        return view('admin-menu');
+    });
+
+    Route::get('/order-add', function () {
+        return view('order_post');
+    });
+
+    Route::get('/test-transaction', function () {
+        return view('test-transaction');
+    });
+
+    Route::get('/userManage', [UserController::class, 'index'])->name('userManage');
+
+    Route::get('/select-report-type', function () {
+        return view('selectReportType');
+    })->name('selectReportType');
+
+    Route::get('/transactionSummary', function () {
+        return view('transactionSummary');
+    })->name('transactionSummary');
+
+    Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');
+
+    Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
+
+    Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
+    Route::get('/transaction-summary-report', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummaryReport');
 });
 
 // Route for handling the payment logic (POST)
@@ -41,74 +87,25 @@ Route::post('/', function (\Illuminate\Http\Request $request) {
     ]);
 })->name('payment');
 
-//Route::post('/transactions/store', [TransactionController::class, 'storeTransaction'])->name('transactions.store');
-
-// Route ng Validate product, kung meron talagang ganung product sa database
+// Route for validating product codes
 Route::post('/validate-product', [ProductController::class, 'validateProductCode']);
 
+// Route for displaying loyalty cards
 Route::get('/loyalty-cards', function () {
     return view('loyaltycards');
 });
 
+// Route for updating loyalty cards
 Route::get('/update-loyalty-cards', function () {
     return view('update-loyalty-cards');
 });
 
-Route::get('/staff-menu', function () {
-    return view('staff-menu');
-});
-
-Route::get('/admin-menu', function () {
-    return view('admin-menu');
-});
-
-Route::get('/order-add', function () {
-    return view('order_post');
-});
-
-Route::get('/test-transaction', function () {
-    return view('test-transaction');
-});
-
-Route::get('/userManage', function () {
-    return view('userManage');
-})->name('userManage');
-
-Route::get('/select-report-type', function () {
-    return view('selectReportType');
-})->name('selectReportType');
-
-Route::get('/transactionSummary', function () {
-    return view('transactionSummary');
-})->name('transactionSummary');
-
+// Route for registering a new user
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-
 Route::post('/register', [AuthController::class, 'registerUser']);
 
-Route::get('/login',[ AuthController::class, 'login']) -> name('login');
-
-Route::post('/login', [AuthController::class, 'authenticate']);
-
-Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-
-Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-
-Route::get('/userManage', [UserController::class, 'index'])->name('userManage');
-
-Route::post('/users', [UserController::class, 'store'])->name('users.store');
-
-Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-
-Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-
-Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');
-
-Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
-
-Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
-Route::get('/transaction-summary-report', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummaryReport');
-
+// Route for resetting login attempts
+Route::post('/reset-login-attempts', [AuthController::class, 'resetLoginAttempts']);
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);

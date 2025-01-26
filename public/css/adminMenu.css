@@ -50,7 +50,7 @@ body {
 .menulogo-container img {
     max-width: 30%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .menubtn-container {
@@ -176,4 +176,16 @@ h3 {
     margin-bottom: 5px;
     font-size: 30px; /* Increased font size */
     font-family: Helvetica, Arial, sans-serif; /* Corrected font-family property */
+}
+
+/* stats styling */
+.menulogo {
+    display: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    background-color: #2b4b2f00;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
 }

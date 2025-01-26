@@ -26,6 +26,13 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.5); /* Proper border declaration */
 }
 
+.loginButton :disabled {
+  color: gray;
+}
+
+.loginButton :disabled {
+  color: gray;
+}
 
 /* Logo Styling */
 .logo {
@@ -83,12 +90,28 @@ button {
 
 button:hover {
   opacity: 0.9;
+  transform: scale(1.05); /* Slightly increase the size */
+  transition: transform 0.3s ease; /* Smooth transition */
 }
 
 button[type="submit"] {
   background-color: #04AA6D;
   color: white;
 }
+
+
+button[type="submit"]:disabled  {
+  background-color: #142b22;
+  color: rgb(136, 136, 136);
+}
+
+button[type="submit"]:disabled :hover {
+  background-color: #142b22;
+  color: rgb(136, 136, 136);
+  transform: scale(0.98);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
 
 button.clearbtn {
   background-color: #f44336;
@@ -115,6 +138,13 @@ h2 {
 p {
   font-size: 14px;
   color: white;
+}
+
+.error-message {
+  color: rgb(235, 224, 224);
+  margin-top: 10px;
+  font-size: 12px;
+  text-shadow: 1px 1px black;
 }
 
 /* Responsive Design */
