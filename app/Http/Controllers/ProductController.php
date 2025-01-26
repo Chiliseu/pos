@@ -98,7 +98,7 @@ class ProductController extends Controller
             }
 
             // Use the correct primary key column: ProductID
-            $product = Product::where('ProductID', $productCode)->first();
+            $product = Product::where('UniqueIdentifier', $productCode)->first();
 
             if ($product) {
                 return response()->json([
