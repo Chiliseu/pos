@@ -77,32 +77,33 @@
                                 'title' => 'Loyalty Transaction Summary',
                                 'description' => 'View detailed summary of all loyalty program transactions',
                                 'route' => 'generateReport',
-                                'type' => 'loyaltyTransactionSummary' // Updated to match the controller
+                                'type' => 'loyaltyTransactionSummary'
                             ],
                             [
                                 'title' => 'Customer Points Summary',
                                 'description' => 'Analysis of points earned and redeemed by loyalty members',
                                 'route' => 'generateReport',
-                                'type' => 'customerPointsSummary' // Updated
+                                'type' => 'customerPointsSummary'
                             ],
                             [
                                 'title' => 'Product Performance for Loyalty Customers',
                                 'description' => 'Track most popular products among loyalty members',
                                 'route' => 'generateReport',
-                                'type' => 'productPerformance' // Updated
+                                'type' => 'productPerformance'
                             ],
                             [
                                 'title' => 'Loyalty Customer Purchase History',
                                 'description' => 'Detailed purchase records for loyalty program members',
                                 'route' => 'generateReport',
-                                'type' => 'loyaltyCustomerHistory' // Updated
+                                'type' => 'loyaltyCustomerHistory'
                             ]
                         ];
                     @endphp
 
                     @foreach ($reports as $report)
                         <div class="col-md-6">
-                            <form action="{{ route($report['route']) }}" method="GET">
+                            <form action="{{ route($report['route']) }}" method="POST">
+                                @csrf
                                 <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                                 <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
                                     <h5>{{ $report['title'] }}</h5>
@@ -111,21 +112,6 @@
                             </form>
                         </div>
                     @endforeach
-
-                    <!--<form action="{{ route('generateReport') }}" method="POST">
-                        <input type="hidden" name="reportType" value="{{ $report['type'] }}">
-                        <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
-                    </form>-->
-
-                    <form action="{{ route('generateReport') }}" method="GET">
-                        <input type="hidden" name="reportType" value="loyaltyTransactionSummary">
-                        <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
-                        <h5>Loyalty Transaction Summary</h5>
-                        <p class="text-muted">View detailed summary of all loyalty program transactions</p>
-                        </button>
-                    </form>
-
-
                 </div>
             </div>
         </div>

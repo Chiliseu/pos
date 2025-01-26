@@ -14,7 +14,7 @@
         <h1>Report: {{ ucfirst(str_replace('-', ' ', $reportType)) }}</h1>
 
         <!-- Filters -->
-        <form method="GET" action="{{ route('generateReport') }}" id="filterForm">
+        <form method="POST" action="{{ route('generateReport') }}" id="filterForm">
             <input type="hidden" name="reportType" value="{{ $reportType }}">
             @foreach ($filters as $filter)
                 <div class="mb-3">

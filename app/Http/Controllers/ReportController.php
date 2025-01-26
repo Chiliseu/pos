@@ -20,22 +20,26 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         // Get the report type from the request
-        $reportType = $request->query('reportType');
-    
+        $reportType = $request->input('reportType');
+
         // Route to the appropriate method based on the report type
         switch ($reportType) {
             case 'loyaltyTransactionSummary':
-                return $this->getLoyaltyTransactionSummary($request);
-    
+                // return $this->getLoyaltyTransactionSummary($request);
+                // redirect to transactionSummary bladee
+                // return redirect()->route('transactionSummary');
+                return view('transactionSummary');
+
+
             case 'customerPointsSummary':
                 return $this->getCustomerPointsSummary($request);
-    
+
             case 'productPerformance':
                 return $this->getProductPerformance($request);
-    
+
             case 'loyaltyCustomerHistory':
                 return $this->getLoyaltyCustomerHistory($request);
-    
+
             default:
                 return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
         }

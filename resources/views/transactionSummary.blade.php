@@ -44,15 +44,76 @@
         table {
             margin-top: 20px;
         }
+
+        /* Back button styling */
+        .backBtn {
+            margin: 20px 0;
+            margin-left: 0px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .backBtn a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #2b4b2f; /* Dark green background */
+            border: 2px solid #2b4b2f; /* Dark green border */
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .backBtn:hover {
+            /* scale up */
+            transform: scale(1.1);
+            width: 250px;
+            margin: 20px 0;
+            margin-left: 0px;
+            transition: ease 0.5s;
+        }
+
+        .backBtn:hover a span.back {
+            display: inline-block;
+        }
+
+        .backBtn a span.back {
+            display: none;
+        }
+
+        .backBtn a:hover {
+            background-color: #1f3622; /* Darker green on hover */
+            color: white;
+            text-decoration: none;
+            transform: scale(1.1); /* Slight scaling effect */
+        }
     </style>
     <script src="js/TransactionAPIHandler.js"></script> <!-- Ensure this is the correct path -->
 </head>
 <body>
-    <!-- Trigger button for the modal -->
-    <button id="openModalBtn" class="btn btn-primary">Enter Loyalty ID</button>
+    <!-- Back Buttons-->
+    <div class="backBtn">
+        <a href="javascript:history.back()" id="back">&larr; <span class="back">Back</span></a>
+    </div>
+
+    <span class="close-btn" id="closeModalBtn">&times;</span>
+            <h2>Loyalty Transaction Summary</h2>
+
+            <!-- Form inside modal -->
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+
+            <form id="loyaltyForm">
+                <label for="loyaltyId">Loyalty ID:</label>
+                <input type="text" id="loyaltyId" name="loyaltyCardUID" class="form-control" placeholder="Enter your Loyalty ID" required>
+                <button type="submit" class="btn btn-success mt-3">Submit</button>
+            </form>
+
+            <!-- Transaction summary will be rendered here -->
+            <div id="transactionSummary"></div>
 
     <!-- Modal -->
-    <div id="loyaltyModal" class="modal">
+    {{-- <div id="loyaltyModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
             <h2>Loyalty Transaction Summary</h2>
@@ -69,7 +130,7 @@
             <!-- Transaction summary will be rendered here -->
             <div id="transactionSummary"></div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         const modal = document.getElementById('loyaltyModal');
@@ -79,22 +140,22 @@
         const errorMessage = document.getElementById('errorMessage');
         const transactionSummary = document.getElementById('transactionSummary');
 
-        // Open the modal when the button is clicked
-        openModalBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
+        // // Open the modal when the button is clicked
+        // openModalBtn.addEventListener('click', () => {
+        //     modal.style.display = 'flex';
+        // });
 
-        // Close the modal when the close button is clicked
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+        // // Close the modal when the close button is clicked
+        // closeModalBtn.addEventListener('click', () => {
+        //     modal.style.display = 'none';
+        // });
 
-        // Close modal when clicking outside the modal content
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
+            // Close modal when clicking outside the modal content
+            // window.addEventListener('click', (event) => {
+            //     if (event.target === modal) {
+            //         modal.style.display = 'none';
+            //     }
+            // });
 
         // Loyalty form submission
         loyaltyForm.addEventListener('submit', async (event) => {
