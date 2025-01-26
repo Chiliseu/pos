@@ -35,7 +35,7 @@ class User extends Authenticatable // Extends Authenticatable to implement neces
         static::creating(function ($user) {
             // Generate UniqueIdentifier in the format 'USR-random'
             if (!$user->UniqueIdentifier) {
-                $user->UniqueIdentifier = 'USR-' . strtoupper(Str::random(6)); // Use Str::random() instead of str_random()
+                $user->UniqueIdentifier = 'USR-' . strtoupper(Str::random(5)); // Use Str::random() instead of str_random()
             }
         });
     }
@@ -44,5 +44,10 @@ class User extends Authenticatable // Extends Authenticatable to implement neces
     public function userRole()
     {
         return $this->belongsTo(UserRole::class, 'UserRoleID');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'UserID', 'id');
     }
 }

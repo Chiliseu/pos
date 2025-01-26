@@ -16,9 +16,56 @@
             font-size: 1.25rem;
             font-weight: bold;
         }
+
+        /* Back button styling */
+        .backBtn {
+            margin: 20px 0;
+            margin-left: 0px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .backBtn a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #2b4b2f; /* Dark green background */
+            border: 2px solid #2b4b2f; /* Dark green border */
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .backBtn:hover {
+            /* scale up */
+            transform: scale(1.1);
+            width: 250px;
+            margin: 20px 0;
+            margin-left: 0px;
+            transition: ease 0.5s;
+        }
+
+        .backBtn:hover a span.back {
+            display: inline-block;
+        }
+
+        .backBtn a span.back {
+            display: none;
+        }
+
+        .backBtn a:hover {
+            background-color: #1f3622; /* Darker green on hover */
+            color: white;
+            text-decoration: none;
+            transform: scale(1.1); /* Slight scaling effect */
+        }
     </style>
 </head>
 <body>
+    <div class="backBtn">
+        <a href="javascript:history.back()" id="back">&larr; <span class="back">Back</span></a>
+    </div>
     <div class="container mt-4">
         <div class="card">
             <div class="card-header">Generate Report</div>
@@ -55,8 +102,7 @@
 
                     @foreach ($reports as $report)
                         <div class="col-md-6">
-                            <form action="{{ route($report['route']) }}" method="POST">
-                                @csrf
+                            <form action="{{ route($report['route']) }}" method="GET">
                                 <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                                 <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
                                     <h5>{{ $report['title'] }}</h5>
@@ -70,6 +116,15 @@
                         <input type="hidden" name="reportType" value="{{ $report['type'] }}">
                         <button class="btn btn-primary">Generate {{ $report['title'] }}</button>
                     </form>-->
+
+                    <form action="{{ route('generateReport') }}" method="GET">
+                        <input type="hidden" name="reportType" value="loyaltyTransactionSummary">
+                        <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
+                        <h5>Loyalty Transaction Summary</h5>
+                        <p class="text-muted">View detailed summary of all loyalty program transactions</p>
+                        </button>
+                    </form>
+
 
                 </div>
             </div>

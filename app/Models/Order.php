@@ -38,11 +38,15 @@ class Order extends Model
         // Automatically generate UniqueIdentifier before creating an order
         static::creating(function ($order) {
             if (!$order->UniqueIdentifier) {
-                $order->UniqueIdentifier = 'ORD-' . Str::random(8); // Format: ORD-Random
+                $order->UniqueIdentifier = 'ORD-' . Str::random(5); // Format: ORD-Random
             }
         });
     }
 
     // Define relationships (if any)
     // For example, if you have a Customer model
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'OrderID', 'OrderID');
+    }
 }

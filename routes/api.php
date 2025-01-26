@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete a user
 
     Route::apiResource('user-roles', UserRoleController::class);
-    Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getByLoyaltyCardID']);
-    Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
+    Route::get('transactions/loyalty/{loyaltyCardID}', [TransactionController::class, 'getTransactionByLoyaltyCardUID']);
+    Route::get('products/loyalty/{loyaltyCardID}', [TransactionController::class, 'getProductsByLoyaltyCardUID']);
 
 });
