@@ -1,6 +1,4 @@
-<?php
-    use Illuminate\Support\Facades\Auth;
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,24 +33,15 @@
             
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const date = [
-                '10/12/2004', '12/12/2022', '11/12/2022', '16/12/2022', '18/12/2022', '20/12/2022', 
-                '22/12/2022', '24/12/2022', '26/12/2022', '28/12/2022', '30/12/2022', '01/01/2023', 
-                '03/01/2023', '05/01/2023', '07/01/2023', '09/01/2023', '11/01/2023', '13/01/2023', 
-                '15/01/2023', '17/01/2023', '19/01/2023', '21/01/2023', '23/01/2023', '25/01/2023', 
-                '27/01/2023', '29/01/2023', '31/01/2023', '02/02/2023', '04/02/2023', '06/02/2023', 
-                '08/02/2023', '10/02/2023', '12/02/2023', '14/02/2023', '16/02/2023', '18/02/2023', 
-                '20/02/2023', '22/02/2023', '24/02/2023', '26/02/2023', '28/02/2023', '02/03/2023', 
-                '04/03/2023', '06/03/2023', '08/03/2023', '10/03/2023', '12/03/2023', '14/03/2023', 
-                '16/03/2023', '18/03/2023', '20/03/2023', '22/03/2023', '24/03/2023', '26/03/2023', 
-                '28/03/2023', '30/03/2023', '01/04/2023', '03/04/2023', '05/04/2023', '07/04/2023', 
-                '09/04/2023', '11/04/2023', '13/04/2023', '15/04/2023'
-            ];
+            const chartElement = document.querySelector("#chart");
+            const totalSalesElement = document.getElementById('total-sales');
+            const todaysSalesElement = document.getElementById('todays-sales');
+            const topProductElement = document.getElementById('top-product');
 
-            var options = {
+            const options = {
                 series: [{
-                    name: 'XYZ MOTORS',
-                    data: date.map((d, i) => [new Date(d).getTime(), i + 1]) // Convert dates to timestamps and use index as value
+                    name: 'Total Sales',
+                    data: []
                 }],
                 chart: {
                     type: 'area',
@@ -74,7 +63,7 @@
                     size: 0
                 },
                 title: {
-                    text: 'Stock Price Movement',
+                    text: 'Total Sales Over Time',
                     align: 'left'
                 },
                 fill: {
@@ -90,11 +79,11 @@
                 yaxis: {
                     labels: {
                         formatter: function (val) {
-                            return (val / 1000000).toFixed(0);
+                            return val.toFixed(2);
                         }
                     },
                     title: {
-                        text: 'Price'
+                        text: 'Total Sales'
                     }
                 },
                 xaxis: {
@@ -104,17 +93,79 @@
                     shared: false,
                     y: {
                         formatter: function (val) {
-                            return (val / 1000000).toFixed(0);
+                            return val.toFixed(2);
                         }
                     }
                 }
             };
 
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            const chart = new ApexCharts(chartElement, options);
             chart.render();
+
+            async function fetchLatestTransactions() {
+                try {
+                    const response = await fetch('/latest-transactions');
+                    const transactions = await response.json();
+
+                    const data = transactions.map(transaction => {
+                        return {
+                            x: new Date(transaction.TransactionDate).getTime(),
+                            y: transaction.TotalSales
+                        };
+                    });
+
+                    // Calculate total sales
+                    const totalSales = transactions.reduce((sum, transaction) => sum + transaction.TotalSales, 0);
+
+                    // Update total sales in the HTML
+                    if (totalSalesElement) {
+                        totalSalesElement.textContent = `₱${totalSales.toFixed(2)}`;
+                    }
+
+                    // Calculate today's sales
+                    const today = new Date().toISOString().split('T')[0];
+                    const todaysSales = transactions
+                        .filter(transaction => transaction.TransactionDate === today)
+                        .reduce((sum, transaction) => sum + transaction.TotalSales, 0);
+
+                    // Update today's sales in the HTML
+                    if (todaysSalesElement) {
+                        todaysSalesElement.textContent = `₱${todaysSales.toFixed(2)}`;
+                    }
+
+                    // Update chart data
+                    chart.updateSeries([{
+                        name: 'Total Sales',
+                        data: data
+                    }]);
+                } catch (error) {
+                    console.error('Error fetching latest transactions:', error);
+                }
+            }
+
+            async function fetchTopProduct() {
+                try {
+                    const response = await fetch('/top-product');
+                    const topProduct = await response.json();
+
+                    // Update top product in the HTML
+                    if (topProductElement) {
+                        topProductElement.textContent = `${topProduct.name} (${topProduct.quantity} sold)`;
+                    }
+                } catch (error) {
+                    console.error('Error fetching top product:', error);
+                }
+            }
+
+            // Fetch latest transactions and top product every 60 seconds
+            setInterval(fetchLatestTransactions, 60000);
+            setInterval(fetchTopProduct, 60000);
+
+            // Initial fetch
+            fetchLatestTransactions();
+            fetchTopProduct();
         });
     </script>
-
     </head>
 
     <body>
@@ -138,15 +189,15 @@
                             <div class="sales-data">
                                 <div class="sales-item">
                                     <h6>Total Sales</h6>
-                                    <p>$12,345.67</p>
+                                    <p id="total-sales">No Sales Record</p>
                                 </div>
                                 <div class="sales-item">
                                     <h6>Today's Sales</h6>
-                                    <p>$1,234.56</p>
+                                    <p id="todays-sales">No Sales Record Today</p>
                                 </div>
-                                <div class="sales-item">
-                                    <h6>This Week's Sales</h6>
-                                    <p>$4,567.89</p>
+                                <div class="top-product">
+                                    <h6>Top Product</h6>
+                                    <p id="top-product">Nothing</p>
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use App\Models\OrderProduct;
 
 class ProductController extends Controller
 {
@@ -13,6 +15,22 @@ class ProductController extends Controller
     {
         $products = Product::all();  // Get all products
         return response()->json($products);
+    }
+    
+    public function getTopProduct()
+    {
+        // Fetch the top product based on the highest quantity sold
+        $topProduct = OrderProduct::select('ProductID', DB::raw('SUM(Quantity) as TotalQuantity'))
+            ->groupBy('ProductID')
+            ->orderBy('TotalQuantity', 'desc')
+            ->first();
+
+        if ($topProduct) {
+            $product = Product::find($topProduct->ProductID);
+            return response()->json(['name' => $product->Name, 'quantity' => $topProduct->TotalQuantity]);
+        }
+
+        return response()->json(['name' => 'Nothing', 'quantity' => 0]);
     }
 
     // Get a single product by ID
@@ -98,7 +116,7 @@ class ProductController extends Controller
             }
 
             // Use the correct primary key column: ProductID
-            $product = Product::where('ProductID', $productCode)->first();
+            $product = Product::where('UniqueIdentifier', $productCode)->first();
 
             if ($product) {
                 return response()->json([

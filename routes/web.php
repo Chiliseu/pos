@@ -46,35 +46,46 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/select-report-type', function () {
         return view('selectReportType');
     })->name('selectReportType');
-
+    
+    Route::post('/customerPointsSummary', function () {
+        return view('customerPointsSummary');
+    })->name('customerPointsSummary');
+    
+    Route::post('/loyaltyTransactionSummary', function () {
+        return view('loyaltyTransactionSummary');
+    })->name('loyaltyTransactionSummary');
+    
+    Route::post('/productPerformance', function () {
+        return view('productPerformance');
+    })->name('productPerformance');
+    
     Route::get('/transactionSummary', function () {
         return view('transactionSummary');
     })->name('transactionSummary');
-
-    Route::get('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
-    Route::get('/report', [ReportController::class, 'generateReport'])->name('generateReport');
+    
+    Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generateReport');
     Route::post('/reports/generate', [ReportController::class, 'generateReport'])->name('generateReport');
-
-
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+    
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
-
+    
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-
+    
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-
+    
     Route::delete('/users', [UserController::class, 'destroyMultiple'])->name('users.destroyMultiple');
-
+    
     Route::get('/get-newest-order-id', [OrderController::class, 'getNewestOrderId']);
-
+    
     Route::get('/transaction-summary', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummary');
     Route::get('/transaction-summary-report', [TransactionController::class, 'showTransactionSummary'])->name('transactionSummaryReport');
     Route::get('/customer-points-summary', [TransactionController::class, 'customerPointsSummary']);
-
-
-
 });
+
+Route::get('/latest-transactions', [TransactionController::class, 'getLatestTransactions']);
+
+Route::get('/top-product', [ProductController::class, 'getTopProduct']);
 
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -113,3 +124,7 @@ Route::post('/reset-login-attempts', [AuthController::class, 'resetLoginAttempts
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
+
+//Route for reports {pie chart products}
+Route::get('/product-performance', [ReportController::class, 'index']);
+Route::get('/product-sales-data', [ReportController::class, 'getProductSalesData']);

@@ -124,8 +124,8 @@ $total = $subtotal; // Discount temporarily set to 0
                 <!---------------------- Manual Input Section ---------------------->
                 <div id = "inputContainer">
                     <form method="POST" action="">
-                        <label>Product Number</label>
-                        <input type="number" id="product_code" name="product_number" placeholder="Enter Product Number">
+                        <label>Product Code</label>
+                        <input type="text" id="product_code" name="product_number" placeholder="Enter Product Code">
 
                         <label>Quantity</label>
                         <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" min="1">
@@ -221,7 +221,7 @@ $total = $subtotal; // Discount temporarily set to 0
                 <div class="loyalty-checkbox">
                     <input type="checkbox" id="loyaltybox" class="apply_loyalty">
                     <label for="loyalty">Use Loyalty Card</label>
-                    <input type="number" id="loyalty_card" name="loyalty_card" placeholder="Enter Card Number"   disabled>
+                    <input type="text" id="loyalty_card" name="loyalty_card" placeholder="Enter Card Number"   disabled>
                     <button type="button" onclick="loyaltyCardVerification()" id="verifyButton" disable>Verify</button>
                 </div>
 
@@ -558,7 +558,7 @@ function addProduct() {
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (!productCode) {
-        alert('No product number entered. Please input a product number.');
+        alert('No product code entered. Please input a product code.');
         return;
     }
 

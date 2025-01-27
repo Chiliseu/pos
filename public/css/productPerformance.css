@@ -1,0 +1,180 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 5%; /* Space between chart and sales sections */
+    margin-bottom: 20px;
+}
+
+.dashboard-row1, .dashboard-row2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 5%; /* Space between chart and sales sections */
+    margin-bottom: 20px;
+}
+
+#chart {
+    width: 100%; /* Ensure it occupies the full width of the parent */
+    max-width: 100%;
+    transition: transform 0.3s ease-in-out;
+    color: black;
+}
+
+.stat {
+    width: 70%; 
+    max-width: 70%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+} 
+
+.products {
+    width: 45%; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5%; /* Space between chart and sales sections */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+    height: 100%;
+}
+
+.sales {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    width:25%; /* Fixed to occupy 40% of the width */
+    max-width: 40%;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease-in-out;
+    color: black;
+    float: right;
+}
+
+.sales-data {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    align-items: LEFT;
+    justify-content: center;
+    width:100%; /* Fixed to occupy 40% of the width */
+    padding: 20px;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+    color: black;
+    float: right;
+}
+
+
+/* Sales item styling */
+.sales-item {
+    margin-bottom: 50px; /* Space between sales items */
+    border-bottom: 1px solid #091f05;
+}
+
+/* Menu logo section */
+.menulogo {
+    display: flex;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    background-color: transparent;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.menulogo h1 {
+    font-size: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    margin-left: 10px; /* Spacing between logo and title */
+}
+
+.menulogo .logo-container {
+    max-width: 5%;
+    margin-right: 10px;
+}
+
+/* Horizontal rule styling */
+hr {
+    width: 100%;
+    margin-bottom: 15px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    height: 100vh;
+    width: 95%;
+    padding: 20px;
+}
+
+#transactionSummary {
+    margin-top: 20px;
+}
+
+table {
+    margin: 20px;
+}
+
+/* Back button styling */
+.backBtn {
+    margin: 20px 0;
+    margin-left: 0px;
+    width: 100%;
+    text-align: left;
+}
+
+.backBtn a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #2b4b2f; /* Dark green background */
+    border: 2px solid #2b4b2f; /* Dark green border */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.backBtn:hover {
+    /* scale up */
+    transform: scale(1.1);
+    width: 250px;
+    margin: 20px 0;
+    margin-left: 0px;
+    transition: ease 0.5s;
+}
+
+.backBtn:hover a span.back {
+    display: inline-block;
+}
+
+.backBtn a span.back {
+    display: none;
+}
+
+.backBtn a:hover {
+    background-color: #1f3622; /* Darker green on hover */
+    color: white;
+    text-decoration: none;
+    transform: scale(1.1); /* Slight scaling effect */
+}     
