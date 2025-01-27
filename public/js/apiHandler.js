@@ -1,40 +1,38 @@
-let token = null; // Global variable to store the Bearer token
+let token = null; // Store the Bearer token
+
+async function fetchToken(forceRefresh = false) {
+    if (!token || forceRefresh) {
+        try {
+            const response = await fetch(`${baseUrl}/generate-token`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to generate token. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (!data.token) {
+                throw new Error('Token not found in response');
+            }
+
+            token = data.token; // Store the new token globally
+        } catch (error) {
+            console.error('Error generating token:', error);
+            throw new Error('Unable to generate token');
+        }
+    }
+}
 
 async function apiHandler(action, id, data = null) {
     const baseUrl = 'https://loyalty-production.up.railway.app/api';
-
     let url = '';
     let method = '';
     let body = null;
     let headers = {
         'Content-Type': 'application/json',
     };
-
-    // Helper function to fetch the Bearer token
-    async function fetchToken() {
-        if (!token) {
-            try {
-                const response = await fetch(`${baseUrl}/generate-token`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to generate token. Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (!data.token) {
-                    throw new Error('Token not found in response');
-                }
-
-                token = data.token; // Store the token globally
-            } catch (error) {
-                console.error('Error generating token:', error);
-                return Promise.reject('Unable to generate token');
-            }
-        }
-    }
 
     // Determine the endpoint and HTTP method based on action
     switch (action) {
@@ -58,7 +56,6 @@ async function apiHandler(action, id, data = null) {
         // Ensure we have a valid token before making the request
         await fetchToken();
 
-        // Include the Bearer token in the Authorization header
         headers['Authorization'] = `Bearer ${token}`;
 
         const options = {
@@ -73,20 +70,23 @@ async function apiHandler(action, id, data = null) {
 
         const response = await fetch(url, options);
 
-        // Handle response
-        if (response.status === 404) {
-            console.warn('Resource not found (404):', url);
-            return null;
+        // If the token is expired (401), retry with a new token
+        if (response.status === 401 || response.status === 403) {
+            console.warn('Token expired. Fetching new token...');
+            await fetchToken(true); // Force token refresh
+            headers['Authorization'] = `Bearer ${token}`; // Update the header with the new token
+
+            // Retry the request with the new token
+            const retryResponse = await fetch(url, options);
+            return await retryResponse.json();
         }
 
+        // Handle other response statuses
         if (!response.ok) {
-            console.error(`HTTP Error: ${response.status}`);
             throw new Error(`HTTP Error: ${response.statusText || 'Unknown error'}`);
         }
 
         const responseData = await response.json();
-
-        // Return the full JSON response
         return responseData;
 
     } catch (error) {
