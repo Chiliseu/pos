@@ -86,12 +86,7 @@ async function apiHandler(action, id, data = null) {
 
         const responseData = await response.json();
 
-        // Return null if the response body is empty
-        if (!responseData || Object.keys(responseData).length === 0) {
-            console.warn('Empty response body:', responseData);
-            return null;
-        }
-
+        // Return the full JSON response
         return responseData;
 
     } catch (error) {
