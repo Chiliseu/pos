@@ -33,10 +33,11 @@ class ProductController extends Controller
         return response()->json(['name' => 'Nothing', 'quantity' => 0]);
     }
 
-    // Get a single product by ID
-    public function show($id)
+    // Get a single product by UniqueIdentifier (UID)
+    public function show($uniqueIdentifier)
     {
-        $product = Product::find($id);
+        // Search for the product using the UniqueIdentifier
+        $product = Product::where('UniqueIdentifier', $uniqueIdentifier)->first();
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
