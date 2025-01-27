@@ -59,7 +59,7 @@ async function addOrder(subtotal, total) {
     }
 }
 
-async function addOrderProduct(orderID, productID, quantity, totalPrice) {
+async function addOrderProduct(orderID, uniqueIdentifier, quantity, totalPrice) {
     try {
         // Step 1: Generate the Bearer Token
         const tokenResponse = await fetch('https://pos-production-c2c1.up.railway.app/api/generate-token', {
@@ -78,10 +78,32 @@ async function addOrderProduct(orderID, productID, quantity, totalPrice) {
         const tokenData = await tokenResponse.json();
         const bearerToken = tokenData.token;
 
-        // Step 2: Add the Order Product using the Bearer Token
+        // Step 2: Fetch the ProductID using the UniqueIdentifier
+        const productResponse = await fetch(`https://pos-production-c2c1.up.railway.app/api/products/${uniqueIdentifier}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${bearerToken}`,
+            },
+        });
+
+        if (!productResponse.ok) {
+            const errorData = await productResponse.json();
+            throw new Error(`Failed to fetch product: ${errorData.message || 'Unknown error'}`);
+        }
+
+        const productData = await productResponse.json();
+        const productID = productData.ProductID; // Get the ProductID
+
+        if (!productID) {
+            throw new Error(`Product with UniqueIdentifier ${uniqueIdentifier} not found.`);
+        }
+
+        // Step 3: Add the Order Product using the ProductID
         const orderProductData = {
             OrderID: orderID,
-            ProductID: productID,
+            ProductID: productID, // Use ProductID instead of UniqueIdentifier
             Quantity: quantity,
             TotalPrice: totalPrice,
         };
