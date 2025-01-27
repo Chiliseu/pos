@@ -371,7 +371,7 @@ async function loyaltyCardVerification (){
 async function updateLoyaltyCard(points) {
     const loyaltyCardId = document.getElementById('loyalty_card').value;
 
-    console.log('UID:' + loyaltyCardId);
+    console.log('Points:' + points);
 
     try {
         const updatedLoyaltyCard = await apiHandler('updateLoyaltyCard', loyaltyCardId, { Points: points });
