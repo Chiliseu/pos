@@ -757,6 +757,8 @@ function updatePointsAfterPayment(NewOrder) {
 
     var userId = @json($userID);
 
+    console.log(userId);
+
     // //Change the UserID 1
     addTransaction(NewOrder.OrderID, userId, parseInt(document.getElementById('loyalty_card').value), 
                    pointsUsed, loyaltyGain);
