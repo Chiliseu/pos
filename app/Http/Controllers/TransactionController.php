@@ -173,6 +173,19 @@ class TransactionController extends Controller
         return response()->json(['message' => 'Transaction deleted'], 204);
     }
 
+    
+    public function getLatestTransactions()
+    {
+        // Fetch total sales amount for each day
+        $transactions = Transaction::join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
+            ->selectRaw('transactions.TransactionDate, SUM(orders.Total) as TotalSales')
+            ->groupBy('transactions.TransactionDate')
+            ->get();
+
+        return response()->json($transactions);
+    }
+
+    
     public function storeTransaction(Request $request)
     {
         // Retrieve the products from the request

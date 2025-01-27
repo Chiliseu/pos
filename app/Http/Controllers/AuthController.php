@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Transaction;
 
 class AuthController extends Controller
 {
@@ -72,7 +73,8 @@ class AuthController extends Controller
 
             // Check if the authenticated user is an admin
             if (Auth::user()->UserRoleID == 2) {
-                return redirect()->intended('/admin-menu'); // Redirect to admin dashboard
+                // Pass data to the view
+                return view('admin-menu');
             }
 
             return redirect()->intended('/staff-menu'); // Redirect to the intended page or dashboard

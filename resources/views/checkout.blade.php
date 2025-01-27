@@ -221,7 +221,7 @@ $total = $subtotal; // Discount temporarily set to 0
                 <div class="loyalty-checkbox">
                     <input type="checkbox" id="loyaltybox" class="apply_loyalty">
                     <label for="loyalty">Use Loyalty Card</label>
-                    <input type="number" id="loyalty_card" name="loyalty_card" placeholder="Enter Card Number"   disabled>
+                    <input type="text" id="loyalty_card" name="loyalty_card" placeholder="Enter Card Number"   disabled>
                     <button type="button" onclick="loyaltyCardVerification()" id="verifyButton" disable>Verify</button>
                 </div>
 

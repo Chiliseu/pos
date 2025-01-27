@@ -83,6 +83,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer-points-summary', [TransactionController::class, 'customerPointsSummary']);
 });
 
+Route::get('/latest-transactions', [TransactionController::class, 'getLatestTransactions']);
+
+Route::get('/top-product', [ProductController::class, 'getTopProduct']);
+
 // Route for handling the payment logic (POST)
 Route::post('/', function (\Illuminate\Http\Request $request) {
     // Retrieve the products and loyalty points data from the form submission
