@@ -124,3 +124,7 @@ Route::post('/reset-login-attempts', [AuthController::class, 'resetLoginAttempts
 
 // TEST ROUTE
 Route::get('/order-products', [OrderProductController::class, 'index']);
+
+//Route for reports {pie chart products}
+Route::get('/product-performance', [ReportController::class, 'index']);
+Route::get('/product-sales-data', [ReportController::class, 'getProductSalesData']);

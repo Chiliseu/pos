@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\OrderProduct;
+use App\Models\Product;
 //use Illuminate\Support\Facades\Http;
 //use Illuminate\Support\Facades\Log;
 
@@ -25,26 +27,50 @@ class ReportController extends Controller
         // Route to the appropriate method based on the report type
         switch ($reportType) {
             case 'loyaltyTransactionSummary':
-                // return $this->getLoyaltyTransactionSummary($request);
-                // redirect to transactionSummary bladee
-                // return redirect()->route('transactionSummary');
                 return view('transactionSummary');
 
-
             case 'customerPointsSummary':
-                return $this->getCustomerPointsSummary($request);
+                return view('transactionSummary');
 
             case 'productPerformance':
-                return $this->getProductPerformance($request);
+                return view('productPerformance');
 
             case 'loyaltyCustomerHistory':
-                return $this->getLoyaltyCustomerHistory($request);
+                return view('transactionSummary');
 
             default:
                 return redirect()->route('selectReportType')->withErrors(['Invalid report type']);
         }
     }
-    
+
+
+    // Fetech the product data for pie charts
+    public function index()
+    {
+        return view('productPerformance');
+    }
+
+    public function getProductSalesData()
+    {
+        // Fetch all products
+        $products = Product::all();
+
+        // Fetch the product sales data
+        $productSales = OrderProduct::select('ProductID', DB::raw('SUM(Quantity) as TotalQuantity'))
+            ->groupBy('ProductID')
+            ->get()
+            ->keyBy('ProductID');
+
+        // Prepare data for the chart
+        $chartData = $products->map(function ($product) use ($productSales) {
+            return [
+                'name' => $product->Name,
+                'quantity' => $productSales->has($product->ProductID) ? $productSales[$product->ProductID]->TotalQuantity : 0
+            ];
+        });
+
+        return response()->json($chartData);
+    }
     /**
      * Fetch Loyalty Transaction Summary.
      */
