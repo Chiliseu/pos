@@ -1,30 +1,3 @@
-let token = null; // Store the Bearer token
-
-async function fetchToken(forceRefresh = false) {
-    if (!token || forceRefresh) {
-        try {
-            const response = await fetch(`${baseUrl}/generate-token`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to generate token. Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (!data.token) {
-                throw new Error('Token not found in response');
-            }
-
-            token = data.token; // Store the new token globally
-        } catch (error) {
-            console.error('Error generating token:', error);
-            throw new Error('Unable to generate token');
-        }
-    }
-}
-
 async function apiHandler(action, id, data = null) {
     const baseUrl = 'https://loyalty-production.up.railway.app/api';
     let url = '';
@@ -33,6 +6,33 @@ async function apiHandler(action, id, data = null) {
     let headers = {
         'Content-Type': 'application/json',
     };
+
+    let token = null; // Store the Bearer token
+
+    async function fetchToken(forceRefresh = false) {
+        if (!token || forceRefresh) {
+            try {
+                const response = await fetch(`${baseUrl}/generate-token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to generate token. Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (!data.token) {
+                    throw new Error('Token not found in response');
+                }
+
+                token = data.token; // Store the new token globally
+            } catch (error) {
+                console.error('Error generating token:', error);
+                throw new Error('Unable to generate token');
+            }
+        }
+    }
 
     // Determine the endpoint and HTTP method based on action
     switch (action) {
@@ -94,3 +94,5 @@ async function apiHandler(action, id, data = null) {
         return Promise.reject(error.message);
     }
 }
+
+apiHandler('fetchLoyaltyCard', 'LID-MQ7VI')
