@@ -98,7 +98,6 @@
 
             } catch (error) {
                 console.error('Fetch error:', error);
-                alert('Error loading sales data. Please refresh!');
             }
         }
 
@@ -117,8 +116,8 @@
             }
 
             // Fetch latest transactions and top product every 60 seconds
-            setInterval(fetchLatestTransactions, 3000);
-            setInterval(fetchTopProduct, 3000);
+            setInterval(fetchLatestTransactions, 10000);
+            setInterval(fetchTopProduct, 10000);
 
             // Initial fetch
             fetchLatestTransactions();

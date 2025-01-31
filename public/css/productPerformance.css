@@ -65,6 +65,33 @@
     float: right;
 }
 
+.Title {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    width:50%; /* Fixed to occupy 40% of the width */
+    max-width: 50%;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+    color: rgb(255, 255, 255);
+    float: right;
+    align-items: center;
+    justify-content: center;
+    background-color: #0b4c12;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.Title h1{
+    color: rgb(247, 247, 247);
+    font-size: 80;
+    font-weight: bold;
+}
+
 .sales-data {
     position: relative;
     flex-direction: column;

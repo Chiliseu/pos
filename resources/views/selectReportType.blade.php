@@ -6,13 +6,42 @@
     <title>Select Report Type</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
+        .card .col-md-6 {
+            padding: 10px;
+            border-color: 1px #1f3622;
+        }
+
+        .card .col-md-6:hover button {
+            background-color: #267030; /* Green background when hovering over parent */
+            color: white; /* White text */
+            border-color: #1f3622; /* Green border */
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            border: 3px solid #1f3622; /* Green border */
+            border-radius: 20px;
+            background-color: white; /* White background by default */
+            color: #1f3622; /* Green text by default */
+            transition: all 0.3s ease; /* Smooth transition */
+        }
+
+        button h5 {
+            color: inherit; /* Inherit the button text color */
+        }
+
+        button p {
+            color: inherit; /* Inherit the button text color */
+        }
         .card {
             margin: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
         }
         .card-header {
-            background-color: #f8f9fa;
+            background-color: #2b4b2f;
+            color:#ffffff;
             font-size: 1.25rem;
             font-weight: bold;
         }
@@ -105,7 +134,7 @@
                             <form action="{{ route($report['route']) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="reportType" value="{{ $report['type'] }}">
-                                <button class="btn btn-outline-primary w-100 p-3 text-start" type="submit">
+                                <button class="btn w-100 p-3 text-start mt-10" type="submit">
                                     <h5>{{ $report['title'] }}</h5>
                                     <p class="text-muted">{{ $report['description'] }}</p>
                                 </button>

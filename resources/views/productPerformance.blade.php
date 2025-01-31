@@ -44,7 +44,8 @@
             <div class="products">
                 <div id="products"></div>
             </div>
-            <div class="sales">
+            <div class="Title">
+                <h1>PRODUCT STATUS</h1>
             </div>
         </div>
     </div>
