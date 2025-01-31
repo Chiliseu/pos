@@ -14,7 +14,7 @@ class User extends Authenticatable // Extends Authenticatable to implement neces
     protected $primaryKey = 'id'; // Default primary key
 
     protected $fillable = [
-        'name',
+        //'name',
         'email',
         'password',
         'UserRoleID',

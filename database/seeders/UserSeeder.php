@@ -13,9 +13,9 @@ class UserSeeder extends Seeder
     {
         // First user with UserRoleID 1
         User::create([
-            'name' => 'John Doe',
+            //'name' => 'John Doe',
             'email' => 'johndoe@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('SecurePassword2025!'), // Fixed NIST-compliant password
             'UserRoleID' => 1,
             'Firstname' => 'John',
             'Lastname' => 'Doe',
@@ -27,9 +27,9 @@ class UserSeeder extends Seeder
 
         // Second user with UserRoleID 2
         User::create([
-            'name' => 'Jane Smith',
+            //'name' => 'Jane Smith',
             'email' => 'janesmith@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('MySuperStrongPass15@'),
             'UserRoleID' => 2,
             'Firstname' => 'Jane',
             'Lastname' => 'Smith',
