@@ -176,10 +176,11 @@ class TransactionController extends Controller
     
     public function getLatestTransactions()
     {
-        // Fetch total sales amount for each day
+        // Fetch total sales amount for each day with proper grouping
         $transactions = Transaction::join('orders', 'transactions.OrderID', '=', 'orders.OrderID')
-            ->selectRaw('transactions.TransactionDate, SUM(orders.Total) as TotalSales')
-            ->groupBy('transactions.TransactionDate')
+            ->selectRaw('DATE(transactions.TransactionDate) as TransactionDate, SUM(orders.Total) as TotalSales')
+            ->groupBy(DB::raw('DATE(transactions.TransactionDate)'))
+            ->orderBy('TransactionDate', 'asc')
             ->get();
 
         return response()->json($transactions);

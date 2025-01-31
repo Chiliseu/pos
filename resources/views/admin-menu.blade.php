@@ -31,117 +31,76 @@
             </script>
                 
             
-        <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const chartElement = document.querySelector("#chart");
-            const totalSalesElement = document.getElementById('total-sales');
-            const todaysSalesElement = document.getElementById('todays-sales');
-            const topProductElement = document.getElementById('top-product');
+        const chartElement = document.querySelector("#chart");
+        const totalSalesElement = document.getElementById('total-sales');
+        const todaysSalesElement = document.getElementById('todays-sales');
+        const topProductElement = document.getElementById('top-product');
 
-            const options = {
-                series: [{
-                    name: 'Total Sales',
-                    data: []
-                }],
-                chart: {
-                    type: 'area',
-                    stacked: false,
-                    height: 350,
-                    zoom: {
-                        type: 'x',
-                        enabled: true,
-                        autoScaleYaxis: true
-                    },
-                    toolbar: {
-                        autoSelected: 'zoom'
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                markers: {
-                    size: 0
-                },
-                title: {
-                    text: 'Total Sales Over Time',
-                    align: 'left'
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 1,
-                        inverseColors: false,
-                        opacityFrom: 0.5,
-                        opacityTo: 0,
-                        stops: [0, 90, 100]
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        formatter: function (val) {
-                            return val.toFixed(2);
-                        }
-                    },
-                    title: {
-                        text: 'Total Sales'
-                    }
-                },
-                xaxis: {
-                    type: 'datetime'
-                },
-                tooltip: {
-                    shared: false,
-                    y: {
-                        formatter: function (val) {
-                            return val.toFixed(2);
-                        }
-                    }
-                }
-            };
+        // Initialize chart with empty data
+        const chart = new ApexCharts(chartElement, {
+            series: [{
+                name: 'Total Sales',
+                data: []
+            }],
+            chart: {
+                type: 'area',
+                height: 350,
+                zoom: { enabled: true },
+                toolbar: { autoSelected: 'zoom' }
+            },
+            dataLabels: { enabled: false },
+            markers: { size: 0 },
+            title: { text: 'Historical Sales Report', align: 'left' },
+            fill: { gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0 } },
+            yaxis: { 
+                labels: { formatter: val => val.toFixed(2) },
+                title: { text: 'Total Sales' } 
+            },
+            xaxis: { type: 'datetime' },
+            tooltip: { y: { formatter: val => val.toFixed(2) } }
+        });
+        chart.render();
 
-            const chart = new ApexCharts(chartElement, options);
-            chart.render();
+        async function fetchLatestTransactions() {
+            try {
+                const response = await fetch('/latest-transactions');
+                const dailySales = await response.json();
+                
+                //PROCESS DATA FOR CHART
+                const sortedSales = dailySales.sort((a, b) => 
+                    new Date(a.TransactionDate) - new Date(b.TransactionDate)
+                );
 
-            async function fetchLatestTransactions() {
-                try {
-                    const response = await fetch('/latest-transactions');
-                    const transactions = await response.json();
+                console.log(sortedSales)
 
-                    const data = transactions.map(transaction => {
-                        return {
-                            x: new Date(transaction.TransactionDate).getTime(),
-                            y: transaction.TotalSales
-                        };
-                    });
+                const chartData = sortedSales.map(day => ({
+                    x: new Date(day.TransactionDate).getTime(),
+                    y: parseFloat(day.TotalSales)
+                }));
 
-                    // Calculate total sales
-                    const totalSales = transactions.reduce((sum, transaction) => sum + transaction.TotalSales, 0);
 
-                    // Update total sales in the HTML
-                    if (totalSalesElement) {
-                        totalSalesElement.textContent = `₱${totalSales.toFixed(2)}`;
-                    }
+                // CALCULATE TOTALS
+                const grandTotal = sortedSales.reduce((sum, day) => 
+                    sum + parseFloat(day.TotalSales), 0);
+                
+                const today = new Date().toISOString().split('T')[0];
+                const todayData = sortedSales.find(d => d.TransactionDate === today);
 
-                    // Calculate today's sales
-                    const today = new Date().toISOString().split('T')[0];
-                    const todaysSales = transactions
-                        .filter(transaction => transaction.TransactionDate === today)
-                        .reduce((sum, transaction) => sum + transaction.TotalSales, 0);
+                // UPDATE DISPLAYS
+                totalSalesElement.textContent = `₱${grandTotal.toFixed(2)}`;
+                todaysSalesElement.textContent = todayData ? 
+                    `₱${parseFloat(todayData.TotalSales).toFixed(2)}` : '₱0.00';
 
-                    // Update today's sales in the HTML
-                    if (todaysSalesElement) {
-                        todaysSalesElement.textContent = `₱${todaysSales.toFixed(2)}`;
-                    }
+                // UPDATE CHART
+                chart.updateSeries([{ name: 'Total Sales', data: chartData }]);
 
-                    // Update chart data
-                    chart.updateSeries([{
-                        name: 'Total Sales',
-                        data: data
-                    }]);
-                } catch (error) {
-                    console.error('Error fetching latest transactions:', error);
-                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert('Error loading sales data. Please refresh!');
             }
+        }
 
             async function fetchTopProduct() {
                 try {
@@ -158,8 +117,8 @@
             }
 
             // Fetch latest transactions and top product every 60 seconds
-            setInterval(fetchLatestTransactions, 60000);
-            setInterval(fetchTopProduct, 60000);
+            setInterval(fetchLatestTransactions, 3000);
+            setInterval(fetchTopProduct, 3000);
 
             // Initial fetch
             fetchLatestTransactions();

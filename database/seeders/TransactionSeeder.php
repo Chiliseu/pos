@@ -65,7 +65,7 @@ class TransactionSeeder extends Seeder
             'LoyaltyCardID' => 2,
             'TotalPointsUsed' => 180,
             'PointsEarned' => 90,
-            'TransactionDate' => now(),
+           'TransactionDate' => now()->subDays(4),
             'UniqueIdentifier' => $this->generateUniqueIdentifier(),
         ]);
     }

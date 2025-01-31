@@ -192,7 +192,7 @@ $total = $subtotal; // Discount temporarily set to 0
                         // Check if the loyalty_card input is focused
                         if (document.activeElement === document.getElementById('loyalty_card')) {
                             // If focused, process the loyalty card (extract ID only)
-                            const loyaltyCardId = barcode.split('-')[0]; // Get only the first part of the barcode
+                            const loyaltyCardId = barcode; // Get only the first part of the barcode
                             document.getElementById("loyalty_card").value = loyaltyCardId; // Set the value to loyalty card ID
                             loyaltyCardVerification();
                             // Optionally, you can send the loyaltyCardId to verify or fetch details
@@ -354,7 +354,7 @@ async function loyaltyCardVerification (){
         const loyaltyCard = await apiHandler('fetchLoyaltyCard', loyaltyCardId);
         verifiedExisting(loyaltyCard.Points);
     } catch (error) {
-        alert("Error during loyalty card verification:", error);
+        //alert("Error during loyalty card verification:", error);
         playError();
         document.getElementById('loyalty_card').style.backgroundColor = '#e74c3c';
         document.getElementById('usePointsSwitch').disabled = true;
