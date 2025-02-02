@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loyalty Transaction Summary</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
     <style>
         #transactionSummary {
             margin-top: 20px;
@@ -148,7 +149,7 @@
         // Loyalty form submission
         loyaltyForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
-            alert("Submit button clicked and loyalty ID submitted!");
+            Swal.fire("Submit button clicked and loyalty ID submitted!");
 
             const loyaltyCardId = document.getElementById('loyaltyId').value;
 

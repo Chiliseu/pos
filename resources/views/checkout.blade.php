@@ -31,6 +31,7 @@ $total = $subtotal; // Discount temporarily set to 0
     <link rel="icon" type="image/png" href="/Picture/StoreLogo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> <!--import scannner-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/apiHandler.js"></script>
     <script src="js/orders.js"></script>
     <script src="js/transactions.js" defer></script>
@@ -376,7 +377,7 @@ async function updateLoyaltyCard(points) {
     try {
         const updatedLoyaltyCard = await apiHandler('updateLoyaltyCard', loyaltyCardId, { Points: points });
     } catch (error) {
-        alert(error);
+        Swal.fire(error);
     }
 }
 
@@ -548,7 +549,7 @@ async function showPaymentSuccessMessage() {
 function validateCheckout() {
     const rows = document.querySelectorAll('#product-table-body tr');
     if (rows.length === 0) {
-        alert('No products in the cart. Please add items before proceeding to checkout.');
+        Swal.fire('No products in the cart. Please add items before proceeding to checkout.');
         return false;
     }
     return true;
@@ -560,12 +561,12 @@ function addProduct() {
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (!productCode) {
-        alert('No product code entered. Please input a product code.');
+        Swal.fire('No product code entered. Please input a product code.');
         return;
     }
 
     if (quantity <= 0 || isNaN(quantity)) {
-        alert('Please enter a valid quantity greater than 0.');
+        Swal.fire('Please enter a valid quantity greater than 0.');
         return;
     }
 
@@ -632,7 +633,7 @@ function addProduct() {
 function validateDelete() {
     const checkboxes = document.querySelectorAll('.product-checkbox:checked');
     if (checkboxes.length === 0) {
-        alert('No products selected for deletion.');
+        Swal.fire('No products selected for deletion.');
     } else {
         validatePassword();
     }
@@ -677,7 +678,7 @@ function updateTotals() {
 function validateVoid(){
     const checkboxes = document.querySelectorAll('.product-checkbox:checked');
     if (checkboxes.length === 0) {
-        alert('Select a product to void first.');
+        Swal.fire('Select a product to void first.');
     } else {
         displayVoidModal();
     }
@@ -705,7 +706,7 @@ function validatePassword() {
         document.getElementById('adminPassword').value = '';
         closeModal();
     } else {
-        alert('Incorrect password!');
+        Swal.fire('Incorrect password!');
     }
 }
 
@@ -776,7 +777,7 @@ function updateTotalAfterDiscount(points) {
     const newTotal = subtotal - discountAmount;
 
     if (newTotal < 0) {
-        alert('The discount exceeds the total amount.');
+        Swal.fire('The discount exceeds the total amount.');
         return;
     }
 
