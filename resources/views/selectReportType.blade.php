@@ -108,12 +108,12 @@
                                 'route' => 'generateReport',
                                 'type' => 'loyaltyTransactionSummary'
                             ],
-                            [
-                                'title' => 'Customer Points Summary',
-                                'description' => 'Analysis of points earned and redeemed by loyalty members',
-                                'route' => 'generateReport',
-                                'type' => 'customerPointsSummary'
-                            ],
+                            // [
+                            //     'title' => 'Customer Points Summary',
+                            //     'description' => 'Analysis of points earned and redeemed by loyalty members',
+                            //     'route' => 'generateReport',
+                            //     'type' => 'customerPointsSummary'
+                            // ],
                             [
                                 'title' => 'Product Performance for Loyalty Customers',
                                 'description' => 'Track most popular products among loyalty members',
