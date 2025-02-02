@@ -120,12 +120,12 @@
                                 'route' => 'generateReport',
                                 'type' => 'productPerformance'
                             ],
-                            [
-                                'title' => 'Loyalty Customer Purchase History',
-                                'description' => 'Detailed purchase records for loyalty program members',
-                                'route' => 'generateReport',
-                                'type' => 'loyaltyCustomerHistory'
-                            ]
+                            // [
+                            //     'title' => 'Loyalty Customer Purchase History',
+                            //     'description' => 'Detailed purchase records for loyalty program members',
+                            //     'route' => 'generateReport',
+                            //     'type' => 'loyaltyCustomerHistory'
+                            // ]
                         ];
                     @endphp
 

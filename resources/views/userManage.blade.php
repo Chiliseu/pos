@@ -107,38 +107,38 @@
                     </div>
                     <div class="modal-body">
                         <div id="addUserErrors" class="alert alert-danger" style="display: none;"></div>					
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="name" class="form-control" required maxlength="25">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
-                            <label>Email</label>
+                            <label>Email <span class="asterisk">*</span></label>
                             <input type="email" name="email" class="form-control" required>
                         </div>
                         <div id="form-group-password-container" class="form-group">
                             <div class="password-container">
-                                <label>Password</label>
+                                <label>Password <span class="asterisk">*</span></label>
                                 <input type="password" name="password" class="form-control" required>
                                 <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
                             </div>
                             <div class="password-container">
-                                <label>Confirm Password</label>
+                                <label>Confirm Password <span class="asterisk">*</span></label>
                                 <input type="password" name="confirm_password" class="form-control" required>
                                 <span class="toggle-password"><img src="/Picture/eye.svg" alt="Toggle Password" class="eyeIcon"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Role</label>
+                            <label>Role <span class="asterisk">*</span></label>
                             <select name="UserRoleID" class="form-control" required>
                                 <option value="1">Staff</option>
                                 <option value="2">Admin</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label>First Name <span class="asterisk">*</span></label>
                             <input type="text" name="Firstname" class="form-control" required maxlength="25" pattern="[A-Za-z]+" title="First name should only contain letters, no numbers, symbols, special characters, or spaces" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">                        </div>
                         <div class="form-group">
-                            <label>Last Name</label>
+                            <label>Last Name <span class="asterisk">*</span></label>
                             <input type="text" name="Lastname" class="form-control" required maxlength="25" pattern="[A-Za-z]+" title="First name should only contain letters, no numbers, symbols, special characters, or spaces" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">                        </div>
                         <div class="form-group">
                             <label>Middle Initial</label>
@@ -158,7 +158,7 @@
                                 </select>
                             </div>
                         <div class="form-group">
-                            <label>Contact No</label>
+                            <label>Contact No <span class="asterisk">*</span></label>
                             <input type="tel" name="ContactNo" class="form-control" pattern="\d{11}" inputmode="numeric" maxlength="11" title="Please enter exactly 11 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>					
                     </div>
@@ -184,10 +184,10 @@
                     </div>
                     <div class="modal-body">
                         <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Name <span class="asterisk">*</span></label>
                             <input type="text" name="name" class="form-control" required>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Email <span class="asterisk">*</span></label>
                             <input type="email" name="email" class="form-control" required>
@@ -220,11 +220,11 @@
                             <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Middle Initial <span class="asterisk">*</span></label>
+                            <label>Middle Initial</label>
                             <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Suffix <span class="asterisk">*</span></label>
+                            <label>Suffix</label>
                             <input type="text" name="Suffix" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
@@ -254,10 +254,10 @@
                     </div>
                     <div class="modal-body">
                         <div id="editUserErrors" class="alert alert-danger" style="display: none;"></div>					
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Name <span class="asterisk">*</span></label>
                             <input type="text" name="name" class="form-control" required>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Email <span class="asterisk">*</span></label>
                             <input type="email" name="email" class="form-control" required>
@@ -290,11 +290,11 @@
                             <input type="text" name="Lastname" class="form-control" required pattern="[A-Za-z\s]+" title="Last name should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Middle Initial <span class="asterisk">*</span></label>
+                            <label>Middle Initial</label>
                             <input type="text" name="MiddleInitial" class="form-control" maxlength="1", required pattern="[A-Za-z\s]+" title="Middle initial should only contain letters" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
-                            <label>Suffix <span class="asterisk">*</span></label>
+                            <label>Suffix</label>
                             <input type="text" name="Suffix" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
                         </div>
                         <div class="form-group">
